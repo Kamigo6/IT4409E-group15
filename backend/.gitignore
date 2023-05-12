@@ -1,0 +1,10 @@
+.idea/
+
+.vscode/
+**/.history
+
+.env
+
+.eslintrc.json
+
+.local/
