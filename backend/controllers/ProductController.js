@@ -1,46 +1,90 @@
-const { Product } = require('../models/Product');
+const Product = require('../models/Product');
+
+const getAllProducts = async (req, res) => {
+    try {
+        const products = await Product.find();
+        res.json(products);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch products' });
+    }
+};
+
+const getProductById = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const product = await Product.findById(id);
+        if (!product) {
+            return res.status(404).json({ error: 'Product not found' });
+        }
+        res.json(product);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch product' });
+    }
+};
+
+const createProduct = async (req, res) => {
+    const {
+        supplier,
+        name,
+        categories,
+        detail,
+        imageUrls,
+        price,
+        discount,
+        isAvailable,
+        ratings
+    } = req.body;
+    try {
+        const product = await Product.create({
+            supplier,
+            name,
+            categories,
+            detail,
+            imageUrls,
+            price,
+            discount,
+            isAvailable,
+            ratings
+        });
+        res.status(201).json(product);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to create product' });
+    }
+};
+
+const updateProductById = async (req, res) => {
+    const { id } = req.params;
+    const updateData = req.body;
+    try {
+        const product = await Product.findByIdAndUpdate(id, updateData, {
+            new: true
+        });
+        if (!product) {
+            return res.status(404).json({ error: 'Product not found' });
+        }
+        res.json(product);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to update product' });
+    }
+};
+
+const deleteProductById = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const product = await Product.findByIdAndDelete(id);
+        if (!product) {
+            return res.status(404).json({ error: 'Product not found' });
+        }
+        res.sendStatus(204);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to delete product' });
+    }
+};
 
 module.exports = {
-    find: async (req, res) => {
-        const queryResponse = await Product.find({}).exec();
-        res.status(200).json(queryResponse);
-    },
-    findOne: async (req, res) => {
-        try {
-            const queryResponse = await Product.findById(req.params.id).exec();
-            if (queryResponse) res.status(200).json(queryResponse);
-            else res.status(404).json({message: "Product not found"});
-        } catch (err) {
-            res.status(500).json(err);
-        }
-    },
-    create: async (req, res) => {
-        const newProduct = new Product(req.body);
-        newProduct.save()
-            .then(() => res.status(201).send({
-                message: "Product added"
-            }))
-            .catch((err) => res.status(400).send(err));
-    },
-    update: async (req, res) => {
-        // TO DO: write middleware that check if the provided id is correct
-        // TO DO: write middleware that check if the provided id exists in database
-        try {
-            const queryResponse = await Product.findByIdAndUpdate(req.params.id, req.body);
-            console.log(queryResponse);
-            if (queryResponse) res.status(200).json({message: "Product updated"});
-            else res.status(404).json({message: "Product not found"});
-        } catch (err) {
-            res.status(500).json(err);
-        }
-    },
-    delete: async (req, res) => {
-        try {
-            const queryResponse = await Product.findByIdAndDelete(req.params.id);
-            if (queryResponse) res.status(200).json({message: "Product deleted"});
-            else res.status(404).json({message: "Product not found"});
-        } catch (err) {
-            res.status(500).json(err);
-        }
-    }
+    getAllProducts,
+    getProductById,
+    createProduct,
+    updateProductById,
+    deleteProductById
 };

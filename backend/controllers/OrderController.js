@@ -1,44 +1,86 @@
-const { Order } = require('../models/Order');
+const Order = require('../models/Order');
+
+const getAllOrders = async (req, res) => {
+  try {
+    const orders = await Order.find();
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch orders' });
+  }
+};
+
+const getOrderById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const order = await Order.findById(id);
+    if (!order) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+    res.json(order);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch order' });
+  }
+};
+
+const createOrder = async (req, res) => {
+  const {
+    customerId,
+    products,
+    delivery,
+    coupon,
+    totalPrice,
+    status,
+    createdDate
+  } = req.body;
+
+  try {
+    const order = new Order({
+      customerId,
+      products,
+      delivery,
+      coupon,
+      totalPrice,
+      status,
+      createdDate
+    });
+    await order.save();
+    res.status(201).json(order);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to create order' });
+  }
+};
+
+const updateOrderById = async (req, res) => {
+  const { id } = req.params;
+  const updateData = req.body;
+  try {
+    const order = await Order.findByIdAndUpdate(id, updateData, { new: true });
+    if (!order) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+    res.json(order);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to update order' });
+  }
+};
+
+const deleteOrderById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const order = await Order.findByIdAndDelete(id);
+    if (!order) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+    res.sendStatus(204);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to delete order' });
+  }
+};
 
 module.exports = {
-    find: async (req, res) => {
-        const queryResponse = await Order.find({}).exec();
-        res.status(200).json(queryResponse);
-    },
-    findOne: async (req, res) => {
-        try {
-            const queryResponse = await Order.findById(req.params.id).exec();
-            if (queryResponse) res.status(200).json(queryResponse);
-            else res.status(404).json({message: "Order not found"});
-        } catch (err) {
-            res.status(500).json(err);
-        }
-    },
-    create: async (req, res) => {
-        const newOrder = new Order(req.body);
-        newOrder.save()
-            .then(() => res.status(201).send({
-                message: "Order created"
-            }))
-            .catch((err) => res.status(400).send(err));
-    },
-    update: async (req, res) => {
-        try {
-            const queryResponse = await Order.findByIdAndUpdate(req.params.id, req.body);
-            console.log(queryResponse);
-            if (queryResponse) res.status(200).json({message: "Order updated"});
-            else res.status(404).json({message: "Order not found"});
-        } catch (err) {
-            res.status(500).json(err);
-        }
-    },
-    delete: async (req, res) => {
-        try {
-            const queryResponse = await Order.findByIdAndDelete(req.params.id);
-            if (queryResponse) res.status(200).json({message: "Order deleted"});
-            else res.status(404).json({message: "Order not found"});
-        } catch (err) {
-            res.status(500).json(err);
-        }
-    }
+  getAllOrders,
+  getOrderById,
+  createOrder,
+  updateOrderById,
+  deleteOrderById
 };
