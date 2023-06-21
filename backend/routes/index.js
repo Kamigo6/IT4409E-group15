@@ -1,5 +1,5 @@
 const express = require('express');
-const userRoutes = require('./user');
+const customerRoutes = require('./customer');
 const authRoutes = require('./auth');
 const productRoutes = require('./product');
 const ratingRoutes = require('./rating');
@@ -11,7 +11,7 @@ const router = express.Router();
 router.get('/status', (req, res) => res.send('Server is up'));
 
 router.use('/auth', authRoutes);
-router.use('/users', userRoutes);
+router.use('/customers', customerRoutes);
 router.use('/products', productRoutes);
 router.use('/ratings', ratingRoutes);
 router.use('/orders', orderRoutes);

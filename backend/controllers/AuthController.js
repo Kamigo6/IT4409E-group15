@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const Customer = require('../models/Customer');
+require('dotenv').config();
 
 const register = async (req, res) => {
     const {
@@ -54,7 +55,6 @@ const register = async (req, res) => {
     }
 };
 
-// Login a customer
 const login = async (req, res) => {
     const { username, password } = req.body;
 
@@ -72,7 +72,6 @@ const login = async (req, res) => {
     }
 };
 
-// Generate a JWT token
 const generateToken = (customer) => {
     const token = jwt.sign({ customerId: customer._id }, process.env.TOKEN_SECRET);
     return token;
