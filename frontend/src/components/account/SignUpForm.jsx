@@ -30,6 +30,34 @@ const SignUpForm = (props) => {
       className={`needs-validation ${submitFailed ? "was-validated" : ""}`}
       noValidate
     >
+      {/* Required Fields */}
+      <div className="row mb-3">
+        <div className="col-md-6">
+          <Field
+            name="username"
+            type="text"
+            label="Username"
+            component={renderFormField}
+            placeholder="Username"
+            validate={[required]}
+            required={true}
+          />
+        </div>
+        <div className="col-md-6">
+          <Field
+            name="password"
+            type="password"
+            label="Password"
+            component={renderFormField}
+            placeholder="******"
+            icon={IconShieldLock}
+            validate={[required, maxLength20, minLength8]}
+            required={true}
+            maxLength="20"
+            minLength="8"
+          />
+        </div>
+      </div>
       <div className="row mb-3">
         <div className="col-md-6">
           <Field
@@ -54,6 +82,8 @@ const SignUpForm = (props) => {
           />
         </div>
       </div>
+
+      {/* Optional Fields */}
       <Field
         name="mobileNo"
         type="number"
@@ -61,36 +91,72 @@ const SignUpForm = (props) => {
         component={renderFormGroupField}
         placeholder="Mobile no without country code"
         icon={IconPhone}
-        validate={[required, maxLengthMobileNo, minLengthMobileNo, digit]}
-        required={true}
+        validate={[maxLengthMobileNo, minLengthMobileNo, digit]}
         max="999999999999999"
         min="9999"
         className="mb-3"
       />
       <Field
-        name="password"
-        type="password"
-        label="Your password"
-        component={renderFormGroupField}
-        placeholder="******"
-        icon={IconShieldLock}
-        validate={[required, maxLength20, minLength8]}
-        required={true}
-        maxLength="20"
-        minLength="8"
-        className="mb-3"
+        name="email"
+        type="email"
+        label="Email"
+        component={renderFormField}
+        placeholder="Email"
       />
+      <Field
+        name="gender"
+        type="text"
+        label="Gender"
+        component={renderFormField}
+        placeholder="Female/Male/Other"
+      />
+      <Field
+        name="birthday"
+        type="date"
+        label="Birthday"
+        component={renderFormField}
+        placeholder="Birthday"
+      />
+      <Field
+        name="address"
+        type="text"
+        label="Address"
+        component={renderFormField}
+        placeholder="Address"
+      />
+      <Field
+        name="district"
+        type="text"
+        label="District"
+        component={renderFormField}
+        placeholder="District"
+      />
+      <Field
+        name="city"
+        type="text"
+        label="City"
+        component={renderFormField}
+        placeholder="City"
+      />
+      <Field
+        name="country"
+        type="text"
+        label="Country"
+        component={renderFormField}
+        placeholder="Country"
+      />
+
       <div className="d-grid">
-        <button
-          type="submit"
-          className="btn btn-primary mb-3"
-          disabled={submitting}
-        >
-          Create
-        </button>
+          <button
+            type="submit"
+            className="btn btn-primary mb-3"
+            disabled={submitting}
+          >
+            Create
+          </button>
       </div>
       <Link className="float-start" to="/account/signin" title="Sign In">
-        Sing In
+        Sign In
       </Link>
       <Link
         className="float-end"

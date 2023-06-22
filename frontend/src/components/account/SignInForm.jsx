@@ -2,14 +2,11 @@ import React from "react";
 import { Field, reduxForm } from "redux-form";
 import { compose } from "redux";
 import { Link } from "react-router-dom";
-import renderFormGroupField from "../../helpers/renderFormGroupField";
+import renderFormField from "../../helpers/renderFormField";
 import {
   required,
   maxLength20,
-  minLength8,
-  maxLengthMobileNo,
-  minLengthMobileNo,
-  digit,
+  minLength8
 } from "../../helpers/validation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -17,7 +14,6 @@ import {
   faFacebookF,
   faGoogle,
 } from "@fortawesome/free-brands-svg-icons";
-import { ReactComponent as IconPhone } from "bootstrap-icons/icons/phone.svg";
 import { ReactComponent as IconShieldLock } from "bootstrap-icons/icons/shield-lock.svg";
 
 const SignInForm = (props) => {
@@ -29,24 +25,20 @@ const SignInForm = (props) => {
       noValidate
     >
       <Field
-        name="mobileNo"
-        type="number"
-        label="Mobile no"
-        component={renderFormGroupField}
-        placeholder="Mobile no without country code"
-        icon={IconPhone}
-        validate={[required, maxLengthMobileNo, minLengthMobileNo, digit]}
-        required={true}
-        max="999999999999999"
-        min="9999"
+        name="username"
+        type="text"
+        label="Username"
+        component={renderFormField}
+        validate={[required]}
+        placeholder="Username"
         className="mb-3"
       />
       <Field
         name="password"
         type="password"
-        label="Your password"
-        component={renderFormGroupField}
-        placeholder="******"
+        label="Password"
+        component={renderFormField}
+        placeholder="********"
         icon={IconShieldLock}
         validate={[required, maxLength20, minLength8]}
         required={true}
