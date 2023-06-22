@@ -1,10 +1,16 @@
 import React, { lazy, Component } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 const SingUpForm = lazy(() => import("../../components/account/SignUpForm"));
 
 class SignUpView extends Component {
   onSubmit = async (values) => {
-    alert(JSON.stringify(values));
+    try {
+      await axios.post("http://localhost:8000/auth/register", values);
+      alert("Register successfully");
+    } catch (error) {
+      console.error(error.response.data);
+    }
   };
   render() {
     return (
