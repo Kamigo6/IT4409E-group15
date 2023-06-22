@@ -1,7 +1,7 @@
 import React, { lazy, Component } from "react";
-import { data } from "../../data";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTh, faBars } from "@fortawesome/free-solid-svg-icons";
+import axios from 'axios';
 const Paging = lazy(() => import("../../components/Paging"));
 const Breadcrumb = lazy(() => import("../../components/Breadcrumb"));
 const FilterCategory = lazy(() => import("../../components/filter/Category"));
@@ -27,17 +27,27 @@ class ProductListView extends Component {
     view: "list",
   };
 
-  UNSAFE_componentWillMount() {
-    const totalItems = this.getProducts().length;
-    this.setState({ totalItems });
+  componentDidMount() {
+    this.getProducts();
   }
 
+  getProducts = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/products");
+      const products = response.data;
+      const totalItems = products.length;
+      this.setState({ currentProducts: products, totalItems });
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
+
   onPageChanged = (page) => {
-    let products = this.getProducts();
+    const { currentProducts } = this.state;
     const { currentPage, totalPages, pageLimit } = page;
     const offset = (currentPage - 1) * pageLimit;
-    const currentProducts = products.slice(offset, offset + pageLimit);
-    this.setState({ currentPage, currentProducts, totalPages });
+    const currentProductsPage = currentProducts.slice(offset, offset + pageLimit);
+    this.setState({ currentPage, currentProducts: currentProductsPage, totalPages });
   };
 
   onChangeView = (view) => {
@@ -72,9 +82,7 @@ class ProductListView extends Component {
               <FilterPrice />
               <FilterSize />
               <FilterStar />
-              {/* <FilterColor /> */}
               <FilterClear />
-              {/* <FilterTag /> */}
               <CardServices />
             </div>
             <div className="col-md-9">
