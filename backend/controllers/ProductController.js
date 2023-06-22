@@ -22,6 +22,19 @@ const getProductById = async (req, res) => {
     }
 };
 
+const getProductsByCategory = async (req, res) => {
+    const { category } = req.params;
+  
+    try {
+      const products = await Product.find({ categories: category });
+  
+      res.json(products);
+    } catch (error) {
+      console.error('Error retrieving products by category:', error);
+      res.status(500).json({ error: 'Failed to retrieve products by category' });
+    }
+  };
+
 const createProduct = async (req, res) => {
     const {
         supplier,
@@ -84,6 +97,7 @@ const deleteProductById = async (req, res) => {
 module.exports = {
     getAllProducts,
     getProductById,
+    getProductsByCategory,
     createProduct,
     updateProductById,
     deleteProductById

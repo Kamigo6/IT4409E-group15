@@ -14,4 +14,6 @@ router.patch("/:id", isAuth, ProductController.updateProductById);
 
 router.delete("/:id", isAuth, ProductController.deleteProductById);
 
+router.get('/category/:category', ProductController.getProductsByCategory);
+
 module.exports = router;
