@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-const Breadcrumb = () => {
+const Breadcrumb = (props) => {
+  const catName = props.catName;
   return (
     <nav aria-label="breadcrumb">
       <ol className="breadcrumb rounded-0">
@@ -11,7 +12,7 @@ const Breadcrumb = () => {
         </li>
         <li className="breadcrumb-item">
           <Link to="/" title="Fiction">
-            Fiction
+            {catName}
           </Link>
         </li>
       </ol>

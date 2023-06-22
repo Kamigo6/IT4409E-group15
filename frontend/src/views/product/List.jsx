@@ -1,6 +1,6 @@
 import React, { lazy, Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTh, faBars } from "@fortawesome/free-solid-svg-icons";
+import { faTh, faBars, faL } from "@fortawesome/free-solid-svg-icons";
 import axios from 'axios';
 const Paging = lazy(() => import("../../components/Paging"));
 const Breadcrumb = lazy(() => import("../../components/Breadcrumb"));
@@ -23,18 +23,51 @@ class ProductListView extends Component {
     currentPage: null,
     totalPages: null,
     totalItems: 0,
-    category: "Business & Finance",
+    category: "all",
+    price: "medium",
+    supplier: "all",
     view: "list",
+  };
+  constructor(props) {
+    super();
+    this.state.category = props.catName;
+    console.log(props.catName)
+  }
+
+
+
+  catName = {
+    "business-finance": "Business & Finance",
+    "fiction": "Fiction",
+    "health-fitness": "Health & Fitness",
+    "history-archaeology": "History & Archaeology",
+    "art-photography": "Art & Photography",
+    "romance": "Romace",
+    "food-drink": "Food & Drink",
+    "all": "All"
   };
 
   componentDidMount() {
     this.getProducts();
   }
 
+
   getProducts = async () => {
     try {
       const response = await axios.get("http://localhost:8000/products");
-      const products = response.data;
+      // console.log(response.data[0].price);
+      const products = response.data.filter((product) => {
+        let price = product.price;
+        console.log(price > 30, price);
+        if (!product.categories.includes(this.state.category) && this.state.category != "all") return false;
+        if (this.state.price != "all")
+          if (price > 10 && this.state.price == "low") return false;
+          else if ((price <= 10 || price > 20) && this.state.price == "low-medium") return false;
+          else if ((price <= 20 || price > 30) && this.state.price == "medium") return false;
+          else if ((price <= 30) && this.state.price == "high") return false;
+        if (product.supplier != this.state.supplier && this.state.supplier != "all") return false;
+        return true;
+      });
       const totalItems = products.length;
       this.setState({ currentProducts: products, totalItems });
     } catch (error) {
@@ -54,11 +87,6 @@ class ProductListView extends Component {
     this.setState({ view });
   };
 
-  getProducts = () => {
-    let products = data.products;
-    return products;
-  };
-
   render() {
     return (
       <React.Fragment>
@@ -70,11 +98,11 @@ class ProductListView extends Component {
         >
           <div className="container text-center">
             <span className="display-5 px-3 bg-white rounded shadow">
-              Fiction
+              {this.catName[this.state.category]}
             </span>
           </div>
         </div>
-        <Breadcrumb />
+        <Breadcrumb catName={this.catName[this.state.category]} />
         <div className="container-fluid mb-3">
           <div className="row">
             <div className="col-md-3">
@@ -90,14 +118,13 @@ class ProductListView extends Component {
                 <div className="col-7">
                   <span className="align-middle fw-bold">
                     {this.state.totalItems} results for{" "}
-                    <span className="text-warning">"fiction"</span>
+                    <span className="text-warning">{this.catName[this.state.category]}</span>
                   </span>
                 </div>
                 <div className="col-5 d-flex justify-content-end">
                   <select
                     className="form-select mw-180 float-start"
-                    aria-label="Default select"
-                  >
+                    aria-label="Default select">
                     <option value={1}>Most Popular</option>
                     <option value={2}>Latest items</option>
                     <option value={3}>Trending</option>

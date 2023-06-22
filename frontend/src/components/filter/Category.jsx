@@ -18,7 +18,7 @@ const FilterCategory = (props) => {
         id="filterCategory"
       >
         <li className="list-group-item">
-          <Link to="/" className="text-decoration-none stretched-link">
+          <Link to="/category/business-finance" className="text-decoration-none stretched-link">
             Business & Finance
           </Link>
         </li>

@@ -56,11 +56,6 @@ const Header = () => {
                       <IconPersonBadgeFill /> My Profile
                     </Link>
                   </li>
-                  {/* <li>
-                    <Link className="dropdown-item" to="/star/zone">
-                      <IconStarFill className="text-warning" /> Star Zone
-                    </Link>
-                  </li> */}
                   <li>
                     <Link className="dropdown-item" to="/account/orders">
                       <IconListCheck className="text-primary" /> My Orders
