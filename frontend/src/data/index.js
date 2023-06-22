@@ -85,11 +85,68 @@ export const data = {
       cssClass: "text-primary",
     },
   ],
+  // products: [{
+  //   "supplier": "612345678901234567890141",
+  //   "name": "Laptop",
+  //   "categories": ["Electronics", "Computers"],
+  //   "detail": "A powerful laptop for all your computing needs.",
+  //   "imageUrls": [
+  //     "https://example.com/images/laptop-1.jpg",
+  //     "https://example.com/images/laptop-2.jpg"
+  //   ],
+  //   "price": 999.99,
+  //   "discount": {
+  //     "value": 100,
+  //     "unit": "USD"
+  //   },
+  //   "isAvailable": true,
+  //   "ratings": ["612345678901234567890142", "612345678901234567890143"],
+  //   "createdAt": "2023-06-22T12:00:00.000Z"
+  // },
+  // {
+  //   "supplier": "612345678901234567890144",
+  //   "name": "Smartphone",
+  //   "categories": ["Electronics", "Mobile Phones"],
+  //   "detail": "A high-performance smartphone with advanced features.",
+  //   "imageUrls": [
+  //     "https://example.com/images/smartphone-1.jpg",
+  //     "https://example.com/images/smartphone-2.jpg"
+  //   ],
+  //   "price": 699.99,
+  //   "discount": {
+  //     "value": 50,
+  //     "unit": "USD"
+  //   },
+  //   "isAvailable": true,
+  //   "ratings": ["612345678901234567890145"],
+  //   "createdAt": "2023-06-21T09:30:00.000Z"
+  // },
+  // {
+  //   "supplier": "612345678901234567890146",
+  //   "name": "Headphones",
+  //   "categories": ["Electronics", "Audio"],
+  //   "detail": "High-quality headphones for an immersive audio experience.",
+  //   "imageUrls": [
+  //     "https://example.com/images/headphones-1.jpg",
+  //     "https://example.com/images/headphones-2.jpg"
+  //   ],
+  //   "price": 149.99,
+  //   "discount": {
+  //     "value": 0,
+  //     "unit": "USD"
+  //   },
+  //   "isAvailable": true,
+  //   "ratings": [],
+  //   "createdAt": "2023-06-20T15:00:00.000Z"
+  // }
+
+  // ],
   products: [
     {
       id: 1,
       sku: "FAS-01",
       link: "/product/detail",
+      categories: ["Business & Finance"],
       name: "A song of ice and fire",
       img: "https://upload.wikimedia.org/wikipedia/en/d/dc/A_Song_of_Ice_and_Fire_book_collection_box_set_cover.jpg",
       price: 180,
