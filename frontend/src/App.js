@@ -1,5 +1,6 @@
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { withRouter } from "react-router";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.js";
 import TopMenu from "./components/TopMenu";
@@ -64,7 +65,7 @@ function App() {
             <Route exact path="/category/romance" element={<ProductListView catName="romance" />} />
             <Route exact path="/category/food-drink" element={<ProductListView catName="food-drink" />} />
 
-            <Route exact path="/product/detail" element={<ProductDetailView />} />
+            <Route path='/product/:id' element={<ProductDetailView />} />
             <Route exact path="/star/zone" element={<StarZoneView />} />
             <Route exact path="/cart" element={<CartView />} />
             <Route exact path="/checkout" element={<CheckoutView />} />

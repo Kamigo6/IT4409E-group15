@@ -114,6 +114,7 @@ class ProductListView extends Component {
       const products = originProduct;
       const totalItems = products.length;
       this.setState({ currentProducts: products, totalItems });
+      console.log(this.state.currentProducts);
     } catch (error) {
       console.error("Error fetching products:", error);
     }

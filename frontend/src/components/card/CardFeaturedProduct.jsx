@@ -16,23 +16,23 @@ const CardFeaturedProduct = (props) => {
             key={idx}
           >
             <div className="col-md-4">
-              <img src={product.img} className="img-fluid" alt="..." />
+              <img src={product.imageUrls[0]} className="img-fluid" alt="..." />
             </div>
             <div className="col-md-8">
               <h6 className="text-capitalize mb-1">
-                <Link to={product.link} className="text-decoration-none">
+                <Link to={`/product/${product._id}`} className="text-decoration-none">
                   {product.name}
                 </Link>
               </h6>
-              <div className="mb-2">
+              {/* <div className="mb-2">
                 {Array.from({ length: product.star }, (_, key) => (
                   <IconStarFill className="text-warning me-1" key={key} />
                 ))}
-              </div>
-              <span className="fw-bold h5">${product.price}</span>
-              {product.originPrice > 0 && (
+              </div> */}
+              <span className="fw-bold h5">${product.price - product.discount.value}</span>
+              {product.price > 0 && (
                 <del className="small text-muted ms-2">
-                  ${product.originPrice}
+                  ${product.price}
                 </del>
               )}
             </div>

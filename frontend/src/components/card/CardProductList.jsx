@@ -11,14 +11,14 @@ const CardProductList = (props) => {
     <div className="card">
       <div className="row g-0">
         <div className="col-md-3 text-center">
-          <Link to="/product/detail">
+          <Link to={`/product/${product._id}`} >
             <img src={product.imageUrls[0]} className="img-fluid" alt="Book" />
           </Link>
         </div>
         <div className="col-md-6">
           <div className="card-body">
             <h6 className="card-subtitle me-2 d-inline">
-              <Link to="/product/detail" className="text-decoration-none">
+              <Link to={`/product/${product._id}`} className="text-decoration-none">
                 {product.name}
               </Link>
             </h6>
