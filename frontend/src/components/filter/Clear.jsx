@@ -1,11 +1,11 @@
 import React from "react";
 
-const FilterClear = (props) => {
+export default function FilterClear({ clearFilter }) {
   return (
     <div className="card mb-3">
       <div className="card-body fw-bold text-uppercase">
         Filter by{" "}
-        <button type="reset" className="btn btn-sm btn-light">
+        <button type="reset" className="btn btn-sm btn-light" onClick={() => clearFilter()}>
           <span aria-hidden="true">&times;</span> Clear All
         </button>
       </div>
@@ -13,4 +13,3 @@ const FilterClear = (props) => {
   );
 };
 
-export default FilterClear;

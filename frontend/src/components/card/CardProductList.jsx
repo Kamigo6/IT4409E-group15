@@ -22,10 +22,6 @@ const CardProductList = (props) => {
                 {product.name}
               </Link>
             </h6>
-            {product.isNew && (
-              <span className="badge bg-success me-2">New</span>
-            )}
-            {product.isHot && <span className="badge bg-danger me-2">Hot</span>}
 
             <div>
               {Array.from({ length: 5 }, (_, key) => (

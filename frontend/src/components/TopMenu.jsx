@@ -35,27 +35,13 @@ const TopMenu = () => {
                 <li>
                   <hr className="dropdown-divider" />
                 </li>
-                <li>
-                  <Link className="dropdown-item" to="/checkout">
-                    Checkout Page
-                  </Link>
-                </li>
-                <li>
-                  <Link className="dropdown-item" to="/contact-us">
-                    Contact Us
-                  </Link>
-                </li>
-
-                <li>
-                  <hr className="dropdown-divider" />
-                </li>
-                <li>
-                  <Link className="dropdown-item" to="/fsafasf">
-                    404 Page Not Found
-                  </Link>
-                </li>
 
               </ul>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/category/">
+                All
+              </Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/category/business-finance">

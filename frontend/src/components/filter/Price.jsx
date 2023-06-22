@@ -1,6 +1,6 @@
 import React from "react";
 
-const FilterPrice = (props) => {
+const FilterPrice = ({ priceFilter }) => {
   return (
     <div className="card mb-3">
       <div
@@ -12,44 +12,74 @@ const FilterPrice = (props) => {
       >
         Price
       </div>
-      <ul className="list-group list-group-flush show" id="filterPrice">
-        <li className="list-group-item">
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              id="flexCheckDefault1"
-            />
-            <label className="form-check-label" htmlFor="flexCheckDefault1">
-              $24.00 - $29.00 <span className="text-muted">(4)</span>
-            </label>
-          </div>
-        </li>
-        <li className="list-group-item">
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              id="flexCheckDefault2"
-            />
-            <label className="form-check-label" htmlFor="flexCheckDefault2">
-              $33.00 - $35.00 <span className="text-muted">(2)</span>
-            </label>
-          </div>
-        </li>
-        <li className="list-group-item">
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              id="flexCheckDefault3"
-            />
-            <label className="form-check-label" htmlFor="flexCheckDefault3">
-              $70.00 - $99.00 <span className="text-muted">(5)</span>
-            </label>
-          </div>
-        </li>
-      </ul>
+      <div className="card-body show" id="filterStar">
+        <div className="form-check">
+          <input
+            className="form-check-input"
+            type="radio"
+            name="flexRadioDefault"
+            id="flexRadioDefault5"
+            onClick={() => priceFilter("low")}
+          />
+          <label
+            className="form-check-label"
+            htmlFor="flexRadioDefault5"
+            aria-label="Star"
+          >
+            $00.00 - $10.00
+          </label>
+        </div>
+        <div className="form-check">
+          <input
+            className="form-check-input"
+            type="radio"
+            name="flexRadioDefault"
+            id="flexRadioDefault4"
+            onClick={() => priceFilter("low-medium")}
+          />
+          <label
+            className="form-check-label"
+            htmlFor="flexRadioDefault4"
+            aria-label="Star"
+          >
+            $10.00 - $20.00
+          </label>
+        </div>
+        <div className="form-check">
+          <input
+            className="form-check-input"
+            type="radio"
+            name="flexRadioDefault"
+            id="flexRadioDefault3"
+            onClick={() => priceFilter("medium")}
+          />
+          <label
+            className="form-check-label"
+            htmlFor="flexRadioDefault3"
+            aria-label="Star"
+          >
+            $20.00 - $30.00
+          </label>
+        </div>
+        <div className="form-check">
+          <input
+            className="form-check-input"
+            type="radio"
+            name="flexRadioDefault"
+            id="flexRadioDefault2"
+            onClick={() => priceFilter("high")}
+          />
+          <label
+            className="form-check-label"
+            htmlFor="flexRadioDefault2"
+            aria-label="Star"
+          >
+            Greater or equal to $30.00
+          </label>
+        </div>
+
+      </div>
+
     </div>
   );
 };

@@ -6,7 +6,6 @@ const Paging = lazy(() => import("../../components/Paging"));
 const Breadcrumb = lazy(() => import("../../components/Breadcrumb"));
 const FilterCategory = lazy(() => import("../../components/filter/Category"));
 const FilterPrice = lazy(() => import("../../components/filter/Price"));
-const FilterSize = lazy(() => import("../../components/filter/Size"));
 const FilterStar = lazy(() => import("../../components/filter/Star"));
 const FilterClear = lazy(() => import("../../components/filter/Clear"));
 const CardServices = lazy(() => import("../../components/card/CardServices"));
@@ -24,18 +23,19 @@ class ProductListView extends Component {
     totalPages: null,
     totalItems: 0,
     category: "all",
-    price: "medium",
+    price: "all",
     supplier: "all",
+    rank: "latest",
     view: "list",
   };
+
+
   constructor(props) {
-    super();
+    super(props);
     this.state.category = props.catName;
     console.log(props.catName)
+    // console.log(this.state)
   }
-
-
-
   catName = {
     "business-finance": "Business & Finance",
     "fiction": "Fiction",
@@ -51,14 +51,36 @@ class ProductListView extends Component {
     this.getProducts();
   }
 
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps.catName)
+    this.setState({ category: nextProps.catName })
+    this.getProducts();
+  }
+
+  clearFilter = () => {
+    this.setState({ price: "all", supplier: "all" });
+    // console.log(this.state);
+    this.getProducts();
+  }
+
+  priceFilter = (data) => {
+    // console.log(data);
+    this.setState({ price: data });
+    this.getProducts();
+  }
+
+  sortBy = (event) => {
+    console.log(event.target.value);
+    this.setState({ rank: event.target.value });
+    this.getProducts();
+  }
 
   getProducts = async () => {
     try {
       const response = await axios.get("http://localhost:8000/products");
-      // console.log(response.data[0].price);
-      const products = response.data.filter((product) => {
+      let originProduct = response.data.filter((product) => {
         let price = product.price;
-        console.log(price > 30, price);
+        // console.log(price > 30, price);
         if (!product.categories.includes(this.state.category) && this.state.category != "all") return false;
         if (this.state.price != "all")
           if (price > 10 && this.state.price == "low") return false;
@@ -68,6 +90,28 @@ class ProductListView extends Component {
         if (product.supplier != this.state.supplier && this.state.supplier != "all") return false;
         return true;
       });
+      switch (this.state.rank) {
+        case "latest":
+          originProduct = originProduct.sort((a, b) => {
+            if (a.createdAt < b.createdAt) {
+              return -1;
+            }
+            if (a.createdAt > b.createdAt) {
+              return 1;
+            }
+            return 0;
+          });
+          break;
+        case "price":
+          originProduct = originProduct.sort((a, b) => { return a.price - b.price; });
+          break;
+        case "r_price":
+          originProduct = originProduct.sort((a, b) => { return b.price - a.price; });
+          break;
+        default:
+          break;
+      };
+      const products = originProduct;
       const totalItems = products.length;
       this.setState({ currentProducts: products, totalItems });
     } catch (error) {
@@ -107,10 +151,9 @@ class ProductListView extends Component {
           <div className="row">
             <div className="col-md-3">
               <FilterCategory />
-              <FilterPrice />
-              <FilterSize />
+              <FilterPrice priceFilter={this.priceFilter} />
               <FilterStar />
-              <FilterClear />
+              <FilterClear clearFilter={this.clearFilter} />
               <CardServices />
             </div>
             <div className="col-md-9">
@@ -122,14 +165,12 @@ class ProductListView extends Component {
                   </span>
                 </div>
                 <div className="col-5 d-flex justify-content-end">
-                  <select
+                  <select id="rank" onChange={this.sortBy}
                     className="form-select mw-180 float-start"
                     aria-label="Default select">
-                    <option value={1}>Most Popular</option>
-                    <option value={2}>Latest items</option>
-                    <option value={3}>Trending</option>
-                    <option value={4}>Price low to high</option>
-                    <option value={4}>Price high to low</option>
+                    <option value={"latest"} >Latest items</option>
+                    <option value={"price"} >Price low to high</option>
+                    <option value={"r_price"} >Price high to low</option>
                   </select>
                   <div className="btn-group ms-3" role="group">
                     <button
