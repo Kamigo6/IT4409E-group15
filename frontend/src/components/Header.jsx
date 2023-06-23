@@ -12,33 +12,29 @@ import { ReactComponent as IconInfoCircleFill } from "bootstrap-icons/icons/info
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
-const Header = () => {
+const Header = ({ isAuthenticated, handleLogout }) => {
   return (
-    <React.Fragment>
-      <header className="p-3 border-bottom bg-light">
-        <div className="container-fluid">
-          <div className="row g-3">
-            <div className="col-md-3 text-center">
-              <Link to="/">
-                <img
-                  alt="logo"
-                  src="../../images/logo.png"
-                  width="200"
-                />
+    <header className="p-3 border-bottom bg-light">
+      <div className="container-fluid">
+        <div className="row g-3">
+          <div className="col-md-3 text-center">
+            <Link to="/">
+              <img alt="logo" src="../../images/logo.png" width="200" />
+            </Link>
+          </div>
+          <div className="col-md-5">
+            <Search />
+          </div>
+          <div className="col-md-4">
+            <div className="position-relative d-inline me-3">
+              <Link to="/cart" className="btn btn-primary">
+                <IconCart3 className="i-va" />
+                <div className="position-absolute top-0 start-100 translate-middle badge bg-danger rounded-circle">
+                  2
+                </div>
               </Link>
             </div>
-            <div className="col-md-5">
-              <Search />
-            </div>
-            <div className="col-md-4">
-              <div className="position-relative d-inline me-3">
-                <Link to="/cart" className="btn btn-primary">
-                  <IconCart3 className="i-va" />
-                  <div className="position-absolute top-0 start-100 translate-middle badge bg-danger rounded-circle">
-                    2
-                  </div>
-                </Link>
-              </div>
+            {isAuthenticated ? (
               <div className="btn-group">
                 <button
                   type="button"
@@ -83,29 +79,28 @@ const Header = () => {
                     <hr className="dropdown-divider" />
                   </li>
                   <li>
-                    <Link className="dropdown-item" to="/">
+                    <Link
+                      className="dropdown-item"
+                      to="/"
+                      onClick={handleLogout}
+                    >
                       <IconDoorClosedFill className="text-danger" /> Logout
                     </Link>
                   </li>
                 </ul>
               </div>
-              {/* <a
-                href="https://www.buymeacoffee.com/bhaumik"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img
-                  src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
-                  alt="BuyMeACoffee" width="120"
-                />
-              </a> */}
-              <Link to="/account/signin">Sign In</Link> |{" "}
-              <Link to="/account/signup"> Sign Up</Link>
-            </div>
+            ) : (
+              <>
+                <Link to="/account/signin">Sign In</Link>
+                <span> | </span>
+                <Link to="/account/signup">Sign Up</Link>
+              </>
+            )}
           </div>
         </div>
-      </header>
-    </React.Fragment>
+      </div>
+    </header>
   );
 };
+
 export default Header;

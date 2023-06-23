@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from "react";
+import React, { Suspense, lazy, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { withRouter } from "react-router";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -29,10 +29,20 @@ const ContactUsView = lazy(() => import("./views/pages/ContactUs"));
 const SupportView = lazy(() => import("./views/pages/Support"));
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("token"));
+
+  const handleLogin = () => {
+    setIsAuthenticated(true);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIsAuthenticated(false);
+  };
   return (
     <BrowserRouter>
       <React.Fragment>
-        <Header />
+        <Header isAuthenticated={isAuthenticated} handleLogout={handleLogout} />
         <TopMenu />
         <Suspense
           fallback={
@@ -41,8 +51,8 @@ function App() {
         >
           <Routes>
             <Route exact path="/" element={<HomeView />} />
-            <Route exact path="/account/signin" element={<SignInView />} />
-            <Route exact path="/account/signup" element={<SignUpView />} />
+            <Route exact path="/account/signin" element={<SignInView isAuthenticated={isAuthenticated} handleLogin={handleLogin}/>} />
+            <Route exact path="/account/signup" element={<SignUpView isAuthenticated={isAuthenticated} handleLogin={handleLogin}/>} />
             <Route
               exact
               path="/account/forgotpassword"

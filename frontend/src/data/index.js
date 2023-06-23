@@ -21,7 +21,15 @@ export const data = {
   ],
   iconProducts: [
     {
-      to: "/product/detail",
+      to: "/category/",
+      img: "IconTools",
+      title: "All",
+      text: " Upto 20% off",
+      tips: "Summer Discount",
+      cssClass: "text-primary",
+    },
+    {
+      to: "/category/fiction",
       img: "IconBook",
       title: "Fiction",
       text: " Upto 20% off",
@@ -29,7 +37,7 @@ export const data = {
       cssClass: "text-primary",
     },
     {
-      to: "/product/detail",
+      to: "/category/business-finance",
       img: "IconHeadset",
       title: "Business & Finance",
       text: " Upto 50% off",
@@ -37,7 +45,7 @@ export const data = {
       cssClass: "text-secondary",
     },
     {
-      to: "/product/detail",
+      to: "/category/health-fitness",
       img: "IconPhone",
       title: "Health & Fitness",
       text: " Upto 20% off",
@@ -45,7 +53,7 @@ export const data = {
       cssClass: "text-danger",
     },
     {
-      to: "/product/detail",
+      to: "/category/history-archaeology",
       img: "IconTv",
       title: "History & Archaeology",
       text: " Upto 25% off",
@@ -53,7 +61,7 @@ export const data = {
       cssClass: "text-warning",
     },
     {
-      to: "/product/detail",
+      to: "/category/art-photography",
       img: "IconDisplay",
       title: "Art & Photography",
       text: " Upto 30% off",
@@ -61,7 +69,7 @@ export const data = {
       cssClass: "text-info",
     },
     {
-      to: "/product/detail",
+      to: "/category/romance",
       img: "IconHdd",
       title: "Romance",
       text: " Upto 15% off",
@@ -69,78 +77,14 @@ export const data = {
       cssClass: "text-success",
     },
     {
-      to: "/product/detail",
+      to: "/category/food-drink",
       img: "IconUpcScan",
       title: "Food & Drink",
       text: " Upto 45% off",
       tips: "Summer Discount",
       cssClass: "text-muted",
-    },
-    {
-      to: "/product/detail",
-      img: "IconTools",
-      title: "Other",
-      text: " Upto 20% off",
-      tips: "Summer Discount",
-      cssClass: "text-primary",
-    },
+    }
   ],
-  // products: [{
-  //   "supplier": "612345678901234567890141",
-  //   "name": "Laptop",
-  //   "categories": ["Electronics", "Computers"],
-  //   "detail": "A powerful laptop for all your computing needs.",
-  //   "imageUrls": [
-  //     "https://example.com/images/laptop-1.jpg",
-  //     "https://example.com/images/laptop-2.jpg"
-  //   ],
-  //   "price": 999.99,
-  //   "discount": {
-  //     "value": 100,
-  //     "unit": "USD"
-  //   },
-  //   "isAvailable": true,
-  //   "ratings": ["612345678901234567890142", "612345678901234567890143"],
-  //   "createdAt": "2023-06-22T12:00:00.000Z"
-  // },
-  // {
-  //   "supplier": "612345678901234567890144",
-  //   "name": "Smartphone",
-  //   "categories": ["Electronics", "Mobile Phones"],
-  //   "detail": "A high-performance smartphone with advanced features.",
-  //   "imageUrls": [
-  //     "https://example.com/images/smartphone-1.jpg",
-  //     "https://example.com/images/smartphone-2.jpg"
-  //   ],
-  //   "price": 699.99,
-  //   "discount": {
-  //     "value": 50,
-  //     "unit": "USD"
-  //   },
-  //   "isAvailable": true,
-  //   "ratings": ["612345678901234567890145"],
-  //   "createdAt": "2023-06-21T09:30:00.000Z"
-  // },
-  // {
-  //   "supplier": "612345678901234567890146",
-  //   "name": "Headphones",
-  //   "categories": ["Electronics", "Audio"],
-  //   "detail": "High-quality headphones for an immersive audio experience.",
-  //   "imageUrls": [
-  //     "https://example.com/images/headphones-1.jpg",
-  //     "https://example.com/images/headphones-2.jpg"
-  //   ],
-  //   "price": 149.99,
-  //   "discount": {
-  //     "value": 0,
-  //     "unit": "USD"
-  //   },
-  //   "isAvailable": true,
-  //   "ratings": [],
-  //   "createdAt": "2023-06-20T15:00:00.000Z"
-  // }
-
-  // ],
   products: [
     {
       id: 1,

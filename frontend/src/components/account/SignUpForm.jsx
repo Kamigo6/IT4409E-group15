@@ -24,6 +24,7 @@ import { ReactComponent as IconShieldLock } from "bootstrap-icons/icons/shield-l
 
 const SignUpForm = (props) => {
   const { handleSubmit, submitting, onSubmit, submitFailed } = props;
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -147,13 +148,13 @@ const SignUpForm = (props) => {
       />
 
       <div className="d-grid">
-          <button
-            type="submit"
-            className="btn btn-primary mb-3"
-            disabled={submitting}
-          >
-            Create
-          </button>
+        <button
+          type="submit"
+          className="btn btn-primary mb-3"
+          disabled={submitting}
+        >
+          Create
+        </button>
       </div>
       <Link className="float-start" to="/account/signin" title="Sign In">
         Sign In
