@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ReactComponent as IconStarFill } from "bootstrap-icons/icons/star-fill.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartPlus, faHeart } from "@fortawesome/free-solid-svg-icons";
+import "./CardProductGrid.css"; 
 
 const CardProductGrid = (props) => {
   const product = props.data;

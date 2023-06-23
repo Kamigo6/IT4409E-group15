@@ -1,0 +1,12 @@
+.card-img-top {
+    width: 100%;
+    height: 200px; /* Điều chỉnh chiều cao theo nhu cầu */
+    object-fit: contain;
+  }
+  .card-subtitle {
+    white-space: nowrap; /* Ngăn chặn xuống dòng */
+    overflow: hidden; /* Ẩn nội dung vượt quá khối */
+    text-overflow: ellipsis; /* Hiển thị dấu chấm elipsis khi nội dung bị ẩn */
+    font-size: 14px; /* Điều chỉnh kích thước font chữ */
+  }
+  

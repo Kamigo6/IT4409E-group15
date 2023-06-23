@@ -43,7 +43,7 @@ const Search = () => {
           name="search"
           type="text"
           className="form-control"
-          placeholder="Search"
+          placeholder="Search..."
           required
           value={input}
           onChange={(e) => handleChange(e.target.value)}

@@ -1,4 +1,9 @@
-.search {
+.search-wrapper {
+    position: relative;
+    filter: blur(2px); /* Apply a blur effect to the search wrapper container */
+  }
+  
+  .search {
     position: relative;
   }
   
@@ -7,12 +12,15 @@
     top: 100%;
     left: 0;
     right: 0;
-    background-color: #fff;
+    background-color: #fff; /* Set a background color for the search results */
     border: 1px solid #ccc;
     border-top: none;
     z-index: 9999;
     max-height: 120px; /* Set a maximum height for the results container */
     overflow-y: auto; /* Add a vertical scroll bar when content exceeds the height */
+    border-radius: 4px; /* Add rounded corners to the results container */
+    scrollbar-width: thin;
+    scrollbar-color: #888 transparent;
   }
   
   .search-result {
