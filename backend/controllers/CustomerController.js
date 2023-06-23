@@ -9,10 +9,13 @@ const getAllCustomers = async (req, res) => {
     }
 };
 
-const getCustomerById = async (req, res) => {
-    const { id } = req.params;
+const getCustomerByToken = async (req, res) => {
+    const customerId = req.customerId;
+    if (!customerId) {
+        return res.status(401).json({ error: 'Invalid token' });
+    }
     try {
-        const customer = await Customer.findById(id);
+        const customer = await Customer.findById(customerId);
         if (!customer) {
             return res.status(404).json({ error: 'Customer not found' });
         }
@@ -94,7 +97,7 @@ const deleteCustomerById = async (req, res) => {
 
 module.exports = {
     getAllCustomers,
-    getCustomerById,
+    getCustomerByToken,
     createCustomer,
     updateCustomerById,
     deleteCustomerById

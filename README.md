@@ -18,7 +18,7 @@ This repo is for our class project (IT4409E). We used MERN stack to build the we
     POST /auth/login
 ### Customer
     GET /customers/
-    GET /customers/:id
+    GET /customers/token
     POST /customers/
     PATCH /customers/:id
     DELETE /customers/:id
