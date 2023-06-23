@@ -34,7 +34,7 @@ const Search = () => {
   };
 
   return (
-    <form action="#" className="search">
+    < form action="#" className="search" >
       <div className="input-group">
         <input
           id="search"
@@ -55,7 +55,7 @@ const Search = () => {
           <IconSearch />
         </button>
       </div>
-      {results.map((product) => {
+      {results?.map((product) => {
         return (
           <Link to={`/product/${product._id}`}>
             <div>
@@ -65,7 +65,7 @@ const Search = () => {
 
         );
       })}
-    </form>
+    </form >
   );
 };
 export default Search;
