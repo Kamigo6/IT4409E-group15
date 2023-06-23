@@ -1,0 +1,28 @@
+.search {
+    position: relative;
+  }
+  
+  .search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-top: none;
+    z-index: 9999;
+    max-height: 120px; /* Set a maximum height for the results container */
+    overflow-y: auto; /* Add a vertical scroll bar when content exceeds the height */
+  }
+  
+  .search-result {
+    display: block;
+    padding: 10px;
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .search-result:hover {
+    background-color: #f5f5f5;
+  }
+  

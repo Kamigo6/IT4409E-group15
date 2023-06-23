@@ -1,12 +1,13 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { ReactComponent as IconSearch } from "bootstrap-icons/icons/search.svg";
 import axios from 'axios';
 import { Link } from "react-router-dom";
+import "./Search.css"; // Import CSS file for Search component
 
 const Search = () => {
   const [input, setInput] = useState("");
-  const [results, setResults] = useState();
+  const [results, setResults] = useState([]);
+
   const getProducts = async (value) => {
     try {
       const response = await axios.get("http://localhost:8000/products");
@@ -19,22 +20,23 @@ const Search = () => {
         );
       });
 
-      console.log(products)
-      setResults(products);
-
+      setResults(products.slice(0, 5)); // Limit the results to 5 items
     } catch (error) {
       console.error("Error fetching product:", error);
     }
   };
 
   const handleChange = (value) => {
-    console.log(value);
     setInput(value);
     getProducts(value);
   };
 
+  const handleResultClick = () => {
+    setResults([]); // Clear the results when a result is clicked
+  };
+
   return (
-    < form action="#" className="search" >
+    <form action="#" className="search">
       <div className="input-group">
         <input
           id="search"
@@ -55,17 +57,15 @@ const Search = () => {
           <IconSearch />
         </button>
       </div>
-      {results?.map((product) => {
-        return (
-          <Link to={`/product/${product._id}`}>
-            <div>
-              {product.name}
-            </div>
+      <div className="search-results">
+        {results.map((product) => (
+          <Link to={`/product/${product._id}`} key={product._id} className="search-result" onClick={handleResultClick}>
+            {product.name}
           </Link>
-
-        );
-      })}
-    </form >
+        ))}
+      </div>
+    </form>
   );
 };
+
 export default Search;
