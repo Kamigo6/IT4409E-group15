@@ -44,6 +44,11 @@ class ProductDetailView extends Component {
     this.getProducts();
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({ id: nextProps.params.id })
+    this.getProducts();
+  }
+
   getProducts = async () => {
     try {
       const response = await axios.get("http://localhost:8000/products");
@@ -58,7 +63,7 @@ class ProductDetailView extends Component {
         return products[0].categories.includes(product.categories[0]);
       });
 
-      console.log(featredProducts)
+      // console.log(featredProducts)
       this.setState({ products, ratings, category: products[0].category, featredProducts });
 
     } catch (error) {

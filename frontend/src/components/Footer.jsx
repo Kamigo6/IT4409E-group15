@@ -26,94 +26,81 @@ const Footer = () => {
               Get connected with us on social networks!
             </div>
             <div className="col-md-3 py-3 text-center text-white">
-              <Link to="/" title="Apple">
-                <FontAwesomeIcon icon={faApple} className="text-light me-3" />
-              </Link>
-              <Link to="/" title="Windows">
-                <FontAwesomeIcon icon={faWindows} className="text-light me-3" />
-              </Link>
-              <Link to="/" title="Android">
-                <FontAwesomeIcon icon={faAndroid} className="text-light me-3" />
-              </Link>
-              |
-              <Link to="/" title="Twitter">
+              <a href="https://twitter.com/" target="_blank" title="Twitter">
                 <FontAwesomeIcon
                   icon={faTwitter}
                   className="text-light ms-3 me-3"
                 />
-              </Link>
-              <Link to="/" title="Facebook">
+              </a>
+              <a href="https://www.facebook.com/" target="_blank" title="Facebook">
                 <FontAwesomeIcon
                   icon={faFacebookF}
                   className="text-light me-3"
                 />
-              </Link>
-              <Link to="/" title="Instagram">
+              </a>
+              <a href="https://www.instagram.com/" target="_blank" title="Instagram">
                 <FontAwesomeIcon
                   icon={faInstagram}
                   className="text-light me-3"
                 />
-              </Link>
-              <Link to="/" title="Youtube">
+              </a>
+              <a href="https://www.youtube.com/" target="_blank" title="Youtube">
                 <FontAwesomeIcon icon={faYoutube} className="text-light me-3" />
-              </Link>
+              </a>
             </div>
           </div>
         </div>
         <div className="container-fluid bg-dark text-white">
           <div className="row ">
             <div className="col-md-3 py-3">
-              <div className="h6">Company Name</div>
+              <div className="h6">Bookstore 15</div>
               <hr />
               <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book.
+                Bookstore 15 is a haven for book lovers and a treasure trove of knowledge and imagination. It is a place where the tangible magic of books comes alive, offering a unique experience for readers and seekers of knowledge. Stepping into a bookstore, one is greeted by rows upon rows of shelves, filled with books of various genres, enticing covers, and intriguing titles.
               </p>
             </div>
             <div className="col-md-3 py-3">
-              <div className="h6">Products</div>
+              <div className="h6">Categories</div>
               <hr />
               <ul className="list-group list-group-flush">
                 <li className="list-group-item bg-dark text-white border-light">
                   <Link
-                    to="/"
+                    to="/category/business-finance"
                     className="text-decoration-none text-white stretched-link"
                   >
-                    Electronics
+                    Business & Finance
                   </Link>
                 </li>
                 <li className="list-group-item bg-dark text-white border-light">
                   <Link
-                    to="/"
+                    to="/category/fiction"
                     className="text-decoration-none text-white stretched-link"
                   >
-                    Mobiles
+                    Fiction
                   </Link>
                 </li>
                 <li className="list-group-item bg-dark text-white border-light">
                   <Link
-                    to="/"
+                    to="/category/health-fitness"
                     className="text-decoration-none text-white stretched-link"
                   >
-                    Car & bike
+                    Health & Fitness
                   </Link>
                 </li>
                 <li className="list-group-item bg-dark text-white border-light">
                   <Link
-                    to="/"
+                    to="/category/history-archaeology"
                     className="text-decoration-none text-white stretched-link"
                   >
-                    Super Market
+                    History & Archaeology
                   </Link>
                 </li>
                 <li className="list-group-item bg-dark text-white border-light">
                   <Link
-                    to="/"
+                    to="/category/art-photography"
                     className="text-decoration-none text-white stretched-link"
                   >
-                    Travel Cards
+                    Art & Photography
                   </Link>
                 </li>
               </ul>
@@ -124,7 +111,7 @@ const Footer = () => {
               <ul className="list-group list-group-flush">
                 <li className="list-group-item bg-dark text-white border-light">
                   <Link
-                    to="/"
+                    to="/support"
                     className="text-decoration-none text-white stretched-link"
                   >
                     Return Policy
@@ -132,7 +119,7 @@ const Footer = () => {
                 </li>
                 <li className="list-group-item bg-dark text-white border-light">
                   <Link
-                    to="/"
+                    to="/support"
                     className="text-decoration-none text-white stretched-link"
                   >
                     Terms Of Use
@@ -140,15 +127,15 @@ const Footer = () => {
                 </li>
                 <li className="list-group-item bg-dark text-white border-light">
                   <Link
-                    to="/"
+                    to="/support"
                     className="text-decoration-none text-white stretched-link"
                   >
-                    Security
+                    Account
                   </Link>
                 </li>
                 <li className="list-group-item bg-dark text-white border-light">
                   <Link
-                    to="/"
+                    to="/support"
                     className="text-decoration-none text-white stretched-link"
                   >
                     Privacy
@@ -156,10 +143,10 @@ const Footer = () => {
                 </li>
                 <li className="list-group-item bg-dark text-white border-light">
                   <Link
-                    to="/"
+                    to="/support"
                     className="text-decoration-none text-white stretched-link"
                   >
-                    EPR Compliance
+                    Taxes
                   </Link>
                 </li>
               </ul>

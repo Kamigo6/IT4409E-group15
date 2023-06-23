@@ -6,7 +6,7 @@ const Paging = lazy(() => import("../../components/Paging"));
 const Breadcrumb = lazy(() => import("../../components/Breadcrumb"));
 const FilterCategory = lazy(() => import("../../components/filter/Category"));
 const FilterPrice = lazy(() => import("../../components/filter/Price"));
-const FilterStar = lazy(() => import("../../components/filter/Star"));
+const FilterSupplier = lazy(() => import("../../components/filter/Supplier"));
 const FilterClear = lazy(() => import("../../components/filter/Clear"));
 const CardServices = lazy(() => import("../../components/card/CardServices"));
 const CardProductGrid = lazy(() =>
@@ -153,7 +153,7 @@ class ProductListView extends Component {
             <div className="col-md-3">
               <FilterCategory />
               <FilterPrice priceFilter={this.priceFilter} />
-              <FilterStar />
+              <FilterSupplier />
               <FilterClear clearFilter={this.clearFilter} />
               <CardServices />
             </div>

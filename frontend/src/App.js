@@ -1,6 +1,5 @@
 import React, { Suspense, lazy, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { withRouter } from "react-router";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.js";
 import TopMenu from "./components/TopMenu";
@@ -51,8 +50,8 @@ function App() {
         >
           <Routes>
             <Route exact path="/" element={<HomeView />} />
-            <Route exact path="/account/signin" element={<SignInView isAuthenticated={isAuthenticated} handleLogin={handleLogin}/>} />
-            <Route exact path="/account/signup" element={<SignUpView isAuthenticated={isAuthenticated} handleLogin={handleLogin}/>} />
+            <Route exact path="/account/signin" element={<SignInView isAuthenticated={isAuthenticated} handleLogin={handleLogin} />} />
+            <Route exact path="/account/signup" element={<SignUpView isAuthenticated={isAuthenticated} handleLogin={handleLogin} />} />
             <Route
               exact
               path="/account/forgotpassword"
