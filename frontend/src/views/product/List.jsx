@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTh, faBars } from "@fortawesome/free-solid-svg-icons";
 import axios from 'axios';
 const Paging = lazy(() => import("../../components/Paging"));
+const Pagination = lazy(() => import("../../components/Pagination"));
 const Breadcrumb = lazy(() => import("../../components/Breadcrumb"));
 const FilterCategory = lazy(() => import("../../components/filter/Category"));
 const FilterPrice = lazy(() => import("../../components/filter/Price"));
@@ -50,6 +51,7 @@ const ProductListView = ({ catName }) => {
   };
 
   useEffect(() => {
+    setCurrentPage(1);
     if (catName === "all") {
       setFilteredProducts(products);
     }
@@ -87,7 +89,7 @@ const ProductListView = ({ catName }) => {
   };
 
   const handlePageChange = (pageNumber) => {
-    
+    setCurrentPage(pageNumber);
   };
 
   const onChangeView = (view) => {
@@ -161,27 +163,29 @@ const ProductListView = ({ catName }) => {
             <hr />
             <div className="row g-3">
               {view === "grid" &&
-                filteredProducts.map((product, idx) => (
+                filteredProducts.slice((currentPage - 1) * productNumberPerPage, currentPage * productNumberPerPage).map((product, idx) => (
                   <div key={idx} className="col-md-4">
                     <CardProductGrid data={product} />
                   </div>
                 ))}
               {view === "list" &&
-                filteredProducts.map((product, idx) => (
+                filteredProducts.slice((currentPage - 1) * productNumberPerPage, currentPage * productNumberPerPage).map((product, idx) => (
                   <div key={idx} className="col-md-12">
                     <CardProductList data={product} />
                   </div>
                 ))}
             </div>
             <hr />
-            <Paging
-              totalRecords={totalItems}
+            <Pagination
+              filteredProducts={filteredProducts}
               pageLimit={productNumberPerPage}
-              pageNeighbours={3}
+              pageNeighbours={1}
+              currentPage={currentPage}
               handlePageChange={handlePageChange}
               sizing=""
               alignment="justify-content-center"
             />
+
           </div>
         </div>
       </div>
