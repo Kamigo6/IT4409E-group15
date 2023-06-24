@@ -1,238 +1,192 @@
-import React, { lazy, Component } from "react";
+import React, { lazy, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTh, faBars, faL } from "@fortawesome/free-solid-svg-icons";
+import { faTh, faBars } from "@fortawesome/free-solid-svg-icons";
 import axios from 'axios';
 const Paging = lazy(() => import("../../components/Paging"));
 const Breadcrumb = lazy(() => import("../../components/Breadcrumb"));
 const FilterCategory = lazy(() => import("../../components/filter/Category"));
 const FilterPrice = lazy(() => import("../../components/filter/Price"));
-const FilterSupplier = lazy(() => import("../../components/filter/Supplier"));
-const FilterClear = lazy(() => import("../../components/filter/Clear"));
+const FilterClearButton = lazy(() => import("../../components/filter/Clear"));
 const CardServices = lazy(() => import("../../components/card/CardServices"));
-const CardProductGrid = lazy(() =>
-  import("../../components/card/CardProductGrid")
-);
-const CardProductList = lazy(() =>
-  import("../../components/card/CardProductList")
-);
+const CardProductGrid = lazy(() => import("../../components/card/CardProductGrid"));
+const CardProductList = lazy(() => import("../../components/card/CardProductList"));
 
-class ProductListView extends Component {
-  state = {
-    currentProducts: [],
-    currentPage: null,
-    totalPages: null,
-    totalItems: 0,
-    category: "all",
-    price: "all",
-    supplier: "all",
-    rank: "latest",
-    view: "list",
-  };
+const categoryNameMap = {
+  "business-finance": "Business & Finance",
+  "fiction": "Fiction",
+  "health-fitness": "Health & Fitness",
+  "history-archaeology": "History & Archaeology",
+  "art-photography": "Art & Photography",
+  "romance": "Romace",
+  "food-drink": "Food & Drink",
+  "all": "All"
+};
 
+const productNumberPerPage = 2;
 
-  constructor(props) {
-    super(props);
-    this.state.category = props.catName;
-    console.log(props.catName)
-    // console.log(this.state)
-  }
-  catName = {
-    "business-finance": "Business & Finance",
-    "fiction": "Fiction",
-    "health-fitness": "Health & Fitness",
-    "history-archaeology": "History & Archaeology",
-    "art-photography": "Art & Photography",
-    "romance": "Romace",
-    "food-drink": "Food & Drink",
-    "all": "All"
-  };
+const ProductListView = ({ catName }) => {
+  const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+  const [priceFilterMode, setPriceFilterMode] = useState("all");
+  const [rank, setRank] = useState("latest");
+  const [view, setView] = useState("list");
 
-  componentDidMount() {
-    this.getProducts();
-  }
+  useEffect(() => {
+    initializeProducts();
+  }, []);
 
-  componentWillReceiveProps(nextProps) {
-    console.log(nextProps.catName)
-    this.setState({ category: nextProps.catName })
-    this.getProducts();
-  }
-
-  clearFilter = () => {
-    this.setState({ price: "all", supplier: "all" });
-    // console.log(this.state);
-    this.getProducts();
-  }
-
-  priceFilter = (data) => {
-    // console.log(data);
-    this.setState({ price: data });
-    this.getProducts();
-  }
-
-  sortBy = (event) => {
-    console.log(event.target.value);
-    this.setState({ rank: event.target.value });
-    this.getProducts();
-  }
-
-  getProducts = async () => {
+  const initializeProducts = async () => {
     try {
       const response = await axios.get("http://localhost:8000/products");
-      let originProduct = response.data.filter((product) => {
-        let price = product.price;
-        // console.log(price > 30, price);
-        if (!product.categories.includes(this.state.category) && this.state.category != "all") return false;
-        if (this.state.price != "all")
-          if (price > 10 && this.state.price == "low") return false;
-          else if ((price <= 10 || price > 20) && this.state.price == "low-medium") return false;
-          else if ((price <= 20 || price > 30) && this.state.price == "medium") return false;
-          else if ((price <= 30) && this.state.price == "high") return false;
-        if (product.supplier != this.state.supplier && this.state.supplier != "all") return false;
-        return true;
-      });
-      switch (this.state.rank) {
-        case "latest":
-          originProduct = originProduct.sort((a, b) => {
-            if (a.createdAt < b.createdAt) {
-              return -1;
-            }
-            if (a.createdAt > b.createdAt) {
-              return 1;
-            }
-            return 0;
-          });
-          break;
-        case "price":
-          originProduct = originProduct.sort((a, b) => { return a.price - b.price; });
-          break;
-        case "r_price":
-          originProduct = originProduct.sort((a, b) => { return b.price - a.price; });
-          break;
-        default:
-          break;
-      };
-      const products = originProduct;
-      const totalItems = products.length;
-      this.setState({ currentProducts: products, totalItems });
-      console.log(this.state.currentProducts);
+      setProducts(response.data);
+      setFilteredProducts(response.data);
+      setTotalItems(response.data.length);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
   };
 
-  onPageChanged = (page) => {
-    const { currentProducts } = this.state;
-    const { currentPage, totalPages, pageLimit } = page;
-    const offset = (currentPage - 1) * pageLimit;
-    const currentProductsPage = currentProducts.slice(offset, offset + pageLimit);
-    this.setState({ currentPage, currentProducts: currentProductsPage, totalPages });
+  useEffect(() => {
+    if (catName === "all") {
+      setFilteredProducts(products);
+    }
+    else {
+      console.log(catName);
+      setFilteredProducts(products.filter(product => product.categories.includes(catName)));
+    }
+  }, [catName]);
+
+  useEffect(() => {
+    if (priceFilterMode === "all") {
+      setFilteredProducts(products);
+    }
+    else if (priceFilterMode === "low") {
+      setFilteredProducts(products.filter(product => product.price < 10));
+    } else if (priceFilterMode === "low-medium") {
+      setFilteredProducts(products.filter(product => product.price >= 10 && product.price <= 20));
+    } else if (priceFilterMode === "medium") {
+      setFilteredProducts(products.filter(product => product.price >= 20 && product.price <= 30));
+    } else if (priceFilterMode === "high") {
+      setFilteredProducts(products.filter(product => product.price >= 30));
+    }
+  }, [priceFilterMode]);
+
+  const clearFilters = () => {
+    setPriceFilterMode("all");
   };
 
-  onChangeView = (view) => {
-    this.setState({ view });
+  const handleChangePriceFilter = (mode) => {
+    setPriceFilterMode(mode);
   };
 
-  render() {
-    return (
-      <React.Fragment>
-        <div
-          className="p-5 bg-primary bs-cover"
-          style={{
-            backgroundImage: "url(https://blog-cdn.reedsy.com/directories/admin/featured_image/579/what-is-literary-fiction-28dfaa.jpg)",
-          }}
-        >
-          <div className="container text-center">
-            <span className="display-5 px-3 bg-white rounded shadow">
-              {this.catName[this.state.category]}
-            </span>
-          </div>
+  const sortBy = (event) => {
+    setRank(event.target.value);
+  };
+
+  const handlePageChange = (pageNumber) => {
+    
+  };
+
+  const onChangeView = (view) => {
+    setView(view);
+  };
+
+  return (
+    <React.Fragment>
+      <div
+        className="p-5 bg-primary bs-cover"
+        style={{
+          backgroundImage: "https://blog-cdn.reedsy.com/directories/admin/featured_image/579/what-is-literary-fiction-28dfaa.jpg",
+        }}
+      >
+        <div className="container text-center">
+          <span className="display-5 px-3 bg-white rounded shadow">
+            {categoryNameMap[catName]}
+          </span>
         </div>
-        <Breadcrumb catName={this.catName[this.state.category]} />
-        <div className="container-fluid mb-3">
-          <div className="row">
-            <div className="col-md-3">
-              <FilterCategory />
-              <FilterPrice priceFilter={this.priceFilter} />
-              <FilterSupplier />
-              <FilterClear clearFilter={this.clearFilter} />
-              <CardServices />
-            </div>
-            <div className="col-md-9">
-              <div className="row">
-                <div className="col-7">
-                  <span className="align-middle fw-bold">
-                    {this.state.totalItems} results for{" "}
-                    <span className="text-warning">{this.catName[this.state.category]}</span>
-                  </span>
+      </div>
+      <Breadcrumb catName={categoryNameMap[catName]} />
+      <div className="container-fluid mb-3">
+        <div className="row">
+          <div className="col-md-3">
+            <FilterCategory />
+            <FilterPrice handleChangePriceFilter={handleChangePriceFilter} />
+            <FilterClearButton clearFilters={clearFilters} />
+            <CardServices />
+          </div>
+          <div className="col-md-9">
+            <div className="row">
+              <div className="col-7">
+                <span className="align-middle fw-bold">
+                  {totalItems} results for{" "}
+                  <span className="text-warning">{categoryNameMap[catName]}</span>
+                </span>
+              </div>
+              <div className="col-5 d-flex justify-content-end">
+                <select
+                  id="rank"
+                  onChange={sortBy}
+                  className="form-select mw-180 float-start"
+                  aria-label="Default select"
+                >
+                  <option value={"latest"}>Latest items</option>
+                  <option value={"price"}>Price low to high</option>
+                  <option value={"r_price"}>Price high to low</option>
+                </select>
+                <div className="btn-group ms-3" role="group">
+                  <button
+                    aria-label="Grid"
+                    type="button"
+                    onClick={() => onChangeView("grid")}
+                    className={`btn ${view === "grid" ? "btn-primary" : "btn-outline-primary"
+                      }`}
+                  >
+                    <FontAwesomeIcon icon={faTh} />
+                  </button>
+                  <button
+                    aria-label="List"
+                    type="button"
+                    onClick={() => onChangeView("list")}
+                    className={`btn ${view === "list" ? "btn-primary" : "btn-outline-primary"
+                      }`}
+                  >
+                    <FontAwesomeIcon icon={faBars} />
+                  </button>
                 </div>
-                <div className="col-5 d-flex justify-content-end">
-                  <select id="rank" onChange={this.sortBy}
-                    className="form-select mw-180 float-start"
-                    aria-label="Default select">
-                    <option value={"latest"} >Latest items</option>
-                    <option value={"price"} >Price low to high</option>
-                    <option value={"r_price"} >Price high to low</option>
-                  </select>
-                  <div className="btn-group ms-3" role="group">
-                    <button
-                      aria-label="Grid"
-                      type="button"
-                      onClick={() => this.onChangeView("grid")}
-                      className={`btn ${this.state.view === "grid"
-                        ? "btn-primary"
-                        : "btn-outline-primary"
-                        }`}
-                    >
-                      <FontAwesomeIcon icon={faTh} />
-                    </button>
-                    <button
-                      aria-label="List"
-                      type="button"
-                      onClick={() => this.onChangeView("list")}
-                      className={`btn ${this.state.view === "list"
-                        ? "btn-primary"
-                        : "btn-outline-primary"
-                        }`}
-                    >
-                      <FontAwesomeIcon icon={faBars} />
-                    </button>
+              </div>
+            </div>
+            <hr />
+            <div className="row g-3">
+              {view === "grid" &&
+                filteredProducts.map((product, idx) => (
+                  <div key={idx} className="col-md-4">
+                    <CardProductGrid data={product} />
                   </div>
-                </div>
-              </div>
-              <hr />
-              <div className="row g-3">
-                {this.state.view === "grid" &&
-                  this.state.currentProducts.map((product, idx) => {
-                    return (
-                      <div key={idx} className="col-md-4">
-                        <CardProductGrid data={product} />
-                      </div>
-                    );
-                  })}
-                {this.state.view === "list" &&
-                  this.state.currentProducts.map((product, idx) => {
-                    return (
-                      <div key={idx} className="col-md-12">
-                        <CardProductList data={product} />
-                      </div>
-                    );
-                  })}
-              </div>
-              <hr />
-              <Paging
-                totalRecords={this.state.totalItems}
-                pageLimit={9}
-                pageNeighbours={3}
-                onPageChanged={this.onPageChanged}
-                sizing=""
-                alignment="justify-content-center"
-              />
+                ))}
+              {view === "list" &&
+                filteredProducts.map((product, idx) => (
+                  <div key={idx} className="col-md-12">
+                    <CardProductList data={product} />
+                  </div>
+                ))}
             </div>
+            <hr />
+            <Paging
+              totalRecords={totalItems}
+              pageLimit={productNumberPerPage}
+              pageNeighbours={3}
+              handlePageChange={handlePageChange}
+              sizing=""
+              alignment="justify-content-center"
+            />
           </div>
         </div>
-      </React.Fragment>
-    );
-  }
-}
+      </div>
+    </React.Fragment>
+  );
+};
 
 export default ProductListView;

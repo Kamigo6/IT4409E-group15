@@ -46,7 +46,7 @@ class Paging extends Component {
   }
 
   gotoPage = (page) => {
-    const { onPageChanged = (f) => f } = this.props;
+    const { handlePageChange = (f) => f } = this.props;
 
     const currentPage = Math.max(0, Math.min(page, this.totalPages));
 
@@ -57,7 +57,7 @@ class Paging extends Component {
       totalRecords: this.totalRecords,
     };
 
-    this.setState({ currentPage }, () => onPageChanged(paginationData));
+    this.setState({ currentPage }, () => handlePageChange(paginationData));
   };
 
   handleClick = (page, evt) => {
@@ -186,7 +186,7 @@ Paging.propTypes = {
   totalRecords: PropTypes.number.isRequired,
   pageLimit: PropTypes.number,
   pageNeighbours: PropTypes.number,
-  onPageChanged: PropTypes.func,
+  handlePageChange: PropTypes.func,
   sizing: PropTypes.string,
 };
 

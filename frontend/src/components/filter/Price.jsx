@@ -1,6 +1,6 @@
 import React from "react";
 
-const FilterPrice = ({ priceFilter }) => {
+const FilterPrice = ({ handleChangePriceFilter }) => {
   return (
     <div className="card mb-3">
       <div
@@ -19,7 +19,7 @@ const FilterPrice = ({ priceFilter }) => {
             type="radio"
             name="flexRadioDefault"
             id="flexRadioDefault5"
-            onClick={() => priceFilter("low")}
+            onClick={() => handleChangePriceFilter("low")}
           />
           <label
             className="form-check-label"
@@ -35,7 +35,7 @@ const FilterPrice = ({ priceFilter }) => {
             type="radio"
             name="flexRadioDefault"
             id="flexRadioDefault4"
-            onClick={() => priceFilter("low-medium")}
+            onClick={() => handleChangePriceFilter("low-medium")}
           />
           <label
             className="form-check-label"
@@ -51,7 +51,7 @@ const FilterPrice = ({ priceFilter }) => {
             type="radio"
             name="flexRadioDefault"
             id="flexRadioDefault3"
-            onClick={() => priceFilter("medium")}
+            onClick={() => handleChangePriceFilter("medium")}
           />
           <label
             className="form-check-label"
@@ -67,7 +67,7 @@ const FilterPrice = ({ priceFilter }) => {
             type="radio"
             name="flexRadioDefault"
             id="flexRadioDefault2"
-            onClick={() => priceFilter("high")}
+            onClick={() => handleChangePriceFilter("high")}
           />
           <label
             className="form-check-label"

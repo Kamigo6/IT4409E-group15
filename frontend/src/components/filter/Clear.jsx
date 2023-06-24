@@ -1,15 +1,13 @@
 import React from "react";
 
-export default function FilterClear({ clearFilter }) {
+export default function FilterClearButton({ clearFilters }) {
   return (
-    <div className="card mb-3">
-      <div className="card-body fw-bold text-uppercase">
-        Filter by{" "}
-        <button type="reset" className="btn btn-sm btn-light" onClick={() => clearFilter()}>
-          <span aria-hidden="true">&times;</span> Clear All
+      <div className="card mb-3 fw-bold text-uppercase">
+        <button type="reset" className="btn btn-sm btn-light" onClick={() => clearFilters()}>
+          Clear All Filters
         </button>
       </div>
-    </div>
+
   );
 };
 
