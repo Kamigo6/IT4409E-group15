@@ -51,17 +51,27 @@ const ProfileForm = (props) => {
             tips="You don't allow uploading a photo more than 5MB"
           />
           <p className="card-text">
-            With supporting text below as a natural lead-in to additional
-            content.
+            Please provide us your information for the best customer services!
           </p>
         </div>
         <ul className="list-group list-group-flush">
           <li className="list-group-item">
             <Field
-              name="name"
+              name="firstName"
               type="text"
               component={renderFormGroupField}
-              placeholder="Your name"
+              placeholder="First Name"
+              icon={IconPerson}
+              validate={[required, name]}
+              required={true}
+            />
+          </li>
+          <li className="list-group-item">
+            <Field
+              name="lastName"
+              type="text"
+              component={renderFormGroupField}
+              placeholder="Last Name"
               icon={IconPerson}
               validate={[required, name]}
               required={true}
@@ -72,7 +82,7 @@ const ProfileForm = (props) => {
               name="mobileNo"
               type="number"
               component={renderFormGroupField}
-              placeholder="Mobile no without country code"
+              placeholder="Phone Number"
               icon={IconPhone}
               validate={[required, maxLengthMobileNo, minLengthMobileNo, digit]}
               required={true}
@@ -85,7 +95,7 @@ const ProfileForm = (props) => {
               name="email"
               type="email"
               component={renderFormGroupField}
-              placeholder="Your email"
+              placeholder="Email"
               icon={IconEnvelop}
               validate={[required, email]}
               required={true}
@@ -93,10 +103,10 @@ const ProfileForm = (props) => {
           </li>
           <li className="list-group-item">
             <Field
-              name="location"
+              name="address"
               type="text"
               component={renderFormGroupField}
-              placeholder="Your location"
+              placeholder="Specific Address"
               icon={IconGeoAlt}
               validate={[required]}
               required={true}
@@ -104,7 +114,40 @@ const ProfileForm = (props) => {
           </li>
           <li className="list-group-item">
             <Field
-              name="dob"
+              name="district"
+              type="text"
+              component={renderFormGroupField}
+              placeholder="District"
+              icon={IconGeoAlt}
+              validate={[required]}
+              required={true}
+            />
+          </li>
+          <li className="list-group-item">
+            <Field
+              name="city"
+              type="text"
+              component={renderFormGroupField}
+              placeholder="City"
+              icon={IconGeoAlt}
+              validate={[required]}
+              required={true}
+            />
+          </li>
+          <li className="list-group-item">
+            <Field
+              name="country"
+              type="text"
+              component={renderFormGroupField}
+              placeholder="Country"
+              icon={IconGeoAlt}
+              validate={[required]}
+              required={true}
+            />
+          </li>
+          <li className="list-group-item">
+            <Field
+              name="birthday"
               type="date"
               component={renderFormGroupField}
               placeholder="Your birthdate"
