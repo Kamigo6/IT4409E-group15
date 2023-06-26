@@ -6,6 +6,7 @@ import TopMenu from "./components/TopMenu";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import "./App.min.css";
+import CustomerProfile from "./views/account/CustomerProfileView";
 // import ProductListView from "./views/product/List"
 const HomeView = lazy(() => import("./views/Home"));
 const SignInView = lazy(() => import("./views/account/SignIn"));
@@ -57,7 +58,8 @@ function App() {
               path="/account/forgotpassword"
               element={<ForgotPasswordView />}
             />
-            <Route exact path="/account/profile" element={<MyProfileView />} />
+            <Route exact path="/account/profile" element={<CustomerProfile />} />
+            <Route exact path="/account/profile/edit" element={<MyProfileView />} />
             <Route exact path="/account/orders" element={<OrdersView />} />
             <Route exact path="/account/wishlist" element={<WishlistView />} />
             <Route
