@@ -2,12 +2,13 @@ import React from "react";
 import { Field, reduxForm } from "redux-form";
 import { compose } from "redux";
 import renderFormGroupField from "../../helpers/renderFormGroupField";
-import { required, maxLength20, minLength8 } from "../../helpers/validation";
+import { required, maxLength20, minLength8, passwordsMatch } from "../../helpers/validation";
 import { ReactComponent as IconShieldLock } from "bootstrap-icons/icons/shield-lock.svg";
 import { ReactComponent as IconKey } from "bootstrap-icons/icons/key.svg";
 
 const ChangePasswordForm = (props) => {
   const { handleSubmit, submitting, onSubmit, submitFailed } = props;
+  console.log(props);
   return (
     <div className="card border-info">
       <h6 className="card-header bg-info text-white">
@@ -33,7 +34,7 @@ const ChangePasswordForm = (props) => {
             className="mb-3"
           />
           <Field
-            name="password"
+            name="newPassword"
             type="password"
             label="New Password"
             component={renderFormGroupField}
@@ -48,11 +49,11 @@ const ChangePasswordForm = (props) => {
           <Field
             name="confirmPassword"
             type="password"
-            label="Confirm New password"
+            label="Confirm New Password"
             component={renderFormGroupField}
             placeholder="******"
             icon={IconShieldLock}
-            validate={[required, maxLength20, minLength8]}
+            validate={[required, maxLength20, minLength8, passwordsMatch]}
             required={true}
             maxLength="20"
             minLength="8"
@@ -60,7 +61,7 @@ const ChangePasswordForm = (props) => {
           />
           <button
             type="submit"
-            className="btn btn-info  d-flex"
+            className="btn btn-info d-flex"
             disabled={submitting}
           >
             Submit

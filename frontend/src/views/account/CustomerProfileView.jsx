@@ -62,11 +62,11 @@ const CustomerProfile = () => {
                     <p>Mobile Number: {mobileNumber}</p>
                     <p>Email: {email}</p>
                     <p>
-                        <Link to="/account/profile/edit">
-                            <button type="button" class="btn btn-secondary">Edit Profile</button>
+                        <Link to="/account/profile/edit" state={customer}>
+                            <button type="button" className="btn btn-secondary">Edit Profile</button>
                         </Link>
                     </p>
-                    {isAdmin && <p><button type="button" class="btn btn-danger">Go to Administrator panel</button></p>}
+                    {isAdmin && <p><button type="button" className="btn btn-danger">Go to Administrator panel</button></p>}
                 </div>
             </div>
             <h3 className="mt-4">Location</h3>

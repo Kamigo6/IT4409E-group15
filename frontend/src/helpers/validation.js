@@ -56,3 +56,9 @@ export const isOverEighteen = (date) => {
   }
   return "To successfully open an account you have to be at least 18 years old.";
 };
+export const passwordsMatch = (value, allValues) => {
+  if (value !== allValues.password) {
+    return "Passwords do not match";
+  }
+  return undefined;
+};

@@ -1,21 +1,21 @@
 import React, { useState, useEffect, lazy } from "react";
+import { useLocation } from "react-router-dom";
 
 const ProfileForm = lazy(() => import("../../components/account/ProfileForm"));
 const NewProfileForm = lazy(() => import("../../components/account/NewProfileForm"));
 const ChangePasswordForm = lazy(() => import("../../components/account/ChangePasswordForm"));
+const NewChangePasswordForm = lazy(() => import("../../components/account/NewChangePasswordForm"));
 const SettingForm = lazy(() => import("../../components/account/SettingForm"));
 const CardListForm = lazy(() => import("../../components/account/CardListForm"));
+const ShippingInformationForm = lazy(() => import("../../components/account/ShippingInformationForm"));
 
 const MyProfileView = () => {
+  const { state: customer } = useLocation();
   const [imagePreview, setImagePreview] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
 
   const onSubmitProfile = async (values) => {
     console.log('a');
-  };
-
-  const onSubmitChangePassword = async (values) => {
-    alert(JSON.stringify(values));
   };
 
   const onImageChange = async (obj) => {
@@ -47,11 +47,13 @@ const MyProfileView = () => {
           />
         </div>
         <div className="col-md-8">
-          <ChangePasswordForm onSubmit={onSubmitChangePassword} />
+          <NewChangePasswordForm customer={customer}/>
+          <br />
+          <ShippingInformationForm customer={customer}/>
+          <br />
+          <CardListForm customer={customer}/>
           <br />
           <SettingForm />
-          <br />
-          <CardListForm />
         </div>
       </div>
     </div>

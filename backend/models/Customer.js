@@ -76,24 +76,19 @@ const customerSchema = new mongoose.Schema({
     paymentMethods: [
         {
             cardNumber: {
-                type: String,
-                required: true
+                type: String, 
             },
             nameOnCard: {
                 type: String,
-                required: true
             },
             expirationMonth: {
                 type: String,
-                required: true
             },
             expirationYear: {
-                type: String,
-                required: true
+                type: String, 
             },
             CVV: {
                 type: String,
-                required: true
             }
         }
     ],

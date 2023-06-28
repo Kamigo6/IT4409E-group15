@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import fs from 'fs';
 import axios from 'axios';
 import { ReactComponent as IconPersonSquareFill } from "bootstrap-icons/icons/person-lines-fill.svg";
 
