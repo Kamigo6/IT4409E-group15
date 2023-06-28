@@ -9,7 +9,7 @@ const SettingForm = () => {
   return (
     <div className="card border-danger">
       <h6 className="card-header">
-        <IconGearFill className="text-danger" /> Settiing
+        <IconGearFill className="text-danger" /> Setting
       </h6>
       <ul className="list-group list-group-flush">
         <li className="list-group-item bg-danger text-white">
