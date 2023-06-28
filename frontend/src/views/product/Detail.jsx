@@ -61,7 +61,7 @@ class ProductDetailView extends Component {
 
       const featredProducts = response.data.filter((product) => {
         return products[0].categories.includes(product.categories[0]);
-      });
+      }).slice(0, 5);
 
       // console.log(featredProducts)
       this.setState({ products, ratings, category: products[0].category, featredProducts });
