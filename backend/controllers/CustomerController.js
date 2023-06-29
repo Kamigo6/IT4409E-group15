@@ -15,7 +15,7 @@ const getCustomerByToken = async (req, res) => {
         return res.status(401).json({ error: 'Invalid token' });
     }
     try {
-        const customer = await Customer.findById(customerId);
+        const customer = await Customer.findById(customerId).populate('cart.productId');
         if (!customer) {
             return res.status(404).json({ error: 'Customer not found' });
         }
