@@ -34,6 +34,32 @@ const ProductListView = ({ catName }) => {
   const [priceFilterMode, setPriceFilterMode] = useState("all");
   const [rank, setRank] = useState("latest");
   const [view, setView] = useState("list");
+  const [customer, setCustomer] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+
+    const fetchCustomer = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/customers/token', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        if (response.ok) {
+          const customerData = await response.json();
+          setCustomer(customerData);
+        } else {
+          console.error('Failed to fetch customer information');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    fetchCustomer();
+  }, []);
 
   useEffect(() => {
     initializeProducts();
@@ -165,13 +191,13 @@ const ProductListView = ({ catName }) => {
               {view === "grid" &&
                 filteredProducts.slice((currentPage - 1) * productNumberPerPage, currentPage * productNumberPerPage).map((product, idx) => (
                   <div key={idx} className="col-md-4">
-                    <CardProductGrid data={product} />
+                    <CardProductGrid product={product}/>
                   </div>
                 ))}
               {view === "list" &&
                 filteredProducts.slice((currentPage - 1) * productNumberPerPage, currentPage * productNumberPerPage).map((product, idx) => (
                   <div key={idx} className="col-md-12">
-                    <CardProductList data={product} />
+                    <CardProductList product={product}/>
                   </div>
                 ))}
             </div>
