@@ -1,13 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { ReactComponent as IconStarFill } from "bootstrap-icons/icons/star-fill.svg";
-import { ReactComponent as IconTruckFill } from "bootstrap-icons/icons/truck.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartPlus, faHeart } from "@fortawesome/free-solid-svg-icons";
+import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
-const CardProductList2 = (props) => {
-  const product = props.data;
-  console.log(product);
+const CardProductList2 = ({product, handleRemove}) => {
   return (
     <div className="card">
       <div className="row g-0">
@@ -37,20 +33,14 @@ const CardProductList2 = (props) => {
               )}
             </div>
 
-            <div className="btn-group  d-flex" role="group">
-              <button
-                type="button"
-                className="btn btn-sm btn-primary"
-                title="Add to cart"
-              >
-                <FontAwesomeIcon icon={faCartPlus} />
-              </button>
+            <div className="btn-group d-flex" role="group">
               <button
                 type="button"
                 className="btn btn-sm btn-outline-secondary"
                 title="Add to wishlist"
+                onClick={() => handleRemove(product._id)}
               >
-                <FontAwesomeIcon icon={faHeart} />
+                <FontAwesomeIcon icon={faTrashAlt} />
               </button>
             </div>
           </div>

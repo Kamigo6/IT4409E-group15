@@ -1,59 +1,49 @@
-import React, { Component, lazy, useEffect, useState } from "react";
+import React, { useEffect, useState, lazy } from "react";
 import axios from 'axios';
+import { Link } from "react-router-dom";
 
-const CardProductList2 = lazy(() =>
-  import("../../components/card/CardProductList2")
-);
+const CardProductWishList = lazy(() => import("../../components/card/CardProductWishList"));
 
 const WishlistView = () => {
   const token = localStorage.getItem('token');
-  const [products, setProducts] = useState([]);
-  const [productsId, setProductsId] = useState([]);
-  const [customer, setCustomer] = useState(null);
+  const [customerId, setCustomerId] = useState(null);
+  const [wishListData, setWishListData] = useState([]);
 
   useEffect(() => {
-    getCustomer();
-    // console.log(customer);
-    getProducts();
-    // console.log(products);
-  });
-
-  const getCustomer = async () => {
-    try {
-
-      const response = await fetch('http://localhost:8000/customers/token', {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-
-      if (response.ok) {
-        const customerData = await response.json();
-        setCustomer(customerData);
-
-        let array = [];
-        customerData.wishList.forEach(element => {
-          array.push(element.productId);
+    const getCustomer = async () => {
+      try {
+        const response = await axios.get('http://localhost:8000/customers/token', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
         });
-        setProductsId(array);
-      } else {
-        console.error('Failed to fetch customer information');
+        const customer = response.data
+        setWishListData(customer.wishList);
+        setCustomerId(customer._id);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    getCustomer();
+  }, []);
+
+  const handleRemoveProductWishList = async (productId) => {
+    try {
+      const updatedWishlist = wishListData.filter((product) => product.productId._id !== productId);
+      console.log(updatedWishlist);
+      const response = await axios.patch(`http://localhost:8000/customers/${customerId}`,
+        { wishList: updatedWishlist },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+      if (response.status === 200) {
+        setWishListData(updatedWishlist);
       }
     } catch (error) {
-      console.error('Error:', error);
-    }
-  };
-  const getProducts = async () => {
-    try {
-      const response = await axios.get("http://localhost:8000/products");
-
-      const products = response.data.filter((product) => {
-        return productsId.includes(product._id);
-      });
-      setProducts(products);
-
-    } catch (error) {
-      console.error("Error fetching products:", error);
+      console.error("Error removing product from wishlist:", error);
     }
   };
 
@@ -61,17 +51,14 @@ const WishlistView = () => {
     <div className="container mb-3">
       <h4 className="my-3">Wishlists</h4>
       <div className="row g-3">
-        {products.map((product) => {
-          return (
-            <div className="col-md-6">
-              <CardProductList2 data={product} />
-            </div>
-          );
-        })}
+        {wishListData.map((product, index) => (
+          <div className="col-md-6" key={index}>
+            <CardProductWishList product={product.productId} handleRemove={handleRemoveProductWishList} />
+          </div>
+        ))}
       </div>
     </div>
   );
 }
-
 
 export default WishlistView;
