@@ -102,7 +102,7 @@ const ChangePasswordForm = ({ customer }) => {
           {isPasswordChanged === true && (
             <div className="text-success">Password changed successfully</div>
           )}
-          <button type="submit" className="btn btn-info" disabled={submitting}>
+          <button type="submit" className="submit-button" disabled={submitting}>
             Submit
           </button>
         </form>

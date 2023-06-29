@@ -1,0 +1,45 @@
+.form-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .form-table td {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .form-table td:first-child {
+    width: 150px;
+    font-weight: bold;
+  }
+  
+  .form-table label {
+    display: block;
+    margin-bottom: 4px;
+  }
+  .input-field {
+    width: 100%;
+  }
+  .submit-button {
+    padding: 10px 20px;
+    background-color:#04AA6D;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .submit-button:hover {
+    background-color: #4CAF50;
+  }
+  
+  .submit-button-container {
+    display: flex;
+    justify-content: center;
+  }
+  .preview-container {
+    font-size: 17px;
+    font-weight: bold;
+    text-align: center;
+  }
+  

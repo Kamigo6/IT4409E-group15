@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { ReactComponent as IconCreditCard2FrontFill } from "bootstrap-icons/icons/credit-card-2-front-fill.svg";
 import { ReactComponent as IconCreditCard } from "bootstrap-icons/icons/credit-card.svg";
@@ -141,7 +141,7 @@ const CardListForm = ({ customer }) => {
                   required
                 />
               </div>
-              <button type="submit" className="btn btn-success">Add Card</button>
+              <button type="submit" className="submit-button">Add Card</button>
             </form>
           </li>
         ) : null}

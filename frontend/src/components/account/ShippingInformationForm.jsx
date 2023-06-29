@@ -154,7 +154,7 @@ const ShippingInformationForm = ({ customer }) => {
                   />
                 </div>
               </div>
-              <button type="submit" className="btn btn-success">
+              <button type="submit" className="submit-button">
                 Add Shipping Info
               </button>
             </form>

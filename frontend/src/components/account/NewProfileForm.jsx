@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { ReactComponent as IconPersonSquareFill } from "bootstrap-icons/icons/person-lines-fill.svg";
+import './ProfileForm.css';
 
 const CustomerForm = () => {
     const [avatarImageUrl, setAvatarImageUrl] = useState('');
@@ -17,15 +18,15 @@ const CustomerForm = () => {
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
-      
+
         const reader = new FileReader();
         reader.onloadend = () => {
-          const base64Data = reader.result;
-          setAvatarImageUrl(base64Data);
-          setImagePreview(base64Data);
+            const base64Data = reader.result;
+            setAvatarImageUrl(base64Data);
+            setImagePreview(base64Data);
         };
         reader.readAsDataURL(file);
-      };
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -68,103 +69,204 @@ const CustomerForm = () => {
 
     return (
         <div className="card border-primary">
-            <h6 className="card-header">
+            <h6 className="card-header ">
                 <IconPersonSquareFill /> Profile Detail
             </h6>
             <form onSubmit={handleSubmit}>
                 <div>
+                    {imagePreview && (
+                        <img src={imagePreview} alt="Avatar Preview" className="card-img-top rounded-0 img-fluid bg-secondary mb-4" />
+                    )}
+                    <div className="preview-container mb-4">
                     <label>
-                        Upload Avatar Image:
                         <input type="file" onChange={handleImageChange} />
                     </label>
-                    <br />
-                    Preview:
-                    {imagePreview && (
-                        <img src={imagePreview} alt="Avatar Preview" className="card-img-top rounded-0 img-fluid bg-secondary" />
-                    )}
+                    </div>
                 </div>
-                <ul className="list-group list-group-flush">
-                    <li className="list-group-item">
-                        <label>
-                            First Name:
-                            <input
-                                type="text"
-                                value={firstName}
-                                onChange={(e) => setFirstName(e.target.value)}
-                            />
-                        </label>
-                    </li>
-                    <li className="list-group-item">
-                        <label>
-                            Last Name:
-                            <input
-                                type="text"
-                                value={lastName}
-                                onChange={(e) => setLastName(e.target.value)}
-                            />
-                        </label>
-                    </li><li className="list-group-item">
-                        <label>
-                            Birthday:
-                            <input
-                                type="text"
-                                value={birthday}
-                                onChange={(e) => setBirthday(e.target.value)}
-                            />
-                        </label></li><li className="list-group-item">
-                        <label>
-                            Email:
-                            <input
-                                type="text"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
-                        </label></li><li className="list-group-item">
-                        <label>
-                            Phone Number:
-                            <input
-                                type="text"
-                                value={mobileNumber}
-                                onChange={(e) => setMobileNumber(e.target.value)}
-                            />
-                        </label></li><li className="list-group-item">
-                        <label>
-                            Address:
-                            <input
-                                type="text"
-                                value={address}
-                                onChange={(e) => setAddress(e.target.value)}
-                            />
-                        </label></li><li className="list-group-item">
-                        <label>
-                            District:
-                            <input
-                                type="text"
-                                value={district}
-                                onChange={(e) => setDistrict(e.target.value)}
-                            />
-                        </label></li><li className="list-group-item">
-                        <label>
-                            City:
-                            <input
-                                type="text"
-                                value={city}
-                                onChange={(e) => setCity(e.target.value)}
-                            />
-                        </label></li><li className="list-group-item">
-                        <label>
-                            Country:
-                            <input
-                                type="text"
-                                value={country}
-                                onChange={(e) => setCountry(e.target.value)}
-                            />
-                        </label></li><li className="list-group-item">
-                        <button type="submit">Submit</button>
-                    </li>
-                </ul>
+                <ProfileForm
+                    firstName={firstName}
+                    lastName={lastName}
+                    birthday={birthday}
+                    email={email}
+                    mobileNumber={mobileNumber}
+                    address={address}
+                    district={district}
+                    city={city}
+                    country={country}
+                    setFirstName={setFirstName}
+                    setLastName={setLastName}
+                    setBirthday={setBirthday}
+                    setEmail={setEmail}
+                    setMobileNumber={setMobileNumber}
+                    setAddress={setAddress}
+                    setDistrict={setDistrict}
+                    setCity={setCity}
+                    setCountry={setCountry}
+                    handleSubmit={handleSubmit}
+                />
             </form>
         </div>
+    );
+};
+
+const ProfileForm = (props) => {
+    const {
+        firstName,
+        lastName,
+        birthday,
+        email,
+        mobileNumber,
+        address,
+        district,
+        city,
+        country,
+        setFirstName,
+        setLastName,
+        setBirthday,
+        setEmail,
+        setMobileNumber,
+        setAddress,
+        setDistrict,
+        setCity,
+        setCountry,
+    } = props;
+
+    return (
+        <table className="form-table">
+            <tbody>
+                <tr>
+                    <td>
+                        <label>First Name:</label>
+                    </td>
+                    <td>
+                        <input
+                            type="text"
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
+                            className="input-field"
+                        />
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Last Name:</label>
+                    </td>
+                    <td>
+                        <input
+                            type="text"
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
+                            className="input-field"
+                        />
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Birthday:</label>
+                    </td>
+                    <td>
+                        <input
+                            type="date"
+                            value={birthday}
+                            onChange={(e) => setBirthday(e.target.value)}
+                            className="input-field"
+                        />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Email:</label>
+                    </td>
+                    <td>
+                        <input
+                            type="text"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="input-field"
+                        />
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Phone Number:</label>
+                    </td>
+                    <td>
+                        <input
+                            type="text"
+                            value={mobileNumber}
+                            onChange={(e) => setMobileNumber(e.target.value)}
+                            className="input-field"
+                        />
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Address:</label>
+                    </td>
+                    <td>
+                        <input
+                            type="text"
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)}
+                            className="input-field"
+                        />
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>District:</label>
+                    </td>
+                    <td>
+                        <input
+                            type="text"
+                            value={district}
+                            onChange={(e) => setDistrict(e.target.value)}
+                            className="input-field"
+                        />
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>City:</label>
+                    </td>
+                    <td>
+                        <input
+                            type="text"
+                            value={city}
+                            onChange={(e) => setCity(e.target.value)}
+                            className="input-field"
+                        />
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Country:</label>
+                    </td>
+                    <td>
+                        <input
+                            type="text"
+                            value={country}
+                            onChange={(e) => setCountry(e.target.value)}
+                            className="input-field"
+                        />
+
+                    </td>
+                </tr>
+                <tr>
+                    <td colSpan="2" className="submit-button-container">
+                        <button type="submit" className="submit-button">Submit</button>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
     );
 };
 
