@@ -1,20 +1,32 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 function AdminPage() {
   const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [name, setName] = useState('');
-  const [price, setPrice] = useState('');
+  const [categories, setCategories] = useState('');
+  const [detail, setDetail] = useState('');
+  const [imageUrls, setImageUrls] = useState('');
+  const [price, setPrice] = useState(0);
+  const [isAvailable, setIsAvailable] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(20);
+
 
   useEffect(() => {
-    // Fetch products from the backend API
     fetchProducts();
   }, []);
 
+  useEffect(() => {
+    filterProducts();
+  }, [searchTerm, products]);
+
   const fetchProducts = async () => {
     try {
-      const response = await fetch('/api/products');
-      const data = await response.json();
-      setProducts(data);
+      const response = await axios.get('http://localhost:8000/products');
+      setProducts(response.data);
     } catch (error) {
       console.error('Error fetching products:', error);
     }
@@ -24,17 +36,22 @@ function AdminPage() {
     event.preventDefault();
 
     try {
-      const response = await fetch('/api/products', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name, price }),
+      const response = await axios.post('http://localhost:8000/products', {
+        name,
+        categories: categories.split(',').map((category) => category.trim()),
+        detail,
+        imageUrls: imageUrls.split(',').map((imageUrl) => imageUrl.trim()),
+        price,
+        isAvailable,
       });
 
-      if (response.ok) {
+      if (response.status === 201) {
         setName('');
-        setPrice('');
+        setCategories('');
+        setDetail('');
+        setImageUrls('');
+        setPrice(0);
+        setIsAvailable(true);
         fetchProducts();
       } else {
         console.error('Failed to add product');
@@ -46,11 +63,9 @@ function AdminPage() {
 
   const handleDeleteProduct = async (productId) => {
     try {
-      const response = await fetch(`/api/products/${productId}`, {
-        method: 'DELETE',
-      });
+      const response = await axios.delete(`http://localhost:8000/products/${productId}`);
 
-      if (response.ok) {
+      if (response.status === 200) {
         fetchProducts();
       } else {
         console.error('Failed to delete product');
@@ -60,6 +75,26 @@ function AdminPage() {
     }
   };
 
+  const filterProducts = () => {
+    const filteredProducts = products.filter((product) =>
+      product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredProducts(filteredProducts);
+  };
+
+  const handleSearch = () => {
+    // Implement search logic here
+    const filteredProducts = products.filter((product) =>
+      product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setProducts(filteredProducts);
+  };
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredProducts.slice(indexOfFirstItem, indexOfLastItem);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
   return (
     <div>
       <h1>Product Admin</h1>
@@ -75,16 +110,57 @@ function AdminPage() {
             onChange={(e) => setName(e.target.value)}
             required
           />
+          <label htmlFor="categories">Categories (comma-separated):</label>
+          <input
+            type="text"
+            id="categories"
+            value={categories}
+            onChange={(e) => setCategories(e.target.value)}
+            required
+          />
+          <label htmlFor="detail">Detail:</label>
+          <textarea
+            id="detail"
+            value={detail}
+            onChange={(e) => setDetail(e.target.value)}
+            required
+          />
+          <label htmlFor="imageUrls">Image URLs (comma-separated):</label>
+          <input
+            type="text"
+            id="imageUrls"
+            value={imageUrls}
+            onChange={(e) => setImageUrls(e.target.value)}
+            required
+          />
           <label htmlFor="price">Price:</label>
           <input
             type="number"
             id="price"
             value={price}
-            onChange={(e) => setPrice(e.target.value)}
+            onChange={(e) => setPrice(parseFloat(e.target.value))}
             required
+          />
+          <label htmlFor="isAvailable">Is Available:</label>
+          <input
+            type="checkbox"
+            id="isAvailable"
+            checked={isAvailable}
+            onChange={(e) => setIsAvailable(e.target.checked)}
           />
           <button type="submit">Add Product</button>
         </form>
+      </div>
+
+      <div>
+        <h2>Search Products</h2>
+        <input
+          type="text"
+          placeholder="Search by name"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <button onClick={handleSearch}>Search</button>
       </div>
 
       <h2>Product List</h2>
@@ -92,17 +168,21 @@ function AdminPage() {
         <thead>
           <tr>
             <th>Name</th>
+            <th>Categories</th>
             <th>Price</th>
+            <th>Is Available</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          {products.map((product) => (
-            <tr key={product.id}>
+          {currentItems.map((product) => (
+            <tr key={product._id}>
               <td>{product.name}</td>
+              <td>{product.categories.join(', ')}</td>
               <td>{product.price}</td>
+              <td>{product.isAvailable ? 'Yes' : 'No'}</td>
               <td>
-                <button onClick={() => handleDeleteProduct(product.id)}>
+                <button onClick={() => handleDeleteProduct(product._id)}>
                   Delete
                 </button>
               </td>
@@ -110,6 +190,17 @@ function AdminPage() {
           ))}
         </tbody>
       </table>
+      <div>
+        <ul className="pagination">
+          {Array.from({ length: Math.ceil(filteredProducts.length / itemsPerPage) }).map(
+            (item, index) => (
+              <li key={index}>
+                <button onClick={() => paginate(index + 1)}>{index + 1}</button>
+              </li>
+            )
+          )}
+        </ul>
+      </div>
     </div>
   );
 }
