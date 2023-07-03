@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from 'axios';
 
 function AdminPage() {
+  const navigate = useNavigate();
   const { state: admin } = useLocation();
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -100,7 +101,8 @@ function AdminPage() {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   if (!admin?.isAdmin) {
-    return <h1 className='text-danger'>Not authenticated</h1>
+    navigate('/');
+    return null;
   }
 
   return (
