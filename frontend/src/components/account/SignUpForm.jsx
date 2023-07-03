@@ -96,6 +96,7 @@ const SignUpForm = (props) => {
         max="999999999999999"
         min="9999"
         className="mb-3"
+        required={true}
       />
       <Field
         name="email"
@@ -103,6 +104,7 @@ const SignUpForm = (props) => {
         label="Email"
         component={renderFormField}
         placeholder="Email"
+        required={true}
       />
       <Field
         name="gender"
@@ -110,6 +112,7 @@ const SignUpForm = (props) => {
         label="Gender"
         component={renderFormField}
         placeholder="Female/Male/Other"
+        required={true}
       />
       <Field
         name="birthday"
@@ -117,6 +120,7 @@ const SignUpForm = (props) => {
         label="Birthday"
         component={renderFormField}
         placeholder="Birthday"
+        required={true}
       />
       <Field
         name="address"
@@ -124,6 +128,7 @@ const SignUpForm = (props) => {
         label="Address"
         component={renderFormField}
         placeholder="Address"
+        required={true}
       />
       <Field
         name="district"
@@ -131,6 +136,7 @@ const SignUpForm = (props) => {
         label="District"
         component={renderFormField}
         placeholder="District"
+        required={true}
       />
       <Field
         name="city"
@@ -138,6 +144,7 @@ const SignUpForm = (props) => {
         label="City"
         component={renderFormField}
         placeholder="City"
+        required={true}
       />
       <Field
         name="country"
@@ -145,6 +152,7 @@ const SignUpForm = (props) => {
         label="Country"
         component={renderFormField}
         placeholder="Country"
+        required={true}
       />
 
       <div className="d-grid">

@@ -136,9 +136,11 @@ const CustomerProfile = () => {
                 </button>
               </Link>
               {isAdmin && (
+                <Link to="/admin" state={customer}>
                 <button type="button" className="admin-panel-btn btn btn-danger">
                   Go to Administrator panel
                 </button>
+                </Link>
               )}
             </div>
           </form>

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from "react-router-dom";
 import axios from 'axios';
 
 function AdminPage() {
+  const { state: admin } = useLocation();
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [name, setName] = useState('');
@@ -14,6 +16,7 @@ function AdminPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(20);
 
+  console.log(admin);
 
   useEffect(() => {
     fetchProducts();
@@ -95,6 +98,11 @@ function AdminPage() {
   const currentItems = filteredProducts.slice(indexOfFirstItem, indexOfLastItem);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  if (!admin?.isAdmin) {
+    return <h1 className='text-danger'>Not authenticated</h1>
+  }
+
   return (
     <div>
       <h1>Product Admin</h1>
