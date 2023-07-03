@@ -24,10 +24,11 @@ const categoryNameMap = {
   "all": "All"
 };
 
-const productNumberPerPage = 2;
+const productNumberPerPage = 5;
 
 const ProductListView = ({ catName }) => {
   const [products, setProducts] = useState([]);
+  const [productsByCat, setProductsByCat] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
@@ -62,45 +63,43 @@ const ProductListView = ({ catName }) => {
   }, []);
 
   useEffect(() => {
+    const initializeProducts = async () => {
+      try {
+        const response = await axios.get("http://localhost:8000/products");
+        setProducts(response.data);
+        setTotalItems(response.data.length);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
     initializeProducts();
   }, []);
-
-  const initializeProducts = async () => {
-    try {
-      const response = await axios.get("http://localhost:8000/products");
-      setProducts(response.data);
-      setFilteredProducts(response.data);
-      setTotalItems(response.data.length);
-    } catch (error) {
-      console.error("Error fetching products:", error);
-    }
-  };
 
   useEffect(() => {
     setCurrentPage(1);
     if (catName === "all") {
-      setFilteredProducts(products);
+      setProductsByCat(products);
     }
     else {
       console.log(catName);
-      setFilteredProducts(products.filter(product => product.categories.includes(catName)));
+      setProductsByCat(products.filter(product => product.categories.includes(catName)));
     }
-  }, [catName]);
+  }, [catName, products]);
 
   useEffect(() => {
     if (priceFilterMode === "all") {
-      setFilteredProducts(products);
+      setFilteredProducts(productsByCat);
     }
     else if (priceFilterMode === "low") {
-      setFilteredProducts(products.filter(product => product.price < 10));
+      setFilteredProducts(productsByCat.filter(product => product.price < 10));
     } else if (priceFilterMode === "low-medium") {
-      setFilteredProducts(products.filter(product => product.price >= 10 && product.price <= 20));
+      setFilteredProducts(productsByCat.filter(product => product.price >= 10 && product.price <= 20));
     } else if (priceFilterMode === "medium") {
-      setFilteredProducts(products.filter(product => product.price >= 20 && product.price <= 30));
+      setFilteredProducts(productsByCat.filter(product => product.price >= 20 && product.price <= 30));
     } else if (priceFilterMode === "high") {
-      setFilteredProducts(products.filter(product => product.price >= 30));
+      setFilteredProducts(productsByCat.filter(product => product.price >= 30));
     }
-  }, [priceFilterMode]);
+  }, [priceFilterMode, productsByCat]);
 
   const clearFilters = () => {
     setPriceFilterMode("all");
@@ -149,8 +148,7 @@ const ProductListView = ({ catName }) => {
             <div className="row">
               <div className="col-7">
                 <span className="align-middle fw-bold">
-                  {totalItems} results for{" "}
-                  <span className="text-warning">{categoryNameMap[catName]}</span>
+                  {filteredProducts.length} results
                 </span>
               </div>
               <div className="col-5 d-flex justify-content-end">

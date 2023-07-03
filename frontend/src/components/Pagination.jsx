@@ -57,10 +57,6 @@ const Pagination = ({
 
     // Get the array of page numbers
     const pageNumbers = getPageNumbers();
-    console.log(filteredProducts,
-        pageLimit,
-        pageNeighbours,
-        currentPage,);
     return (
         <ul className={`pagination ${alignment}`}>
             {/* Previous Page */}
@@ -100,7 +96,7 @@ const Pagination = ({
 };
 
 Pagination.propTypes = {
-    filteredProducts: PropTypes.object.isRequired,
+    filteredProducts: PropTypes.array.isRequired,
     pageLimit: PropTypes.number.isRequired,
     pageNeighbours: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,
