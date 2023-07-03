@@ -14,7 +14,7 @@ class CheckoutView extends Component {
   render() {
     return (
       <React.Fragment>
-        <div className="bg-secondary border-top p-4 text-white mb-3">
+        <div className="border-top p-4 text-white mb-3" style={{ background: "DodgerBlue" }}>
           <h1 className="display-6">Checkout</h1>
         </div>
         <div className="container mb-3">

@@ -48,7 +48,7 @@ const CartView = () => {
       setTotalPrice(0);
     }
   }, [cartData]);
-  
+
 
   const calculateTotalPrice = () => {
     let total = 0;
@@ -106,7 +106,7 @@ const CartView = () => {
     if (isNaN(newQuantity) || newQuantity <= 0 || !Number.isInteger(newQuantity)) {
       return;
     }
-  
+
     setCartData((prevCartData) => {
       const updatedCartData = [...prevCartData];
       updatedCartData[index].quantity = newQuantity;
@@ -114,7 +114,7 @@ const CartView = () => {
       return updatedCartData;
     });
   };
-  
+
   const handleDeleteItem = (index) => {
     setCartData((prevCartData) => {
       const updatedCartData = [...prevCartData];
@@ -123,7 +123,7 @@ const CartView = () => {
       return updatedCartData;
     });
   };
-  
+
 
   const onSubmitApplyCouponCode = async (values) => {
     alert(JSON.stringify(values));
@@ -131,23 +131,23 @@ const CartView = () => {
 
   return (
     <React.Fragment>
-      <div className="bg-secondary border-top p-4 text-white mb-3">
-        <h1 className="display-6">Shopping Cart</h1>
+      <div className="border-top p-4 text-white mb-3 " style={{ background: "DodgerBlue" }}>
+        <h1 className="display-8">Shopping Cart</h1>
       </div>
-      <div className="container mb-3">
+      <div className="container mb -6">
         <div className="row">
-          <div className="col-md-9">
+          <div className="col-md-8">
             <div className="card">
               <div className="table-responsive">
                 <table className="table table-borderless">
                   <thead className="text-muted">
                     <tr className="small text-uppercase">
-                      <th scope="col">Product</th>
-                      <th scope="col" width={120}>
-                        Quantity
+                      <th scope="col" className="text-center"><b>Product</b></th>
+                      <th scope="col" width={120} className="text-center">
+                        <b>Quantity</b>
                       </th>
                       <th scope="col" width={150}>
-                        Price
+                        <b>Price</b>
                       </th>
                       <th scope="col" className="text-end" width={130}></th>
                     </tr>
@@ -220,12 +220,11 @@ const CartView = () => {
             </div>
             <div className="alert alert-success mt-3">
               <p className="m-0">
-                <IconTruck className="i-va me-2" /> Free Delivery within 1-2
-                weeks
+                <IconTruck className="i-va me-2" /> Free Delivery within 1-2 weeks
               </p>
             </div>
           </div>
-          <div className="col-md-3">
+          <div className="col-md-4">
             <div className="card mb-3">
               <div className="card-body">
                 <CouponApplyForm onSubmit={onSubmitApplyCouponCode} />
@@ -234,7 +233,7 @@ const CartView = () => {
             <div className="card">
               <div className="card-body">
                 <dl className="row border-bottom">
-                  <dt className="col-6">Total price:</dt>
+                  <dt className="col-6">Total:</dt>
                   <dd className="col-6 text-end">${totalPrice}</dd>
 
                   <dt className="col-6 text-success">Discount:</dt>
@@ -246,8 +245,8 @@ const CartView = () => {
                   <dd className="col-6 text-success text-end">-$68</dd>
                 </dl>
                 <dl className="row">
-                  <dt className="col-6">Total:</dt>
-                  <dd className="col-6 text-end  h5">
+                  <dt className="col-6">Total price:</dt>
+                  <dd className="col-6 text-end  h6">
                     <strong>${totalPrice}</strong>
                   </dd>
                 </dl>
