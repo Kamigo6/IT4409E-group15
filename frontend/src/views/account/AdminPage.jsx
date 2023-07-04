@@ -4,7 +4,7 @@ import axios from 'axios';
 
 function AdminPage() {
   const navigate = useNavigate();
-  const { state: admin } = useLocation();
+  const [admin, setAdmin] = useState(null);
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [name, setName] = useState('');
@@ -20,13 +20,37 @@ function AdminPage() {
   console.log(admin);
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    const fetchCustomer = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/customers/token', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        if (response.ok) {
+          const customerData = await response.json();
+          if (!customerData?.isAdmin) {
+            navigate('/');
+            return null;
+          }
+          setAdmin(customerData);
+        } else {
+          console.error('Failed to fetch customer information');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    fetchCustomer();
     fetchProducts();
   }, []);
 
   useEffect(() => {
     filterProducts();
   }, [searchTerm, products]);
-
+  
   const fetchProducts = async () => {
     try {
       const response = await axios.get('http://localhost:8000/products');
@@ -99,11 +123,6 @@ function AdminPage() {
   const currentItems = filteredProducts.slice(indexOfFirstItem, indexOfLastItem);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  if (!admin?.isAdmin) {
-    navigate('/');
-    return null;
-  }
 
   return (
     <div>

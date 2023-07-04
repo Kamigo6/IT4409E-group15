@@ -1,5 +1,5 @@
 import React, { lazy, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTh, faBars } from "@fortawesome/free-solid-svg-icons";
 import axios from 'axios';
@@ -27,6 +27,7 @@ const categoryNameMap = {
 const productNumberPerPage = 5;
 
 const ProductListView = ({ catName }) => {
+  const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [productsByCat, setProductsByCat] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -50,6 +51,10 @@ const ProductListView = ({ catName }) => {
 
         if (response.ok) {
           const customerData = await response.json();
+          if (customerData?.isAdmin) {
+            navigate('/admin');
+            return null;
+          }
           setCustomer(customerData);
         } else {
           console.error('Failed to fetch customer information');
@@ -189,13 +194,13 @@ const ProductListView = ({ catName }) => {
               {view === "grid" &&
                 filteredProducts.slice((currentPage - 1) * productNumberPerPage, currentPage * productNumberPerPage).map((product, idx) => (
                   <div key={idx} className="col-md-4">
-                    <CardProductGrid product={product}/>
+                    <CardProductGrid product={product} />
                   </div>
                 ))}
               {view === "list" &&
                 filteredProducts.slice((currentPage - 1) * productNumberPerPage, currentPage * productNumberPerPage).map((product, idx) => (
                   <div key={idx} className="col-md-12">
-                    <CardProductList product={product}/>
+                    <CardProductList product={product} />
                   </div>
                 ))}
             </div>
