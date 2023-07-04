@@ -15,6 +15,7 @@ const CustomerForm = () => {
     const [city, setCity] = useState('');
     const [country, setCountry] = useState('');
     const [imagePreview, setImagePreview] = useState('../../images/NO_IMG.png');
+    const [message, setMessage] = useState(null);
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -61,9 +62,10 @@ const CustomerForm = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            console.log('Data successfully updated!');
+            setMessage('Profile successfully updated!');
         } catch (error) {
             console.error('Error updating data:', error);
+            setMessage('Fail to update profile!');
         }
     };
 
@@ -103,6 +105,7 @@ const CustomerForm = () => {
                     setCity={setCity}
                     setCountry={setCountry}
                     handleSubmit={handleSubmit}
+                    message={message}
                 />
             </form>
         </div>
@@ -129,6 +132,7 @@ const ProfileForm = (props) => {
         setDistrict,
         setCity,
         setCountry,
+        message
     } = props;
 
     return (
@@ -259,6 +263,7 @@ const ProfileForm = (props) => {
 
                     </td>
                 </tr>
+                {message && (<tr><td>{message}</td></tr>)}
                 <tr>
                     <td colSpan="2" className="submit-button-container">
                         <button type="submit" className="submit-button">Submit</button>
