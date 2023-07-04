@@ -82,7 +82,7 @@ function App() {
             <Route exact path="/star/zone" element={<StarZoneView />} />
             <Route exact path="/cart" element={<CartView />} />
             <Route exact path="/checkout" element={<CheckoutView />} />
-            <Route exact path="/invoice" element={<InvoiceView />} />
+            <Route path='/invoice/:id' element={<InvoiceView />} />
 
             <Route exact path="/contact-us" element={<ContactUsView />} />
             <Route exact path="/support" element={<SupportView />} />
