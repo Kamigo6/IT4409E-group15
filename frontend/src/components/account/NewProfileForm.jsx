@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { ReactComponent as IconPersonSquareFill } from "bootstrap-icons/icons/person-lines-fill.svg";
 import './ProfileForm.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const CustomerForm = () => {
     const [avatarImageUrl, setAvatarImageUrl] = useState('');
@@ -15,7 +17,7 @@ const CustomerForm = () => {
     const [city, setCity] = useState('');
     const [country, setCountry] = useState('');
     const [imagePreview, setImagePreview] = useState('../../images/NO_IMG.png');
-    const [message, setMessage] = useState(null);
+    const [message] = useState(null);
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -62,15 +64,16 @@ const CustomerForm = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            setMessage('Profile successfully updated!');
+            toast.success('Profile successfully updated!');
         } catch (error) {
             console.error('Error updating data:', error);
-            setMessage('Fail to update profile!');
+            toast.error('Fail to update profile!');
         }
     };
 
     return (
         <div className="card border-primary">
+            <ToastContainer autoClose={3000} />
             <h6 className="card-header ">
                 <IconPersonSquareFill /> Profile Detail
             </h6>
@@ -110,13 +113,7 @@ const CustomerForm = () => {
                         message={message}
                     />
                 </div>
-                {message && (
-    <tr>
-        <td colSpan="2" className="message-cell">  &emsp;
-            {message}
-        </td>
-    </tr>
-)}
+                <br></br>
                 <div className="submit-button-container">
                     <button type="submit" className="submit-button">Submit</button>
                 </div>
@@ -146,7 +143,6 @@ const ProfileForm = (props) => {
         setDistrict,
         setCity,
         setCountry,
-        message
     } = props;
 
     return (
@@ -269,10 +265,8 @@ const ProfileForm = (props) => {
                         />
                     </td>
                 </tr>
-                <br></br>
             </tbody>
         </table>
-
     );
 };
 

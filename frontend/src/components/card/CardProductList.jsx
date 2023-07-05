@@ -5,6 +5,8 @@ import { ReactComponent as IconStarFill } from "bootstrap-icons/icons/star-fill.
 import { ReactComponent as IconTruckFill } from "bootstrap-icons/icons/truck.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartPlus, faHeart } from "@fortawesome/free-solid-svg-icons";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const CardProductList = ({ product }) => {
   const [notification, setNotification] = useState(null);
@@ -20,8 +22,8 @@ const CardProductList = ({ product }) => {
     } else {
       setNotification("Not authenticated!");
       return null;
-    };
-  }
+    }
+  };
 
   const handleAddToCart = async (productId) => {
     try {
@@ -34,10 +36,11 @@ const CardProductList = ({ product }) => {
             Authorization: `Bearer ${token}`,
           },
         });
-        setNotification("Product added to Cart successfully!");
+        toast.success("Product added to Cart successfully!");
       }
     } catch (error) {
       console.error("Error adding product to Cart:", error);
+      toast.error("Error adding product to Cart:", error);
     }
   };
 
@@ -52,16 +55,17 @@ const CardProductList = ({ product }) => {
             Authorization: `Bearer ${token}`,
           },
         });
-        setNotification("Product added to Wish List successfully!");
+        toast.success("Product added to Wish List successfully!");
       }
     } catch (error) {
       console.error("Error adding product to Wish List:", error);
+      toast.error("Error adding product to Wish List:", error);
     }
   };
 
-
   return (
     <div className="card">
+      <ToastContainer autoClose={3000} />
       {notification && <div className="alert alert-success">{notification}</div>}
       <div className="row g-0">
         <div className="col-md-3 text-center">

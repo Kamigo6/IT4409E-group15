@@ -9,4 +9,15 @@
     text-overflow: ellipsis; /* Hiển thị dấu chấm elipsis khi nội dung bị ẩn */
     font-size: 14px; /* Điều chỉnh kích thước font chữ */
   }
-  
+  .card-img-container {
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-img-container img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}

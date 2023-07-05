@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { ReactComponent as IconStarFill } from "bootstrap-icons/icons/star-fill.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartPlus, faHeart } from "@fortawesome/free-solid-svg-icons";
+import { faCartPlus, faHeart, faStar } from "@fortawesome/free-solid-svg-icons";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import "./CardProductGrid.css";
 
 const CardProductGrid = ({ product }) => {
-
   const [notification, setNotification] = useState(null);
 
   const getCustomerData = async (token) => {
@@ -21,8 +21,8 @@ const CardProductGrid = ({ product }) => {
     } else {
       setNotification("Not authenticated!");
       return null;
-    };
-  }
+    }
+  };
 
   const handleAddToCart = async (productId) => {
     try {
@@ -35,10 +35,11 @@ const CardProductGrid = ({ product }) => {
             Authorization: `Bearer ${token}`,
           },
         });
-        setNotification("Product added to Cart successfully!");
+        toast.success("Product added to Cart successfully!");
       }
     } catch (error) {
       console.error("Error adding product to Cart:", error);
+      toast.error("Error adding product to Cart:", error);
     }
   };
 
@@ -53,16 +54,21 @@ const CardProductGrid = ({ product }) => {
             Authorization: `Bearer ${token}`,
           },
         });
-        setNotification("Product added to Wish List successfully!");
+        toast.success("Product added to Wish List successfully!");
       }
     } catch (error) {
       console.error("Error adding product to Wish List:", error);
+      toast.error("Error adding product to Wish List:", error);
     }
   };
+
   return (
     <div className="card">
+      <ToastContainer autoClose={3000} />
       {notification && <div className="alert alert-success">{notification}</div>}
-      <img src={product.imageUrls[0]} className="card-img-top" alt="..." />
+      <div className="card-img-container">
+        <img src={product.imageUrls[0]} className="card-img-top" alt="Product" />
+      </div>
       <div className="card-body">
         <h6 className="card-subtitle mb-2">
           <Link to={`/product/${product._id}`} className="text-decoration-none">
@@ -82,7 +88,19 @@ const CardProductGrid = ({ product }) => {
             </span>
           )}
         </div>
-        <div className="btn-group  d-flex" role="group">
+        <div className="d-flex align-items-center mb-2">
+          <div className="rating-stars me-2">
+            {Array.from({ length: 5 }, (_, key) => (
+              <FontAwesomeIcon
+                icon={faStar}
+                className={product.ratings && key < product.ratings.length ? "text-warning me-1" : "text-secondary me-1"}
+                key={key}
+              />
+            ))}
+          </div>
+          <span className="text-muted small">{product.rating}</span>
+        </div>
+        <div className="btn-group d-flex" role="group">
           <button
             type="button"
             className="btn btn-sm btn-primary"
