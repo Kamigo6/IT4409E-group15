@@ -39,7 +39,47 @@
   }
   .preview-container {
     font-size: 17px;
-    font-weight: bold;
+    /* font-weight: bold; */
     text-align: center;
   }
+  .form-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 450px; /* Chiều cao cố định mong muốn */
+    border: 1px solid #000; /* Đường viền */
+}
+
+.card-img-content {
+    width: 100%;
+    height: 100%;
+    object-fit: fill; /* Biến dạng theo khung */
+}
+.file-label {
+  display: inline-block;
+  padding: 8px 12px;
+  color: #fff;
+  background-color: #04AA6D;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s; /* Thời gian chuyển đổi màu */
+}
+
+.file-label:hover {
+  background-color: #4CAF50; /* Màu nền khi hover */
+}
+
+.file-input {
+  display: none;
+}
+.message-cell {
+  color: #04AA6D;
+}
+
+
   

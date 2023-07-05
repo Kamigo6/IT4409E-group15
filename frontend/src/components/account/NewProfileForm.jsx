@@ -75,38 +75,52 @@ const CustomerForm = () => {
                 <IconPersonSquareFill /> Profile Detail
             </h6>
             <form onSubmit={handleSubmit}>
-                <div>
+                <div className="form-container">
                     {imagePreview && (
-                        <img src={imagePreview} alt="Avatar Preview" className="card-img-top rounded-0 img-fluid bg-secondary mb-4" />
+                        <div className="card-img-top rounded-0 bg-secondary mb-4">
+                            <img src={imagePreview} alt="Avatar Preview" className="img-fluid card-img-content" />
+                        </div>
                     )}
                     <div className="preview-container mb-4">
-                    <label>
-                        <input type="file" onChange={handleImageChange} />
-                    </label>
+                        <label htmlFor="file-input" className="file-label">
+                            Chọn ảnh
+                            <input id="file-input" type="file" onChange={handleImageChange} className="file-input" />
+                        </label>
                     </div>
+
+                    <ProfileForm
+                        firstName={firstName}
+                        lastName={lastName}
+                        birthday={birthday}
+                        email={email}
+                        mobileNumber={mobileNumber}
+                        address={address}
+                        district={district}
+                        city={city}
+                        country={country}
+                        setFirstName={setFirstName}
+                        setLastName={setLastName}
+                        setBirthday={setBirthday}
+                        setEmail={setEmail}
+                        setMobileNumber={setMobileNumber}
+                        setAddress={setAddress}
+                        setDistrict={setDistrict}
+                        setCity={setCity}
+                        setCountry={setCountry}
+                        message={message}
+                    />
                 </div>
-                <ProfileForm
-                    firstName={firstName}
-                    lastName={lastName}
-                    birthday={birthday}
-                    email={email}
-                    mobileNumber={mobileNumber}
-                    address={address}
-                    district={district}
-                    city={city}
-                    country={country}
-                    setFirstName={setFirstName}
-                    setLastName={setLastName}
-                    setBirthday={setBirthday}
-                    setEmail={setEmail}
-                    setMobileNumber={setMobileNumber}
-                    setAddress={setAddress}
-                    setDistrict={setDistrict}
-                    setCity={setCity}
-                    setCountry={setCountry}
-                    handleSubmit={handleSubmit}
-                    message={message}
-                />
+                {message && (
+    <tr>
+        <td colSpan="2" className="message-cell">  &emsp;
+            {message}
+        </td>
+    </tr>
+)}
+                <div className="submit-button-container">
+                    <button type="submit" className="submit-button">Submit</button>
+                </div>
+                <br></br>
             </form>
         </div>
     );
@@ -149,7 +163,6 @@ const ProfileForm = (props) => {
                             onChange={(e) => setFirstName(e.target.value)}
                             className="input-field"
                         />
-
                     </td>
                 </tr>
                 <tr>
@@ -163,7 +176,6 @@ const ProfileForm = (props) => {
                             onChange={(e) => setLastName(e.target.value)}
                             className="input-field"
                         />
-
                     </td>
                 </tr>
                 <tr>
@@ -190,7 +202,6 @@ const ProfileForm = (props) => {
                             onChange={(e) => setEmail(e.target.value)}
                             className="input-field"
                         />
-
                     </td>
                 </tr>
                 <tr>
@@ -204,7 +215,6 @@ const ProfileForm = (props) => {
                             onChange={(e) => setMobileNumber(e.target.value)}
                             className="input-field"
                         />
-
                     </td>
                 </tr>
                 <tr>
@@ -218,7 +228,6 @@ const ProfileForm = (props) => {
                             onChange={(e) => setAddress(e.target.value)}
                             className="input-field"
                         />
-
                     </td>
                 </tr>
                 <tr>
@@ -232,7 +241,6 @@ const ProfileForm = (props) => {
                             onChange={(e) => setDistrict(e.target.value)}
                             className="input-field"
                         />
-
                     </td>
                 </tr>
                 <tr>
@@ -246,7 +254,6 @@ const ProfileForm = (props) => {
                             onChange={(e) => setCity(e.target.value)}
                             className="input-field"
                         />
-
                     </td>
                 </tr>
                 <tr>
@@ -260,18 +267,12 @@ const ProfileForm = (props) => {
                             onChange={(e) => setCountry(e.target.value)}
                             className="input-field"
                         />
-
                     </td>
                 </tr>
-                {message && (<tr><td>{message}</td></tr>)}
-                <tr>
-                    <td colSpan="2" className="submit-button-container">
-                        <button type="submit" className="submit-button">Submit</button>
-                    </td>
-
-                </tr>
+                <br></br>
             </tbody>
         </table>
+
     );
 };
 
