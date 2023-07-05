@@ -19,7 +19,7 @@ const categoryNameMap = {
   "health-fitness": "Health & Fitness",
   "history-archaeology": "History & Archaeology",
   "art-photography": "Art & Photography",
-  "romance": "Romace",
+  "romance": "Romance",
   "food-drink": "Food & Drink",
   "all": "All"
 };

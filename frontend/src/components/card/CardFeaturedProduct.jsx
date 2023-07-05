@@ -1,16 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ReactComponent as IconStarFill } from "bootstrap-icons/icons/star-fill.svg";
+import axios from 'axios';
 
-const CardFeaturedProduct = (props) => {
-  const products = props.data;
+const CardFeaturedProduct = ({ cat }) => {
+  const [products, setProducts] = useState([])
+  const getProducts = async (cat) => {
+    try {
+      const response = await axios.get(`http://localhost:8000/products/category/${cat}`);
+      const products = response.data;
+
+      setProducts(products.slice(0, 5));
+    } catch (error) {
+      console.error("Error fetching product:", error);
+    }
+  };
+  useEffect(() => {
+    getProducts(cat);
+  }, [])
+
   return (
     <div className="card mb-3">
       <div className="card-header fw-bold text-uppercase">
         Featured Products
       </div>
       <div className="card-body">
-        {products.map((product, idx) => (
+        {products && products.map((product, idx) => (
           <div
             className={`row ${idx + 1 === products.length ? "" : "mb-3"}`}
             key={idx}
@@ -21,14 +36,9 @@ const CardFeaturedProduct = (props) => {
             <div className="col-md-8">
               <h6 className="text-capitalize mb-1">
                 <Link to={`/product/${product._id}`} className="text-decoration-none">
-                  {product.name}
+                  {products && product.name}
                 </Link>
               </h6>
-              {/* <div className="mb-2">
-                {Array.from({ length: product.star }, (_, key) => (
-                  <IconStarFill className="text-warning me-1" key={key} />
-                ))}
-              </div> */}
               <span className="fw-bold h5">${product.price - product.discount.value}</span>
               {product.price > 0 && (
                 <del className="small text-muted ms-2">

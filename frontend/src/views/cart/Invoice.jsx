@@ -11,7 +11,6 @@ const Invoice = () => {
   const [order, setOrder] = useState([]);
   const { id } = useParams();
   var originalPrice, coupon, shippingFee, totalPrice = 0;
-
   useEffect(() => {
     const getOrders = async (id) => {
       try {

@@ -12,7 +12,9 @@ const getAllProducts = async (req, res) => {
 const getProductById = async (req, res) => {
     const { id } = req.params;
     try {
-        const product = await Product.findById(id);
+        const product = await Product.findById(id).populate({
+            path: "ratings",
+        });
         if (!product) {
             return res.status(404).json({ error: 'Product not found' });
         }
@@ -24,16 +26,16 @@ const getProductById = async (req, res) => {
 
 const getProductsByCategory = async (req, res) => {
     const { category } = req.params;
-  
+
     try {
-      const products = await Product.find({ categories: category });
-  
-      res.json(products);
+        const products = await Product.find({ categories: category });
+
+        res.json(products);
     } catch (error) {
-      console.error('Error retrieving products by category:', error);
-      res.status(500).json({ error: 'Failed to retrieve products by category' });
+        console.error('Error retrieving products by category:', error);
+        res.status(500).json({ error: 'Failed to retrieve products by category' });
     }
-  };
+};
 
 const createProduct = async (req, res) => {
     const {

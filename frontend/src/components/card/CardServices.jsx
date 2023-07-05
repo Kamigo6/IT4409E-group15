@@ -17,7 +17,7 @@ const CardServices = (props) => {
           <div className="col">
             <div className="ms-3">
               <span className="fw-bold">Free Delivery</span>
-              <p className="text-muted small">From $59.89</p>
+              <p className="text-muted small">From $59.99</p>
             </div>
           </div>
         </div>

@@ -19,14 +19,14 @@ const ratingSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
-  likes: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Customer'
-  }],
-  dislikes: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Customer'
-  }],
+  likes: {
+    type: Number,
+    required: true
+  },
+  dislikes: {
+    type: Number,
+    required: true
+  },
   createdAt: {
     type: Date,
     default: Date.now
