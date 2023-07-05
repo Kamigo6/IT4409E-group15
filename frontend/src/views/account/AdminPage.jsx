@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from 'axios';
 
+import OrderAdmin from '../../components/OrderAdmin';
+
 function AdminPage() {
   const navigate = useNavigate();
   const [admin, setAdmin] = useState(null);
@@ -230,6 +232,7 @@ function AdminPage() {
           )}
         </ul>
       </div>
+      <OrderAdmin/>
     </div>
   );
 }
