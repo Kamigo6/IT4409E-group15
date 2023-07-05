@@ -97,7 +97,7 @@ const CardProductList = ({ product }) => {
               <span className="fw-bold h5">${product.price}</span>
               {product.discount.value > 0 && (
                 <del className="small text-muted ms-2">
-                  ${product.price + product.discount.value}
+                  ${(product.price + product.discount.value).toFixed(2)}
                 </del>
               )}
               {product.discount.value > 0 && (

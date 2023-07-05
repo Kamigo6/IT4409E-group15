@@ -111,6 +111,27 @@ const ProductListView = ({ catName }) => {
 
   const sortBy = (event) => {
     setRank(event.target.value);
+    switch (event.target.value) {
+      case "latest":
+        setProductsByCat(productsByCat.sort((a, b) => {
+          if (a.createdAt < b.createdAt) {
+            return -1;
+          }
+          if (a.createdAt > b.createdAt) {
+            return 1;
+          }
+          return 0;
+        }))
+        break;
+      case "price":
+        setProductsByCat(productsByCat.sort((a, b) => { return a.price - b.price; }))
+        break;
+      case "r_price":
+        setProductsByCat(productsByCat.sort((a, b) => { return b.price - a.price; }))
+        break;
+      default:
+        break;
+    };
   };
 
   const handlePageChange = (pageNumber) => {
@@ -189,13 +210,13 @@ const ProductListView = ({ catName }) => {
               {view === "grid" &&
                 filteredProducts.slice((currentPage - 1) * productNumberPerPage, currentPage * productNumberPerPage).map((product, idx) => (
                   <div key={idx} className="col-md-4">
-                    <CardProductGrid product={product}/>
+                    <CardProductGrid product={product} />
                   </div>
                 ))}
               {view === "list" &&
                 filteredProducts.slice((currentPage - 1) * productNumberPerPage, currentPage * productNumberPerPage).map((product, idx) => (
                   <div key={idx} className="col-md-12">
-                    <CardProductList product={product}/>
+                    <CardProductList product={product} />
                   </div>
                 ))}
             </div>
