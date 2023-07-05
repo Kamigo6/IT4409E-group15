@@ -106,6 +106,7 @@ const SignUpForm = (props) => {
         placeholder="Email"
         required={true}
       />
+      <br></br>
       <Field
         name="gender"
         type="text"
@@ -114,6 +115,7 @@ const SignUpForm = (props) => {
         placeholder="Female/Male/Other"
         required={true}
       />
+      <br></br>
       <Field
         name="birthday"
         type="date"
@@ -122,6 +124,7 @@ const SignUpForm = (props) => {
         placeholder="Birthday"
         required={true}
       />
+      <br></br>
       <Field
         name="address"
         type="text"
@@ -130,6 +133,7 @@ const SignUpForm = (props) => {
         placeholder="Address"
         required={true}
       />
+      <br></br>
       <Field
         name="district"
         type="text"
@@ -138,6 +142,7 @@ const SignUpForm = (props) => {
         placeholder="District"
         required={true}
       />
+      <br></br>
       <Field
         name="city"
         type="text"
@@ -146,6 +151,7 @@ const SignUpForm = (props) => {
         placeholder="City"
         required={true}
       />
+      <br></br>
       <Field
         name="country"
         type="text"
@@ -154,7 +160,7 @@ const SignUpForm = (props) => {
         placeholder="Country"
         required={true}
       />
-
+<br></br>
       <div className="d-grid">
         <button
           type="submit"

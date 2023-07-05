@@ -1,9 +1,9 @@
 import React, { lazy, useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import {/*useLocation,*/ useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTh, faBars } from "@fortawesome/free-solid-svg-icons";
 import axios from 'axios';
-const Paging = lazy(() => import("../../components/Paging"));
+// const Paging = lazy(() => import("../../components/Paging"));
 const Pagination = lazy(() => import("../../components/Pagination"));
 const Breadcrumb = lazy(() => import("../../components/Breadcrumb"));
 const FilterCategory = lazy(() => import("../../components/filter/Category"));
@@ -24,7 +24,7 @@ const categoryNameMap = {
   "all": "All"
 };
 
-const productNumberPerPage = 5;
+const productNumberPerPage = 6;
 
 const ProductListView = ({ catName }) => {
   const navigate = useNavigate();
@@ -32,11 +32,11 @@ const ProductListView = ({ catName }) => {
   const [productsByCat, setProductsByCat] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalItems, setTotalItems] = useState(0);
+  const [/*totalItems*/, setTotalItems] = useState(0);
   const [priceFilterMode, setPriceFilterMode] = useState("all");
-  const [rank, setRank] = useState("latest");
+  const [/*rank,*/ setRank] = useState("latest");
   const [view, setView] = useState("list");
-  const [customer, setCustomer] = useState(null);
+  const [/*customer*/, setCustomer] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem('token');

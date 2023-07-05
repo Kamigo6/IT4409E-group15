@@ -19,6 +19,16 @@ import {
 const Footer = () => {
   return (
     <React.Fragment>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
       <footer>
         <div className="container-fluid bg-primary">
           <div className="row ">
