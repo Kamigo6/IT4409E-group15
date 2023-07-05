@@ -1,9 +1,9 @@
 import React, { lazy, useEffect, useState } from "react";
-import {/*useLocation,*/ useNavigate } from "react-router-dom";
+import {useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTh, faBars } from "@fortawesome/free-solid-svg-icons";
 import axios from 'axios';
-// const Paging = lazy(() => import("../../components/Paging"));
+const Paging = lazy(() => import("../../components/Paging"));
 const Pagination = lazy(() => import("../../components/Pagination"));
 const Breadcrumb = lazy(() => import("../../components/Breadcrumb"));
 const FilterCategory = lazy(() => import("../../components/filter/Category"));
@@ -32,11 +32,11 @@ const ProductListView = ({ catName }) => {
   const [productsByCat, setProductsByCat] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [/*totalItems*/, setTotalItems] = useState(0);
+  const [totalItems, setTotalItems] = useState(0);
   const [priceFilterMode, setPriceFilterMode] = useState("all");
-  const [/*rank,*/ setRank] = useState("latest");
+  const [rank, setRank] = useState("latest");
   const [view, setView] = useState("list");
-  const [/*customer*/, setCustomer] = useState(null);
+  const [customer, setCustomer] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -152,13 +152,14 @@ const ProductListView = ({ catName }) => {
       <div
         className="p-5 bg-primary bs-cover"
         style={{
-          backgroundImage: "https://blog-cdn.reedsy.com/directories/admin/featured_image/579/what-is-literary-fiction-28dfaa.jpg",
+          backgroundImage: `url('https://blog-cdn.reedsy.com/directories/admin/featured_image/579/what-is-literary-fiction-28dfaa.jpg')`,
         }}
       >
         <div className="container text-center">
-          <span className="display-5 px-3 bg-white rounded shadow">
-            {categoryNameMap[catName]}
-          </span>
+        <span className="display-5 px-3 rounded shadow" style={{ backgroundColor: 'rgb(13 169 253)',color: 'white' }}>
+  <b>{categoryNameMap[catName]}</b>
+</span>
+
         </div>
       </div>
       <Breadcrumb catName={categoryNameMap[catName]} />

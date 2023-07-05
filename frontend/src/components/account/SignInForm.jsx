@@ -83,10 +83,21 @@ const SignInForm = (props) => {
             <FontAwesomeIcon icon={faGoogle} className="mx-1" />
           </Link>
         </div>
+        <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
       </div>
     </form>
   );
 };
+
 
 export default compose(
   reduxForm({

@@ -8,6 +8,7 @@ const WishlistView = () => {
   const token = localStorage.getItem('token');
   const [customerId, setCustomerId] = useState(null);
   const [wishListData, setWishListData] = useState([]);
+  const [containerHeight, setContainerHeight] = useState(700);
 
   useEffect(() => {
     const getCustomer = async () => {
@@ -17,8 +18,18 @@ const WishlistView = () => {
             Authorization: `Bearer ${token}`
           }
         });
-        const customer = response.data
-        setWishListData(customer.wishList);
+        const customer = response.data;
+        
+        // Filter out duplicate products based on their IDs
+        const uniqueWishlistData = customer.wishList.reduce((uniqueProducts, product) => {
+          const isDuplicate = uniqueProducts.some((uniqueProduct) => uniqueProduct.productId._id === product.productId._id);
+          if (!isDuplicate) {
+            uniqueProducts.push(product);
+          }
+          return uniqueProducts;
+        }, []);
+        
+        setWishListData(uniqueWishlistData);
         setCustomerId(customer._id);
       } catch (error) {
         console.error('Error:', error);
@@ -26,6 +37,15 @@ const WishlistView = () => {
     };
     getCustomer();
   }, []);
+
+  useEffect(() => {
+    if (wishListData.length > 6) {
+      const newHeight = Math.ceil(wishListData.length / 2) * 250;
+      setContainerHeight(newHeight);
+    } else {
+      setContainerHeight(700); // Kích thước ban đầu khi chỉ còn 6 sản phẩm
+    }
+  }, [wishListData]);
 
   const handleRemoveProductWishList = async (productId) => {
     try {
@@ -48,8 +68,8 @@ const WishlistView = () => {
   };
 
   return (
-    <div className="container mb-3">
-      <h4 className="my-3">Wishlists</h4>
+    <div className="container" style={{ height: `${containerHeight}px`, overflow: "hidden" }}>
+            <b><h2 className="my-3">Wishlists</h2></b>
       <div className="row g-3">
         {wishListData.map((product, index) => (
           <div className="col-md-6" key={index}>
@@ -61,4 +81,4 @@ const WishlistView = () => {
   );
 }
 
-export default WishlistView;
+export default WishlistView; 

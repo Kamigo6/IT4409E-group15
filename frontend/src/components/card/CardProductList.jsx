@@ -64,15 +64,26 @@ const CardProductList = ({ product }) => {
   };
 
   return (
-    <div className="card">
-      <ToastContainer autoClose={3000} />
+    <div className="card" style={{ height: "300px" }}>
+      <ToastContainer autoClose={2000} />
       {notification && <div className="alert alert-success">{notification}</div>}
       <div className="row g-0">
-        <div className="col-md-3 text-center">
-          <Link to={`/product/${product._id}`} >
-            <img src={product.imageUrls[0]} className="img-fluid" alt="Book" />
-          </Link>
-        </div>
+      <div className="col-md-3 text-center">
+  <Link to={`/product/${product._id}`}>
+    <div
+      className="image-container"
+      style={{
+        backgroundImage: `url(${product.imageUrls[0]})`,
+        backgroundSize: "contain",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        height: "295px",
+        width: "100%",
+      }}
+    />
+  </Link>
+</div>
+
         <div className="col-md-6">
           <div className="card-body">
             <h6 className="card-subtitle me-2 d-inline">
