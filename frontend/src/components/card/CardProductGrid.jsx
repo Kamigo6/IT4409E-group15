@@ -78,7 +78,7 @@ const CardProductGrid = ({ product }) => {
           </Link>
         </h6>
         <div className="my-2">
-          <span className="fw-bold h5">${product.price - product.discount.value}</span>
+          <span className="fw-bold h5">${(product.price - product.discount.value).toFixed(2)}</span>
           {product.discount.value > 0 && (
             <del className="small text-muted ms-2">
               ${(product.price).toFixed(2)}
