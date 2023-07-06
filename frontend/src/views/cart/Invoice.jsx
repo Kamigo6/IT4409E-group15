@@ -5,12 +5,12 @@ import withRouter from "../../components/withRouter";
 import axios from 'axios';
 import { ReactComponent as IconPrinter } from "bootstrap-icons/icons/printer.svg";
 import { ReactComponent as IconDownload } from "bootstrap-icons/icons/download.svg";
-
+import './Invoice.css'
 const Invoice = () => {
   const token = localStorage.getItem('token');
   const [order, setOrder] = useState([]);
   const { id } = useParams();
-  var originalPrice, coupon, shippingFee, totalPrice = 0;
+  var coupon, shippingFee, totalPrice = 0;
   useEffect(() => {
     const getOrders = async (id) => {
       try {
@@ -38,8 +38,11 @@ const Invoice = () => {
     shippingFee = order.delivery.fee.toFixed(2);
   }
 
+  const handlePrint = () => {
+    window.print();
+  };
   return (
-    <div className="container-fluid bg-secondary p-3">
+    <div className="container-fluid bg-secondary p-3" id="invoice-content">
       <div className="bg-white p-5">
         <div>
           <div className="row g-3 mb-3 pb-3 border-bottom">
@@ -117,7 +120,7 @@ const Invoice = () => {
                   </tbody>
                   <tfoot className="card-footer">
                     <tr>
-                      <td colSpan="4" className="text-end">
+                      <td colSpan="3" className="text-end">
                         <strong>Sub Total: </strong>
                         {order.delivery && computePrice()}
                         <div className="me-2">Original Price: </div>
@@ -126,18 +129,18 @@ const Invoice = () => {
 
                       <td className="text-end">${(totalPrice - shippingFee).toFixed(2)}
                         <div className="me-2">${(totalPrice - shippingFee + coupon).toFixed(2)}</div>
-                        <div className="me-2">-${(coupon).toFixed(2)}</div>
+                        <div className="me-2">-${coupon && (coupon).toFixed(2)}</div>
                       </td>
                     </tr>
 
                     <tr>
-                      <td colSpan="4" className="text-end">
+                      <td colSpan="3" className="text-end">
                         <strong>Shipping Fee:</strong>
                       </td>
                       <td className="text-end">${shippingFee}</td>
                     </tr>
                     <tr>
-                      <td colSpan="4" className="text-end border-bottom-0">
+                      <td colSpan="3" className="text-end border-bottom-0">
                         <strong>Total:</strong>
                       </td>
                       <td className="text-end border-bottom-0">${totalPrice.toFixed(2)}</td>
@@ -148,14 +151,14 @@ const Invoice = () => {
             </div>
           </div>
           <div className="text-center mt-4">
-            <p className="text-1">
+            <p className="text-1 notprint">
               <strong>NOTE :</strong> This is computer generated receipt and
               does not require physical signature.
             </p>
             <div className="btn-group btn-group-sm d-print-none">
               <a
-                // eslint-disable-next-line no-script-url
-                href="javascript:window.print()"
+                // href="javascript:window.print()"
+                onClick={handlePrint}
                 className="btn btn-light border text-black-50 shadow-none"
               >
                 <IconPrinter /> Print

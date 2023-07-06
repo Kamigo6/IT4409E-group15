@@ -1,0 +1,17 @@
+@media print {
+    header * {
+        display: none;
+    }
+
+    footer * {
+        display: none;
+    }
+
+    .notprint {
+        display: none;
+    }
+
+    #invoice-content {
+        display: block !important;
+    }
+}
