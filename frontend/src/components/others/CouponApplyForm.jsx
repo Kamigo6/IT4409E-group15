@@ -13,15 +13,13 @@ const CouponApplyForm = (props) => {
       onSubmit={handleSubmit(onSubmit)}
       className={`needs-validation ${submitFailed ? "was-validated" : ""}`}
       noValidate
-      >
+    >
       <Field
         name="coupon"
         type="text"
         label="Have coupon?"
         component={renderFormField}
         placeholder="Coupon code"
-        validate={[required]}
-              required={true}
       />
       <button
         type="submit"

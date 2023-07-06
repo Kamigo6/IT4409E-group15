@@ -119,13 +119,16 @@ const Invoice = () => {
                   <tfoot className="card-footer">
                     <tr>
                       <td colSpan="4" className="text-end">
-                        <strong>Sub Total:</strong>
+                        <strong>Sub Total: </strong>
                         {order.delivery && computePrice()}
-                        <div className="me-2">Original Price: ${originalPrice}</div>
-                        <div className="me-2">Shipping Fee: ${shippingFee}</div>
-                        <div className="me-2">Coupon: -${coupon}</div>
+                        <div className="me-2">Original Price: </div>
+                        <div className="me-2">Coupon: </div>
                       </td>
-                      <td className="text-end">${totalPrice}</td>
+
+                      <td className="text-end">${totalPrice}
+                        <div className="me-2">${originalPrice}</div>
+                        <div className="me-2">-${coupon}</div>
+                      </td>
                     </tr>
                     <tr>
                       <td colSpan="4" className="text-end">
@@ -134,10 +137,16 @@ const Invoice = () => {
                       <td className="text-end">${(totalPrice * 0.1).toFixed(2)}</td>
                     </tr>
                     <tr>
+                      <td colSpan="4" className="text-end">
+                        <strong>Shipping Fee:</strong>
+                      </td>
+                      <td className="text-end">${shippingFee}</td>
+                    </tr>
+                    <tr>
                       <td colSpan="4" className="text-end border-bottom-0">
                         <strong>Total:</strong>
                       </td>
-                      <td className="text-end border-bottom-0">${(totalPrice * 1.1).toFixed(2)}</td>
+                      <td className="text-end border-bottom-0">${(totalPrice * 1.1 + shippingFee).toFixed(2)}</td>
                     </tr>
                   </tfoot>
                 </table>

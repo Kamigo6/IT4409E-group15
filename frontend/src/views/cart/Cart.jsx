@@ -8,16 +8,26 @@ import { ReactComponent as IconChevronLeft } from "bootstrap-icons/icons/chevron
 import { ReactComponent as IconTruck } from "bootstrap-icons/icons/truck.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
+// import { events } from "../../../../backend/models/Coupon";
 const CouponApplyForm = lazy(() =>
   import("../../components/others/CouponApplyForm")
 );
 
 const CartView = () => {
-  const [couponCode, setCouponCode] = useState("");
+  const [coupon, setCoupon] = useState({ value: 0 });
   const [customer, setCustomer] = useState(null);
   const [cartData, setCartData] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [totalDiscount, setTotalDiscount] = useState(0);
+  const data = {
 
+    cart: cartData,
+    customer: customer,
+    totalPrice: totalPrice,
+    totalDiscount: totalDiscount,
+    coupon: coupon
+
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,18 +52,27 @@ const CartView = () => {
 
   useEffect(() => {
     if (cartData.length > 0) {
-      const totalPrice = calculateTotalPrice();
-      setTotalPrice(totalPrice);
+      let total = 0;
+      let dis = 0;
+      for (const item of cartData) {
+        total += (item.productId.price - item.productId.discount.value) * item.quantity;
+        dis = dis + item.productId.discount.value * item.quantity;
+      }
+      setTotalPrice(total);
+      setTotalDiscount(dis);
     } else {
       setTotalPrice(0);
     }
+    // console.log(cartData);
   }, [cartData]);
 
 
   const calculateTotalPrice = () => {
     let total = 0;
+    let dis = 0;
     for (const item of cartData) {
-      total += item.productId.price * item.quantity;
+      total += (item.productId.price - item.productId.discount.value) * item.quantity;
+      dis = dis + item.productId.discount.value * item.quantity;
     }
     return total.toFixed(2);
   };
@@ -124,9 +143,31 @@ const CartView = () => {
     });
   };
 
+  const handleMakePurchase = () => {
+
+  }
+  // Quang Nam thêm popup chỗ này giúp t với
+  const handleWrongCoupon = () => {
+
+  }
 
   const onSubmitApplyCouponCode = async (values) => {
-    alert(JSON.stringify(values));
+    // console.log('coupon', values.coupon);
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const response = await axios.get(`http://localhost:8000/coupons/code/${values.coupon}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setCoupon(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setCoupon({ value: 0 });
+        handleWrongCoupon();
+      }
+    }
   };
 
   return (
@@ -191,15 +232,12 @@ const CartView = () => {
                           </div>
                         </td>
                         <td>
-                          <var className="price">{(item.productId.price * item.quantity).toFixed(2)}</var>
+                          <var className="price">${((item.productId.price - item.productId.discount.value) * item.quantity).toFixed(2)}</var>
                           <small className="d-block text-muted">
-                            {item.productId.price} each
+                            ${(item.productId.price - item.productId.discount.value).toFixed(2)} <del className="text-danger">{item.productId.price.toFixed(2)}</del> each
                           </small>
                         </td>
                         <td className="text-end">
-                          <button className="btn btn-sm btn-outline-secondary me-2">
-                            <IconHeartFill className="i-va" />
-                          </button>
                           <button className="btn btn-sm btn-outline-danger" onClick={() => handleDeleteItem(index)}>
                             <IconTrash className="i-va" />
                           </button>
@@ -210,7 +248,9 @@ const CartView = () => {
                 </table>
               </div>
               <div className="card-footer">
-                <Link to="/checkout" className="btn btn-primary float-end">
+                <Link to="/checkout" state={data}
+
+                  className="btn btn-primary float-end" onClick={handleMakePurchase()}>
                   Make Purchase <IconChevronRight className="i-va" />
                 </Link>
                 <Link to="/" className="btn btn-secondary">
@@ -220,7 +260,7 @@ const CartView = () => {
             </div>
             <div className="alert alert-success mt-3">
               <p className="m-0">
-                <IconTruck className="i-va me-2" /> Free Delivery within 1-2 weeks
+                <IconTruck className="i-va me-2" /> Delivery within 1-2 days
               </p>
             </div>
           </div>
@@ -233,21 +273,21 @@ const CartView = () => {
             <div className="card">
               <div className="card-body">
                 <dl className="row border-bottom">
-                  <dt className="col-6">Total:</dt>
+                  <dt className="col-6">Subtotal:</dt>
                   <dd className="col-6 text-end">${totalPrice}</dd>
 
                   <dt className="col-6 text-success">Discount:</dt>
-                  <dd className="col-6 text-success text-end">-$58</dd>
+                  <dd className="col-6 text-success text-end">-${totalDiscount.toFixed(2)}</dd>
                   <dt className="col-6 text-success">
                     Coupon:{" "}
-                    <span className="small text-muted">EXAMPLECODE</span>{" "}
+                    <span className="small text-muted">{coupon.code}</span>{" "}
                   </dt>
-                  <dd className="col-6 text-success text-end">-$68</dd>
+                  <dd className="col-6 text-success text-end">-${coupon.value}</dd>
                 </dl>
                 <dl className="row">
                   <dt className="col-6">Total price:</dt>
                   <dd className="col-6 text-end  h6">
-                    <strong>${totalPrice}</strong>
+                    <strong>${(totalPrice - totalDiscount - coupon.value).toFixed(2)}</strong>
                   </dd>
                 </dl>
                 <hr />
@@ -267,22 +307,10 @@ const CartView = () => {
         <div className="container">
           <h6>Payment and refund policy</h6>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
+            We accept various payment methods and ensure the security of your payment information. Prices displayed are in the designated currency and may be subject to taxes and fees. Payment processing is prompt and handled securely.
           </p>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
+            Refunds are available based on eligibility criteria outlined in the policy. Refund requests must be made within a specified timeframe. Approved refunds are processed through the original payment method. Please note that processing times for refunds may vary.
           </p>
         </div>
       </div>

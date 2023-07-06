@@ -27,13 +27,13 @@ const Header = ({ isAuthenticated, handleLogout }) => {
           </div>
           <div className="col-md-4">
             <div className="position-relative d-inline me-3">
-            {isAuthenticated && 
-              <Link to="/cart" className="btn btn-primary">
-                <IconCart3 className="i-va" />
-                <div className="position-absolute top-0 start-100 translate-middle badge bg-danger rounded-circle">
+              {isAuthenticated &&
+                <Link to="/cart" className="btn btn-primary">
+                  <IconCart3 className="i-va" />
+                  {/* <div className="position-absolute top-0 start-100 translate-middle badge bg-danger rounded-circle">
                   2
-                </div>
-              </Link>}
+                </div> */}
+                </Link>}
             </div>
             {isAuthenticated ? (
               <div className="btn-group">
