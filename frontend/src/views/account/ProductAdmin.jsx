@@ -17,7 +17,7 @@ const ProductAdmin = () => {
   const [isAvailable, setIsAvailable] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(20);
+  const [itemsPerPage] = useState(8);
 
   useEffect(() => {
     fetchProducts();
@@ -129,7 +129,7 @@ const ProductAdmin = () => {
 
   return (
     <div className="product-admin-container">
-      <div className="column">
+      <div className="column" style={{height: '750px' }}>
         <h2>Add Product</h2>
         <form onSubmit={handleAddProduct}>
           <label htmlFor="name"><b>Name</b></label>
@@ -217,7 +217,7 @@ const ProductAdmin = () => {
           </div>
         </form>
       </div>
-      <div className="column" style={{ width: '850px' }}>
+      <div className="column" style={{ width: '850px', height: '800px' }}>
         <div className="row">
           <div className="columna">
             <h2>Product List</h2>
@@ -259,10 +259,10 @@ const ProductAdmin = () => {
           </tbody>
         </table>
         <div>
-          <ul className="pagination">
+          <ul className="pagination1">
             {Array.from({ length: Math.ceil(filteredProducts.length / itemsPerPage) }).map(
               (item, index) => (
-                <li key={index}>
+                <li key={index} style={{ backgroundColor: 'f0f0f0', paddingBottom: '10px' }}>
                   <button onClick={() => paginate(index + 1)}>{index + 1}</button>
                 </li>
               )

@@ -39,12 +39,14 @@ const ProductDetailView = () => {
       <div className="row">
         <div className="col-md-8">
           <div className="row mb-3">
-            <div className="col-md-5 text-center">
-
-              <img src={product && product.imageUrls[0]} className="img-fluid" alt="Book" />
-
-
-            </div>
+          <div className="col-md-5 text-center">
+  <img
+    src={product && product.imageUrls[0]}
+    className="img-fluid"
+    alt="Book"
+    style={{ width: '300px', height: '450px' }}
+  />
+</div>
             <div className="col-md-7">
               <h1 className="h5 d-inline me-2">
                 {product && product.name}
@@ -58,7 +60,7 @@ const ProductDetailView = () => {
               </dl>
 
               <div className="mb-3">
-                <span className="fw-bold h5 me-2">{product && (product.price - product.discount.value)}</span>
+                <span className="fw-bold h5 me-2">{product && (product.price - product.discount.value).toFixed(2)}</span>
                 <del className="small text-muted me-2">{product && product.price}</del>
                 <span className="rounded p-1 bg-warning  me-2 small">
                   ${product && product.discount.value}

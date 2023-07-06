@@ -8,6 +8,8 @@ import { ReactComponent as IconChevronLeft } from "bootstrap-icons/icons/chevron
 import { ReactComponent as IconTruck } from "bootstrap-icons/icons/truck.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // import { events } from "../../../../backend/models/Coupon";
 const CouponApplyForm = lazy(() =>
   import("../../components/others/CouponApplyForm")
@@ -144,18 +146,19 @@ const CartView = () => {
   };
 
   const handleMakePurchase = (e) => {
-    if (cartData.length == 0) {
+    if (cartData.length === 0) {
       e.preventDefault();
-      //Đưa ra thông báo không có product nào
+      // Display a toast message indicating that there are no products in the cart
+      toast.error("There are no products in the cart!");
     }
-  }
-  // Quang Nam thêm popup chỗ này giúp t với, báo user nhập sai coupon
-  const handleWrongCoupon = () => {
+  };
 
-  }
+  const handleWrongCoupon = () => {
+    // Display a toast message indicating that the coupon is invalid or cannot be applied
+    toast.error("Invalid coupon code or cannot be applied!");
+  };
 
   const onSubmitApplyCouponCode = async (values) => {
-    // console.log('coupon', values.coupon);
     const token = localStorage.getItem("token");
     if (token) {
       try {
@@ -165,6 +168,7 @@ const CartView = () => {
           },
         });
         setCoupon(response.data);
+        toast.success("Coupon applied successfully!");
       } catch (error) {
         console.error("Error fetching data:", error);
         setCoupon({ value: 0 });
@@ -317,6 +321,7 @@ const CartView = () => {
           </p>
         </div>
       </div>
+      <ToastContainer autoClose={2000} />
     </React.Fragment>
   );
 };

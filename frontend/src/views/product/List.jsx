@@ -24,7 +24,7 @@ const categoryNameMap = {
   "all": "All"
 };
 
-const productNumberPerPage = 2;
+const productNumberPerPage = 6;
 
 const ProductListView = ({ catName }) => {
   const navigate = useNavigate();

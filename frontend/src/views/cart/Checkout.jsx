@@ -19,9 +19,11 @@ const CheckoutView = () => {
   console.log(coupon);
   const [order, setOrder] = useState({
     customerId: customer._id,
-    products: cart.map(product => {
-      return ({ productId: product.productId._id, quantity: product.quantity });
-    }),
+    products: cart.map((product, index) => ({
+      productId: product.productId._id,
+      quantity: product.quantity,
+      key: index // Unique key prop
+    })),
     delivery: {
       name: customer.shippingInformation[0].firstName + " " + customer.shippingInformation[0].lastName,
       shippingAddress: {
@@ -38,23 +40,19 @@ const CheckoutView = () => {
   });
 
   useEffect(() => {
-    const str = coupon._id.toString()
-    if (coupon.value !== 0) {
+    if (coupon && coupon.value !== 0) {
+      const str = coupon._id.toString();
       setOrder(prevState => ({
         ...prevState,
         coupon: str
-      }
-      ));
-    }
-    else {
+      }));
+    } else {
       setOrder(prevState => ({
         ...prevState,
         coupon: null
-      }
-      ));
+      }));
     }
-
-  }, [])
+  }, []);
   const navigate = useNavigate();
   //Nam thêm thông báo thành công/thất bại ở đây giúp t
   const handlePayment = async () => {
@@ -97,7 +95,7 @@ const CheckoutView = () => {
     <React.Fragment>
       <div className="border-top p-4 text-white mb-3" style={{ background: "DodgerBlue" }}>
 
-        <h1 className="display-6">Checkout</h1>
+        <h1 className="display-6"><b>Checkout</b></h1>
       </div>
       <div className="container mb-3">
         <div className="row">

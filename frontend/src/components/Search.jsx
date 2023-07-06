@@ -31,7 +31,8 @@ const Search = () => {
     getProducts(value);
   };
 
-  const handleResultClick = () => {
+  const handleResultClick = (productName) => {
+    setInput(productName);
     setResults([]); // Clear the results when a result is clicked
   };
 
@@ -59,7 +60,12 @@ const Search = () => {
       </div>
       <div className="search-results">
         {results.map((product) => (
-          <Link to={`/product/${product._id}`} key={product._id} className="search-result" onClick={handleResultClick}>
+          <Link
+            to={`/product/${product._id}`}
+            key={product._id}
+            className="search-result"
+            onClick={() => handleResultClick(product.name)}
+          >
             {product.name}
           </Link>
         ))}
