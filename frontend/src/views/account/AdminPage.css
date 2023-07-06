@@ -1,0 +1,33 @@
+.admin-page {
+    display: flex;
+  }
+  
+  .admin-page nav {
+    width: 250px;
+    min-width: 250px;
+    background-color: #cac4e0d7;
+  }
+  
+  .admin-page ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .admin-page li {
+    display: block;
+    color: #000;
+    padding: 8px 16px;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .admin-page li.active {
+    background-color: #04AA6D;
+    color: white;
+  }
+  
+  .admin-page li:hover:not(.active) {
+    background-color: #555;
+    color: white;
+  }

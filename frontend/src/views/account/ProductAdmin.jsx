@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import './ProductAdmin.css';
 
-
-function ProductAdmin() {
+const ProductAdmin = () => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [name, setName] = useState('');
@@ -38,7 +40,8 @@ function ProductAdmin() {
     event.preventDefault();
     const token = localStorage.getItem('token');
     try {
-      const response = await axios.post('http://localhost:8000/products',
+      const response = await axios.post(
+        'http://localhost:8000/products',
         {
           name,
           publisher,
@@ -51,45 +54,44 @@ function ProductAdmin() {
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (response.status === 201) {
-        setName('');
-        setPublisher('');
-        setAuthor('');
-        setCategories('');
-        setDetail('');
-        setImageUrls('');
-        setPrice(0);
-        setIsAvailable(true);
+        toast.success('Product added successfully!');
+        clearForm();
         fetchProducts();
       } else {
         console.error('Failed to add product');
+        toast.error('Failed to add product');
       }
     } catch (error) {
       console.error('Error adding product:', error);
+      toast.error('Error adding product');
     }
   };
 
   const handleDeleteProduct = async (productId) => {
     const token = localStorage.getItem('token');
     try {
-      const response = await axios.delete(`http://localhost:8000/products/${productId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
+      const response = await axios.delete(`http://localhost:8000/products/${productId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (response.status === 204) {
+        toast.success('Product deleted successfully!');
         fetchProducts();
       } else {
         console.error('Failed to delete product');
+        toast.error('Failed to delete product');
       }
     } catch (error) {
       console.error('Error deleting product:', error);
+      toast.error('Error deleting product');
     }
   };
 
@@ -105,7 +107,18 @@ function ProductAdmin() {
     const filteredProducts = products.filter((product) =>
       product.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    setProducts(filteredProducts);
+    setFilteredProducts(filteredProducts);
+  };
+
+  const clearForm = () => {
+    setName('');
+    setPublisher('');
+    setAuthor('');
+    setCategories('');
+    setDetail('');
+    setImageUrls('');
+    setPrice(0);
+    setIsAvailable(true);
   };
 
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -115,11 +128,11 @@ function ProductAdmin() {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div>
-      <div>
+    <div className="product-admin-container">
+      <div className="column">
         <h2>Add Product</h2>
         <form onSubmit={handleAddProduct}>
-          <label htmlFor="name">Name:</label>
+          <label htmlFor="name"><b>Name</b></label>
           <input
             type="text"
             id="name"
@@ -127,7 +140,7 @@ function ProductAdmin() {
             onChange={(e) => setName(e.target.value)}
             required
           />
-          <label htmlFor="publisher">Publisher:</label>
+          <label htmlFor="publisher"><b>Publisher</b></label>
           <input
             type="text"
             id="publisher"
@@ -135,7 +148,7 @@ function ProductAdmin() {
             onChange={(e) => setPublisher(e.target.value)}
             required
           />
-          <label htmlFor="author">Author:</label>
+          <label htmlFor="author"><b>Author</b></label>
           <input
             type="text"
             id="author"
@@ -143,7 +156,7 @@ function ProductAdmin() {
             onChange={(e) => setAuthor(e.target.value)}
             required
           />
-          <label htmlFor="categories">Categories (comma-separated):</label>
+          <label htmlFor="categories"><b>Categories (comma-separated)</b></label>
           <input
             type="text"
             id="categories"
@@ -151,14 +164,14 @@ function ProductAdmin() {
             onChange={(e) => setCategories(e.target.value)}
             required
           />
-          <label htmlFor="detail">Detail:</label>
+          <label htmlFor="detail"><b>Detail</b></label>
           <textarea
             id="detail"
             value={detail}
             onChange={(e) => setDetail(e.target.value)}
             required
-          />
-          <label htmlFor="imageUrls">Image URLs (comma-separated):</label>
+          ></textarea>
+          <label htmlFor="imageUrls"><b>Image URLs (comma-separated)</b></label>
           <input
             type="text"
             id="imageUrls"
@@ -166,7 +179,7 @@ function ProductAdmin() {
             onChange={(e) => setImageUrls(e.target.value)}
             required
           />
-          <label htmlFor="price">Price:</label>
+          <label htmlFor="price"><b>Price</b></label>
           <input
             type="number"
             id="price"
@@ -174,68 +187,92 @@ function ProductAdmin() {
             onChange={(e) => setPrice(parseFloat(e.target.value))}
             required
           />
-          <label htmlFor="isAvailable">Is Available:</label>
-          <input
-            type="checkbox"
-            id="isAvailable"
-            checked={isAvailable}
-            onChange={(e) => setIsAvailable(e.target.checked)}
-          />
-          <button type="submit">Add Product</button>
+          <div className="radio-buttons">
+            <label><b>Is Available</b></label>
+            <div className="radio-button">
+              &emsp;&ensp;&emsp;&ensp;
+              <input
+                type="radio"
+                name="isAvailable"
+                value="yes"
+                checked={isAvailable === true}
+                onChange={() => setIsAvailable(true)}
+              />
+              <label htmlFor="isAvailableYes">Yes</label>
+            </div>
+            &emsp;&ensp;&emsp;&ensp;&emsp;&ensp;&emsp;&ensp;
+            <div className="radio-button">
+              <input
+                type="radio"
+                name="isAvailable"
+                value="no"
+                checked={isAvailable === false}
+                onChange={() => setIsAvailable(false)}
+              />
+              <label htmlFor="isAvailableNo">No</label>
+            </div>
+          </div>
+          <div className="submit-button-container">
+            <button type="submit" className="submit-button">Add product</button>
+          </div>
         </form>
       </div>
-
-      <div>
-        <h2>Search Products</h2>
-        <input
-          type="text"
-          placeholder="Search by name"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <button onClick={handleSearch}>Search</button>
-      </div>
-
-      <h2>Product List</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Categories</th>
-            <th>Price</th>
-            <th>Is Available</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentItems.map((product) => (
-            <tr key={product._id}>
-              <td>{product.name}</td>
-              <td>{product.categories.join(', ')}</td>
-              <td>{product.price}</td>
-              <td>{product.isAvailable ? 'Yes' : 'No'}</td>
-              <td>
-                <button onClick={() => handleDeleteProduct(product._id)}>
-                  Delete
-                </button>
-              </td>
+      <div className="column" style={{ width: '850px' }}>
+        <div className="row">
+          <div className="columna">
+            <h2>Product List</h2>
+          </div>
+          <div className="columna">
+            <div className="search-container">
+              <input
+                type="text"
+                placeholder="Search by name"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              <button onClick={handleSearch}>Search</button>
+            </div>
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Categories</th>
+              <th>Price</th>
+              <th>Is Available</th>
+              <th>Action</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-      <div>
-        <ul className="pagination">
-          {Array.from({ length: Math.ceil(filteredProducts.length / itemsPerPage) }).map(
-            (item, index) => (
-              <li key={index}>
-                <button onClick={() => paginate(index + 1)}>{index + 1}</button>
-              </li>
-            )
-          )}
-        </ul>
+          </thead>
+          <tbody>
+            {currentItems.map((product) => (
+              <tr key={product._id}>
+                <td>{product.name}</td>
+                <td>{product.categories.join(', ')}</td>
+                <td>{product.price}</td>
+                <td>{product.isAvailable ? 'Yes' : 'No'}</td>
+                <td>
+                  <button onClick={() => handleDeleteProduct(product._id)} className="delete-button">Delete</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <div>
+          <ul className="pagination">
+            {Array.from({ length: Math.ceil(filteredProducts.length / itemsPerPage) }).map(
+              (item, index) => (
+                <li key={index}>
+                  <button onClick={() => paginate(index + 1)}>{index + 1}</button>
+                </li>
+              )
+            )}
+          </ul>
+        </div>
       </div>
+      <ToastContainer autoClose={2000} />
     </div>
   );
-}
+};
 
 export default ProductAdmin;

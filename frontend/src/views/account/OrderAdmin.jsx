@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './OrderAdmin.css';
 
 function OrderAdmin() {
   const [orders, setOrders] = useState([]);
@@ -62,11 +63,9 @@ function OrderAdmin() {
   
 
   return (
-    <div>
-      <h2>Order Admin</h2>
-
+    <div className="order-admin-container">
       <div>
-        <h3>Filter by Status:</h3>
+        <h3>Filter by Status</h3>
         <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
           <option value="">All</option>
           <option value="pending">Pending</option>
@@ -74,8 +73,6 @@ function OrderAdmin() {
           <option value="canceled">Canceled</option>
         </select>
       </div>
-
-      <h3>Orders</h3>
       <table>
         <thead>
           <tr>
@@ -88,25 +85,28 @@ function OrderAdmin() {
           </tr>
         </thead>
         <tbody>
-          {filteredOrders.map(order => (
-            <tr key={order._id}>
-              <td>{order._id}</td>
-              <td>{order.status}</td>
-              <td>
-                {order.delivery.name} at {order.delivery.shippingAddress.address}, {order.delivery.shippingAddress.district}, {order.delivery.shippingAddress.city}<br />
-              </td>
-              <td>{order.delivery.fee.toFixed(2)}</td>
-              <td>${order.totalPrice.toFixed(2)}</td>
-              <td>
-                {order.status === 'pending' && (
-                  <button onClick={() => handleChangeStatus(order._id, 'completed')}>
-                    Mark as Completed
-                  </button>
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
+  {filteredOrders.map(order => (
+    <tr key={order._id}>
+      <td>{order._id}</td>
+      <td className={`status-cell ${order.status}`}>
+        {order.status}
+      </td>
+      <td>
+        {order.delivery.name} at {order.delivery.shippingAddress.address}, {order.delivery.shippingAddress.district}, {order.delivery.shippingAddress.city}<br />
+      </td>
+      <td>{order.delivery.fee.toFixed(2)}</td>
+      <td>${order.totalPrice.toFixed(2)}</td>
+      <td>
+        {order.status === 'pending' && (
+          <button onClick={() => handleChangeStatus(order._id, 'completed')}>
+            Mark as Completed
+          </button>
+        )}
+      </td>
+    </tr>
+  ))}
+</tbody>
+
       </table>
     </div>
   );
