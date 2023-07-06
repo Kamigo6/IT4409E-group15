@@ -35,8 +35,7 @@ const Invoice = () => {
     totalPrice = order.totalPrice;
     coupon = 0;
     if (order.coupon !== null) coupon = order.coupon.value;
-    originalPrice = totalPrice + coupon;
-    shippingFee = order.delivery.fee;
+    shippingFee = order.delivery.fee.toFixed(2);
   }
 
   return (
@@ -109,9 +108,9 @@ const Invoice = () => {
                       return (
                         <tr>
                           <td className="col-6">{product.productId.name}</td>
-                          <td className="col-2 text-center">${product.productId.price}</td>
+                          <td className="col-2 text-center">${(product.productId.price - product.productId.discount.value).toFixed(2)}</td>
                           <td className="col-2 text-center">{product.quantity}</td>
-                          <td className="col-2 text-end">${product.productId.price * product.quantity}</td>
+                          <td className="col-2 text-end">${((product.productId.price - product.productId.discount.value) * product.quantity).toFixed(2)}</td>
                         </tr>
                       )
                     })}
@@ -125,17 +124,12 @@ const Invoice = () => {
                         <div className="me-2">Coupon: </div>
                       </td>
 
-                      <td className="text-end">${totalPrice}
-                        <div className="me-2">${originalPrice}</div>
-                        <div className="me-2">-${coupon}</div>
+                      <td className="text-end">${(totalPrice - shippingFee).toFixed(2)}
+                        <div className="me-2">${(totalPrice - shippingFee + coupon).toFixed(2)}</div>
+                        <div className="me-2">-${(coupon).toFixed(2)}</div>
                       </td>
                     </tr>
-                    <tr>
-                      <td colSpan="4" className="text-end">
-                        <strong>Tax:</strong>
-                      </td>
-                      <td className="text-end">${(totalPrice * 0.1).toFixed(2)}</td>
-                    </tr>
+
                     <tr>
                       <td colSpan="4" className="text-end">
                         <strong>Shipping Fee:</strong>
@@ -146,7 +140,7 @@ const Invoice = () => {
                       <td colSpan="4" className="text-end border-bottom-0">
                         <strong>Total:</strong>
                       </td>
-                      <td className="text-end border-bottom-0">${(totalPrice * 1.1 + shippingFee).toFixed(2)}</td>
+                      <td className="text-end border-bottom-0">${totalPrice.toFixed(2)}</td>
                     </tr>
                   </tfoot>
                 </table>

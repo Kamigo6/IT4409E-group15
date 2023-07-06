@@ -274,10 +274,7 @@ const CartView = () => {
               <div className="card-body">
                 <dl className="row border-bottom">
                   <dt className="col-6">Subtotal:</dt>
-                  <dd className="col-6 text-end">${totalPrice}</dd>
-
-                  <dt className="col-6 text-success">Discount:</dt>
-                  <dd className="col-6 text-success text-end">-${totalDiscount.toFixed(2)}</dd>
+                  <dd className="col-6 text-end">${totalPrice.toFixed(2)}</dd>
                   <dt className="col-6 text-success">
                     Coupon:{" "}
                     <span className="small text-muted">{coupon.code}</span>{" "}
@@ -287,7 +284,7 @@ const CartView = () => {
                 <dl className="row">
                   <dt className="col-6">Total price:</dt>
                   <dd className="col-6 text-end  h6">
-                    <strong>${(totalPrice - totalDiscount - coupon.value).toFixed(2)}</strong>
+                    <strong>${(totalPrice - coupon.value).toFixed(2)}</strong>
                   </dd>
                 </dl>
                 <hr />

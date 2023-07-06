@@ -1,5 +1,5 @@
 import React, { lazy, useEffect, useState } from "react";
-import {useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTh, faBars } from "@fortawesome/free-solid-svg-icons";
 import axios from 'axios';
@@ -24,7 +24,7 @@ const categoryNameMap = {
   "all": "All"
 };
 
-const productNumberPerPage = 6;
+const productNumberPerPage = 2;
 
 const ProductListView = ({ catName }) => {
   const navigate = useNavigate();
@@ -156,9 +156,9 @@ const ProductListView = ({ catName }) => {
         }}
       >
         <div className="container text-center">
-        <span className="display-5 px-3 rounded shadow" style={{ backgroundColor: 'rgb(13 169 253)',color: 'white' }}>
-  <b>{categoryNameMap[catName]}</b>
-</span>
+          <span className="display-5 px-3 rounded shadow" style={{ backgroundColor: 'rgb(13 169 253)', color: 'white' }}>
+            <b>{categoryNameMap[catName]}</b>
+          </span>
 
         </div>
       </div>

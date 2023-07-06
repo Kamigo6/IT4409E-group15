@@ -64,24 +64,24 @@ const CardProductGrid = ({ product }) => {
 
   return (
     <div className="card">
-  <ToastContainer autoClose={2000} />
-  {notification && <div className="alert alert-success">{notification}</div>}
-  <div className="card-img-container">
-    <Link to={`/product/${product._id}`} className="text-decoration-none">
-      <img src={product.imageUrls[0]} className="card-img-top" alt="Product" />
-    </Link>
-  </div>
-  <div className="card-body">
-    <h6 className="card-subtitle mb-2">
-      <Link to={`/product/${product._id}`} className="text-decoration-none">
-        {product.name}
-      </Link>
-    </h6>
+      <ToastContainer autoClose={2000} />
+      {notification && <div className="alert alert-success">{notification}</div>}
+      <div className="card-img-container">
+        <Link to={`/product/${product._id}`} className="text-decoration-none">
+          <img src={product.imageUrls[0]} className="card-img-top" alt="Product" />
+        </Link>
+      </div>
+      <div className="card-body">
+        <h6 className="card-subtitle mb-2">
+          <Link to={`/product/${product._id}`} className="text-decoration-none">
+            {product.name}
+          </Link>
+        </h6>
         <div className="my-2">
-          <span className="fw-bold h5">${product.price}</span>
+          <span className="fw-bold h5">${product.price - product.discount.value}</span>
           {product.discount.value > 0 && (
             <del className="small text-muted ms-2">
-              ${(product.price + product.discount.value).toFixed(2)}
+              ${(product.price).toFixed(2)}
             </del>
           )}
           {product.discount.value > 0 && (

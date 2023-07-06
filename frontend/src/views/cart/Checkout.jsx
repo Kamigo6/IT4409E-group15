@@ -1,22 +1,102 @@
-import React, { Component } from "react";
+import React, { useState, useEffect, lazy } from "react";
+import axios from "axios";
 import { useLocation } from 'react-router-dom';
 import { ReactComponent as IconEnvelope } from "bootstrap-icons/icons/envelope.svg";
 import { ReactComponent as IconTruck } from "bootstrap-icons/icons/truck.svg";
 import { ReactComponent as IconReceipt } from "bootstrap-icons/icons/receipt.svg";
 import { ReactComponent as IconCreditCard2Front } from "bootstrap-icons/icons/credit-card-2-front.svg";
 import { ReactComponent as IconCart3 } from "bootstrap-icons/icons/cart3.svg";
+import { Link, useNavigate } from "react-router-dom";
+import { prefix } from "@fortawesome/free-solid-svg-icons";
 
 const CheckoutView = () => {
   let location = useLocation();
-  console.log(location.state);
   const cart = location.state.cart;
   const customer = location.state.customer;
   const totalPrice = location.state.totalPrice;
   const totalDiscount = location.state.totalDiscount;
   const coupon = location.state.coupon;
+  console.log(coupon);
+  const [order, setOrder] = useState({
+    customerId: customer._id,
+    products: cart.map(product => {
+      return ({ productId: product.productId._id, quantity: product.quantity });
+    }),
+    delivery: {
+      name: customer.shippingInformation[0].firstName + " " + customer.shippingInformation[0].lastName,
+      shippingAddress: {
+        address: customer.shippingInformation[0].address,
+        district: customer.shippingInformation[0].district,
+        city: customer.shippingInformation[0].city
+      },
+      fee: 5.00
+    },
+    coupon: "",
+    totalPrice: totalPrice - coupon.value + 5.00,
+    status: "pending",
+    createdDate: Date.now()
+  });
+
+  useEffect(() => {
+    const str = coupon._id.toString()
+    if (coupon.value !== 0) {
+      setOrder(prevState => ({
+        ...prevState,
+        coupon: str
+      }
+      ));
+    }
+    else {
+      setOrder(prevState => ({
+        ...prevState,
+        coupon: null
+      }
+      ));
+    }
+
+  }, [])
+  const navigate = useNavigate();
+  //Nam thêm thông báo thành công/thất bại ở đây giúp t
+  const handlePayment = async () => {
+
+    try {
+      const token = localStorage.getItem("token");
+
+      await axios.post("http://localhost:8000/orders/", order, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+
+    } catch (error) {
+      console.error("Error adding order:", error);
+
+    }
+    emptyCart();
+    navigate("/"); // Navigate to the home page
+  }
+  const emptyCart = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (token) {
+        await axios.patch(`http://localhost:8000/customers/${customer._id}`, { cart: [] }, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      } else {
+        console.log("No token in localstorage");
+      }
+    } catch (error) {
+      console.error('Error updating data:', error);
+    }
+
+  }
   return (
     <React.Fragment>
       <div className="border-top p-4 text-white mb-3" style={{ background: "DodgerBlue" }}>
+
         <h1 className="display-6">Checkout</h1>
       </div>
       <div className="container mb-3">
@@ -61,8 +141,15 @@ const CheckoutView = () => {
                       type="text"
                       className="form-control"
                       placeholder="Name"
-                      defaultValue={customer.shippingInformation[0].firstName + " " + customer.shippingInformation[0].lastName}
+                      defaultValue={order.delivery.name}
                       required
+                      onChange={(e) => setOrder(prevState => ({
+                        ...prevState,
+                        delivery: {
+                          ...prevState.delivery,
+                          name: e.target.value
+                        }
+                      }))}
                     />
                   </div>
                   <div className="col-md-12">
@@ -70,7 +157,18 @@ const CheckoutView = () => {
                       type="text"
                       className="form-control"
                       placeholder="Addresss"
-                      defaultValue={customer.shippingInformation[0].address}
+                      defaultValue={order.delivery.shippingAddress.address}
+                      onChange={(e) => setOrder(prevState => ({
+                        ...prevState,
+                        delivery: {
+                          ...prevState.delivery,
+                          shippingAddress: {
+                            ...prevState.delivery.shippingAddress,
+                            address: e.target.value
+                          }
+
+                        }
+                      }))}
                       required
                     />
                   </div>
@@ -80,7 +178,18 @@ const CheckoutView = () => {
                       type="text"
                       className="form-control"
                       placeholder="City"
-                      defaultValue={customer.shippingInformation[0].city}
+                      defaultValue={order.delivery.shippingAddress.city}
+
+                      onChange={(e) => setOrder(prevState => ({
+                        ...prevState,
+                        delivery: {
+                          ...prevState.delivery,
+                          shippingAddress: {
+                            ...prevState.delivery.shippingAddress,
+                            city: e.target.value
+                          }
+                        }
+                      }))}
                       required
                     />
                   </div>
@@ -89,7 +198,18 @@ const CheckoutView = () => {
                       type="text"
                       className="form-control"
                       placeholder="District"
-                      defaultValue={customer.shippingInformation[0].district}
+                      defaultValue={order.delivery.shippingAddress.district
+                      }
+                      onChange={(e) => setOrder(prevState => ({
+                        ...prevState,
+                        delivery: {
+                          ...prevState.delivery,
+                          shippingAddress: {
+                            ...prevState.delivery.shippingAddress,
+                            district: e.target.value
+                          }
+                        }
+                      }))}
                       required
                     />
                   </div>
@@ -151,13 +271,17 @@ const CheckoutView = () => {
                       type="text"
                       className="form-control"
                       placeholder="Name on card"
+                      defaultValue="Master Card"
+                      required
                     />
                   </div>
                   <div className="col-md-6">
                     <input
-                      type="number"
+                      type="text"
                       className="form-control"
                       placeholder="Card number"
+                      defaultValue="1234 1234 1234 5678"
+                      required
                     />
                   </div>
                   <div className="col-md-4">
@@ -165,6 +289,8 @@ const CheckoutView = () => {
                       type="number"
                       className="form-control"
                       placeholder="Expiration month"
+                      defaultValue={12}
+                      required
                     />
                   </div>
                   <div className="col-md-4">
@@ -172,6 +298,8 @@ const CheckoutView = () => {
                       type="number"
                       className="form-control"
                       placeholder="Expiration year"
+                      defaultValue={2035}
+                      required
                     />
                   </div>
                   <div className="col-md-4">
@@ -179,13 +307,15 @@ const CheckoutView = () => {
                       type="number"
                       className="form-control"
                       placeholder="CVV"
+                      defaultValue={612}
+                      required
                     />
                   </div>
                 </div>
               </div>
               <div className="card-footer border-info d-grid">
-                <button type="button" className="btn btn-info">
-                  Pay Now <strong>${totalPrice}</strong>
+                <button type="button" className="btn btn-info" onClick={handlePayment}>
+                  Pay Now <strong>${(order.totalPrice).toFixed(2)}</strong>
                 </button>
               </div>
             </div>
@@ -209,22 +339,23 @@ const CheckoutView = () => {
                     </li>
                   )
                 })}
+
                 <li className="list-group-item d-flex justify-content-between bg-light">
                   <div className="text-success">
-                    <h6 className="my-0">Total Discount</h6>
+                    <h6 className="my-0">Shipping Fee</h6>
                   </div>
-                  <span className="text-success">-${totalDiscount}</span>
+                  <span className="text-success">$5.00</span>
                 </li>
                 <li className="list-group-item d-flex justify-content-between bg-light">
                   <div className="text-success">
-                    <h6 className="my-0">Coupon code</h6>
-                    <small>EXAMPLECODE</small>
+                    <h6 className="my-0">Coupon</h6>
+                    <small>{coupon.code}</small>
                   </div>
-                  <span className="text-success">−${coupon.value}</span>
+                  <span className="text-success">−${coupon.value.toFixed(2)}</span>
                 </li>
                 <li className="list-group-item d-flex justify-content-between">
                   <span>Total (USD)</span>
-                  <strong>${totalPrice - totalDiscount - coupon.value}</strong>
+                  <strong>${(order.totalPrice).toFixed(2)}</strong>
                 </li>
               </ul>
             </div>

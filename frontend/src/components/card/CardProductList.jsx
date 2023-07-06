@@ -68,21 +68,21 @@ const CardProductList = ({ product }) => {
       <ToastContainer autoClose={2000} />
       {notification && <div className="alert alert-success">{notification}</div>}
       <div className="row g-0">
-      <div className="col-md-3 text-center">
-  <Link to={`/product/${product._id}`}>
-    <div
-      className="image-container"
-      style={{
-        backgroundImage: `url(${product.imageUrls[0]})`,
-        backgroundSize: "contain",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center",
-        height: "295px",
-        width: "100%",
-      }}
-    />
-  </Link>
-</div>
+        <div className="col-md-3 text-center">
+          <Link to={`/product/${product._id}`}>
+            <div
+              className="image-container"
+              style={{
+                backgroundImage: `url(${product.imageUrls[0]})`,
+                backgroundSize: "contain",
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "center",
+                height: "295px",
+                width: "100%",
+              }}
+            />
+          </Link>
+        </div>
 
         <div className="col-md-6">
           <div className="card-body">
@@ -109,10 +109,10 @@ const CardProductList = ({ product }) => {
         <div className="col-md-3">
           <div className="card-body">
             <div className="mb-2">
-              <span className="fw-bold h5">${product.price}</span>
+              <span className="fw-bold h5">${product.price - product.discount.value}</span>
               {product.discount.value > 0 && (
                 <del className="small text-muted ms-2">
-                  ${(product.price + product.discount.value).toFixed(2)}
+                  ${(product.price).toFixed(2)}
                 </del>
               )}
               {product.discount.value > 0 && (

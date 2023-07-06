@@ -97,7 +97,8 @@ const OrdersView = () => {
                           </h6>
                           <div className="small">
                             <span className="text-muted me-2">Price:</span>
-                            <span className="me-3">{`$${product.productId.price}`}</span>
+                            <span className="me-3">{`$${(product.productId.price - product.productId.discount.value).toFixed(2)}`}</span>
+                            <del className="me-3 text-muted">{`$${product.productId.price.toFixed(2)}`}</del>
                             <span className="text-muted me-2">Quantity:</span>
                             <span className="me-3">{`${product.quantity}`}</span>
                           </div>
@@ -108,8 +109,7 @@ const OrdersView = () => {
                     </div>
                   );
                 })}
-                <div className="me-2">Original Price: ${order.totalPrice + (order.coupon !== null ? order.coupon.value : 0)}</div>
-                <div className="me-2">Shipping Fee: ${order.delivery.fee}</div>
+                <div className="me-2">Shipping Fee: ${order.delivery.fee.toFixed(2)}</div>
                 <div className="me-2">Coupon: -${order.coupon !== null ? order.coupon.value : 0}</div>
               </div>
               <div className="card-footer border-secondary d-flex justify-content-between">
@@ -139,7 +139,7 @@ const OrdersView = () => {
                 </div>
                 <div>
                   <span className="me-2">Total Price:</span>
-                  <span className="me-2 text-success">${order.totalPrice}</span>
+                  <span className="me-2 text-success">${order.totalPrice.toFixed(2)}</span>
                 </div>
                 <div>
                   <span className="me-2">Invoice:</span>
