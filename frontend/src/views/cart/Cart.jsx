@@ -143,10 +143,13 @@ const CartView = () => {
     });
   };
 
-  const handleMakePurchase = () => {
-
+  const handleMakePurchase = (e) => {
+    if (cartData.length == 0) {
+      e.preventDefault();
+      //Đưa ra thông báo không có product nào
+    }
   }
-  // Quang Nam thêm popup chỗ này giúp t với
+  // Quang Nam thêm popup chỗ này giúp t với, báo user nhập sai coupon
   const handleWrongCoupon = () => {
 
   }
@@ -250,7 +253,10 @@ const CartView = () => {
               <div className="card-footer">
                 <Link to="/checkout" state={data}
 
-                  className="btn btn-primary float-end" onClick={handleMakePurchase()}>
+                  className="btn btn-primary float-end" onClick={(e) => {
+                    return handleMakePurchase(e)
+
+                  }}>
                   Make Purchase <IconChevronRight className="i-va" />
                 </Link>
                 <Link to="/" className="btn btn-secondary">

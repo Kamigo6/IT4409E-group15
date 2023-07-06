@@ -109,7 +109,7 @@ const CardProductList = ({ product }) => {
         <div className="col-md-3">
           <div className="card-body">
             <div className="mb-2">
-              <span className="fw-bold h5">${product.price - product.discount.value}</span>
+              <span className="fw-bold h5">${(product.price - product.discount.value).toFixed(2)}</span>
               {product.discount.value > 0 && (
                 <del className="small text-muted ms-2">
                   ${(product.price).toFixed(2)}
