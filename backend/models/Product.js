@@ -1,12 +1,15 @@
 const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema({
-    supplier: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Supplier',
+    name: {
+        type: String,
         required: true
     },
-    name: {
+    publisher: {
+        type: String,
+        required: true
+    },
+    author: {
         type: String,
         required: true
     },
