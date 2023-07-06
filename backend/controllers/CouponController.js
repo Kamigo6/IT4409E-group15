@@ -22,6 +22,19 @@ const getCouponById = async (req, res) => {
   }
 };
 
+const getCouponByCode = async (req, res) => {
+  const { code } = req.params;
+  try {
+    const coupon = await Coupon.findOne({ code });
+    if (!coupon) {
+      return res.status(404).json({ error: 'Coupon not found' });
+    }
+    res.json(coupon);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch coupon' });
+  }
+};
+
 const createCoupon = async (req, res) => {
   const { code, value, unit } = req.body;
 
@@ -64,6 +77,7 @@ const deleteCouponById = async (req, res) => {
 module.exports = {
   getAllCoupons,
   getCouponById,
+  getCouponByCode,
   createCoupon,
   updateCouponById,
   deleteCouponById

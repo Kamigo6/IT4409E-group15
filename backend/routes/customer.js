@@ -8,6 +8,8 @@ router.get('/', isAuth, CustomerController.getAllCustomers);
 
 router.get('/token', isAuth, CustomerController.getCustomerByToken);
 
+router.get('/:id', isAuth, CustomerController.getCustomerById);
+
 router.post("/", isAuth, CustomerController.createCustomer);
 
 router.patch("/:id", isAuth, CustomerController.updateCustomerById);

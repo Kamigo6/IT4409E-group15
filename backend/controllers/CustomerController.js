@@ -25,6 +25,19 @@ const getCustomerByToken = async (req, res) => {
     }
 };
 
+const getCustomerById = async (req, res) => {
+    const { id } = req.params;
+    try {
+      const customer = await Customer.findById(id).populate('cart.productId').populate('wishList.productId');
+      if (!customer) {
+        return res.status(404).json({ error: 'Customer not found' });
+      }
+      res.json(customer);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch customer' });
+    }
+  };
+
 const createCustomer = async (req, res) => {
     const {
         username,
@@ -98,6 +111,7 @@ const deleteCustomerById = async (req, res) => {
 module.exports = {
     getAllCustomers,
     getCustomerByToken,
+    getCustomerById,
     createCustomer,
     updateCustomerById,
     deleteCustomerById
