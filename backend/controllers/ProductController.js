@@ -39,8 +39,9 @@ const getProductsByCategory = async (req, res) => {
 
 const createProduct = async (req, res) => {
     const {
-        supplier,
         name,
+        publisher,
+        author,
         categories,
         detail,
         imageUrls,
@@ -49,10 +50,12 @@ const createProduct = async (req, res) => {
         isAvailable,
         ratings
     } = req.body;
+    console.log(req.body);
     try {
         const product = await Product.create({
-            supplier,
             name,
+            publisher,
+            author,
             categories,
             detail,
             imageUrls,
