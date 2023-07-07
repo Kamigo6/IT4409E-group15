@@ -23,7 +23,7 @@ function AdminPage() {
           }
         });
 
-        if (response.ok) {
+        if (response.status === 200) {
           const customerData = response.data;
           if (!customerData?.isAdmin) {
             navigate('/');
