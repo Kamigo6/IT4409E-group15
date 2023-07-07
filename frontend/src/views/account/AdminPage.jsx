@@ -32,9 +32,13 @@ function AdminPage() {
           setAdmin(customerData);
         } else {
           console.error('Failed to fetch customer information');
+          navigate('/');
+          return null;
         }
       } catch (error) {
         console.error('Error:', error);
+        navigate('/');
+        return null;
       }
     };
     fetchCustomer();

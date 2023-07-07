@@ -187,10 +187,10 @@ const CustomerProfile = () => {
           <input type="text" value={location.city} className="form-control" readOnly />
         </div>
       </div>
-      <h3 className="mt-4 mb-4">
+      {isAdmin && <h3 className="mt-4 mb-4">
         <i className="bi bi-truck"></i> Shipping Information
-      </h3>
-      <div className="section">
+      </h3>}
+      {isAdmin && <div className="section">
         <table className="table">
           <thead>
             <tr>
@@ -215,12 +215,12 @@ const CustomerProfile = () => {
             ))}
           </tbody>
         </table>
-      </div>
+      </div>}
 
-      <h3 className="mt-4 mb-4">
+      {isAdmin && <h3 className="mt-4 mb-4">
         <i className="bi bi-credit-card"></i> Payment Methods
-      </h3>
-      <div className="section">
+      </h3>}
+      {isAdmin && <div className="section">
         <table className="table">
           <thead>
             <tr>
@@ -243,7 +243,7 @@ const CustomerProfile = () => {
             ))}
           </tbody>
         </table>
-      </div>
+      </div>}
 
     </div>
   );
