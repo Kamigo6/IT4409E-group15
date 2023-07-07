@@ -163,12 +163,12 @@ const Invoice = () => {
               >
                 <IconPrinter /> Print
               </a>
-              <a
+              {/* <a
                 href="!#"
                 className="btn btn-light border text-black-50 shadow-none"
               >
                 <IconDownload /> Download
-              </a>
+              </a> */}
             </div>
           </div>
         </div>
