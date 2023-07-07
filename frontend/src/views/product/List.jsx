@@ -1,9 +1,7 @@
 import React, { lazy, useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTh, faBars } from "@fortawesome/free-solid-svg-icons";
 import axios from 'axios';
-const Paging = lazy(() => import("../../components/Paging"));
 const Pagination = lazy(() => import("../../components/Pagination"));
 const Breadcrumb = lazy(() => import("../../components/Breadcrumb"));
 const FilterCategory = lazy(() => import("../../components/filter/Category"));
@@ -27,7 +25,6 @@ const categoryNameMap = {
 const productNumberPerPage = 6;
 
 const ProductListView = ({ catName }) => {
-  const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [productsByCat, setProductsByCat] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -51,10 +48,6 @@ const ProductListView = ({ catName }) => {
 
         if (response.ok) {
           const customerData = await response.json();
-          if (customerData?.isAdmin) {
-            navigate('/admin');
-            return null;
-          }
           setCustomer(customerData);
         } else {
           console.error('Failed to fetch customer information');
