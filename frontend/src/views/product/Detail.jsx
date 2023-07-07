@@ -50,7 +50,7 @@ const ProductDetailView = () => {
   const getRatings = async (id) => {
     try {
       const response = await axios.get(`http://localhost:8000/ratings`);
-      const ratings = response.data.filter((rating) => { return (rating.productId == id) });
+      const ratings = response.data.filter((rating) => { return (rating.productId === id) });
       setRatings(ratings);
     } catch (error) {
       console.error("Error fetching product:", error);
@@ -233,8 +233,9 @@ const ProductDetailView = () => {
                 </button>
               </div>
               <div>
-                {product && product.imageUrls.map((url) => {
+                {product && product.imageUrls.map((url, index) => {
                   return (<img
+                    key={index}
                     src={url}
                     className="border border-secondary me-2" width="100"
                     alt="..."
@@ -301,21 +302,21 @@ const ProductDetailView = () => {
                   aria-labelledby="nav-randr-tab"
                 >
                   <h4>Rate the Product</h4>
-                  <div class="row mb-3 gx-1">
-                    <div class="col-1">
+                  <div className="row mb-3 gx-1">
+                    <div className="col-1">
                       <input type="number" value={rating} required className="form-control" min="0" max="5" onChange={handleRatingChange} />
                     </div>
-                    <div class="col-8">
+                    <div className="col-8">
                       <input type="text" value={content} required className="form-control" onChange={handleContentChange} />
                     </div>
-                    <div class="col">
+                    <div className="col">
 
                       <button className="btn btn-info" onClick={handleRatingSubmit}>Submit Rating</button>
                     </div>
                   </div>
-                  {ratings && ratings.map((rating) => {
+                  {ratings && ratings.map((rating, index) => {
                     return (
-                      <RatingsReviews rating={rating} />
+                      <RatingsReviews key={index} rating={rating} />
                     )
                   })}
                 </div>
