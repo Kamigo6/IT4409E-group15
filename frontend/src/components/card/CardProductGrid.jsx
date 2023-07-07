@@ -28,6 +28,13 @@ const CardProductGrid = ({ product }) => {
     try {
       const token = localStorage.getItem("token");
       const customer = await getCustomerData(token);
+
+      if (customer.cart.some(item => item.productId._id == productId)) {
+        toast.success("Product is already in the cart!");
+
+        return 0;
+      }
+
       if (customer) {
         const updatedCart = [...customer.cart, { productId: productId, quantity: 1 }];
         await axios.patch(`http://localhost:8000/customers/${customer._id}`, { cart: updatedCart }, {

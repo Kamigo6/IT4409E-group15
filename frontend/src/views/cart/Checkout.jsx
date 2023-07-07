@@ -54,7 +54,7 @@ const CheckoutView = () => {
     }
   }, []);
   const navigate = useNavigate();
-  //Nam thêm thông báo thành công/thất bại ở đây giúp t
+
   const handlePayment = async () => {
 
     try {

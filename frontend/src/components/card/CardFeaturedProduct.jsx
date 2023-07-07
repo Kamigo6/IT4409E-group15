@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ReactComponent as IconStarFill } from "bootstrap-icons/icons/star-fill.svg";
 import axios from 'axios';
 
 const CardFeaturedProduct = ({ cat }) => {
   const [products, setProducts] = useState([])
   const getProducts = async (cat) => {
+
     try {
-      const response = await axios.get(`http://localhost:8000/products/category/${cat}`);
-      const products = response.data;
+      let response
+      if (cat === null) response = await axios.get("http://localhost:8000/products")
+      else response = await axios.get(`http://localhost:8000/products/category/${cat}`)
+      const products = response.data
 
       setProducts(products.slice(0, 5));
     } catch (error) {
@@ -39,7 +41,7 @@ const CardFeaturedProduct = ({ cat }) => {
                   {products && product.name}
                 </Link>
               </h6>
-              <span className="fw-bold h5">${product.price - product.discount.value}</span>
+              <span className="fw-bold h5">${(product.price - product.discount.value).toFixed(2)}</span>
               {product.price > 0 && (
                 <del className="small text-muted ms-2">
                   ${product.price}

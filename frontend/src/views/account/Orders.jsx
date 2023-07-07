@@ -58,7 +58,7 @@ const OrdersView = () => {
     <div className="container mb-3">
       <h4 className="my-3">Orders</h4>
       <div className="w-75 mx-auto mb-2">
-        {orders.map((order) => {
+        {orders.reverse().map((order) => {
           return (
             <div className="card list-group m-4 border-secondary ">
               <div className="card-header border-secondary">

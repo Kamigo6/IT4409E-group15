@@ -4,19 +4,30 @@ import { ReactComponent as IconStarFill } from "bootstrap-icons/icons/star-fill.
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartPlus, faHeart, faShoppingCart, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import axios from 'axios';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const CardFeaturedProduct = lazy(() => import("../../components/card/CardFeaturedProduct"));
 const CardServices = lazy(() => import("../../components/card/CardServices"));
-const Details = lazy(() => import("../../components/others/Details"));
 const RatingsReviews = lazy(() => import("../../components/others/RatingsReviews"));
-const QuestionAnswer = lazy(() => import("../../components/others/QuestionAnswer"));
 const ShippingReturns = lazy(() => import("../../components/others/ShippingReturns"));
 const SizeChart = lazy(() => import("../../components/others/SizeChart"));
 const ProductDetailView = () => {
-  const [featredProducts, setFeatredProducts] = useState([]);
   const [product, setProduct] = useState(null);
-  const [ratings, setRatings] = useState([]);
+  const [value, setValue] = useState(1);
   const { id } = useParams();
+  const [rating, setRating] = useState(0);
+  const [ratings, setRatings] = useState([]);
+  const [content, setContent] = useState("");
+
+  const handleRatingChange = (event) => {
+    console.log(rating);
+    setRating(event.target.value);
+  };
+
+  const handleContentChange = (event) => {
+    setContent(event.target.value);
+  };
+
 
   useEffect(() => {
     const getProduct = async (id) => {
@@ -28,35 +39,146 @@ const ProductDetailView = () => {
         console.error("Error fetching product:", error);
       }
     };
-    console.log(id);
+
+
     getProduct(id);
-
+    getRatings(id);
   }, [])
+  useEffect(() => {
+
+  }, [ratings])
+  const getRatings = async (id) => {
+    try {
+      const response = await axios.get(`http://localhost:8000/ratings`);
+      const ratings = response.data.filter((rating) => { return (rating.productId == id) });
+      setRatings(ratings);
+    } catch (error) {
+      console.error("Error fetching product:", error);
+    }
+  };
+
+  const getCustomerData = async (token) => {
+    if (token) {
+      const response = await axios.get("http://localhost:8000/customers/token", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } else {
+      return null;
+    }
+  };
+
+  const handleAddToCart = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const customer = await getCustomerData(token);
+
+      if (customer.cart.some(item => item.productId._id == id)) {
+        toast.success("Product is already in the cart!");
+
+        return 0;
+      }
+
+      if (customer) {
+        const updatedCart = [...customer.cart, { productId: id, quantity: value }];
+        await axios.patch(`http://localhost:8000/customers/${customer._id}`, { cart: updatedCart }, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        toast.success("Product added to Cart successfully!");
+      }
+    } catch (error) {
+      console.error("Error adding product to Cart:", error);
+      toast.error("Error adding product to Cart:", error);
+    }
+  };
+
+  const handleAddToWishlist = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const customer = await getCustomerData(token);
+      if (customer) {
+        const updatedWishlist = [...customer.wishList, { productId: id }];
+        await axios.patch(`http://localhost:8000/customers/${customer._id}`, { wishList: updatedWishlist }, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        toast.success("Product added to Wish List successfully!");
+      }
+    } catch (error) {
+      console.error("Error adding product to Wish List:", error);
+      toast.error("Error adding product to Wish List:", error);
+    }
+  };
+
+  const handleMinusClick = () => {
+    if (value > 1) {
+      setValue(value - 1);
+    }
+  };
+
+  const handlePlusClick = () => {
+    setValue(value + 1);
+  };
+
+  const handleRatingSubmit = async () => {
+    getRatings(id);
+    const token = localStorage.getItem("token");
+    const customer = await getCustomerData(token);
+    const newRating = {
+      customerId: customer._id.toString(),
+      productId: id.toString(),
+      content: content,
+      star: parseInt(rating),
+      likes: 0,
+      dislikes: 0
+    };
+
+    console.log(newRating);
+    try {
+      await axios.post("http://localhost:8000/ratings", newRating, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } catch (error) {
+      console.error("Error adding order:", error);
+    }
+
+    setRating(0);
+    setContent("");
+  };
+
   return (
-
     <div className="container-fluid mt-3">
-
+      <ToastContainer autoClose={2000} />
       <div className="row">
         <div className="col-md-8">
           <div className="row mb-3">
-          <div className="col-md-5 text-center">
-  <img
-    src={product && product.imageUrls[0]}
-    className="img-fluid"
-    alt="Book"
-    style={{ width: '300px', height: '450px' }}
-  />
-</div>
+            <div className="col-md-5 text-center">
+              <img
+                src={product && product.imageUrls[0]}
+                className="img-fluid"
+                alt="Book"
+                style={{ width: '300px', height: '450px' }}
+              />
+            </div>
             <div className="col-md-7">
-              <h1 className="h5 d-inline me-2">
+              <h1 className="h2 d-inline me-2">
                 {product && product.name}
               </h1>
               <dl className="row small mb-3">
                 <dt className="col-sm-3">Availability</dt>
-                {product && product.isAvailable && <dd className="col-sm-9 text-success">In Stock</dd>}
+                {product && product.isAvailable && <dd className="col-sm-9 text-success strong">In Stock</dd>}
                 {product && !product.isAvailable && <dd className="col-sm-9 text-danger">Out of Stock</dd>}
-                <dt className="col-sm-3">Supplier</dt>
-                <dd className="col-sm-9">{product && product.supplier}</dd>
+                <dt className="col-sm-3">Publisher</dt>
+                <dd className="col-sm-9">{product && product.publisher}</dd>
+                <dt className="col-sm-3">Author</dt>
+                <dd className="col-sm-9">{product && product.author}</dd>
               </dl>
 
               <div className="mb-3">
@@ -72,40 +194,40 @@ const ProductDetailView = () => {
                     <button
                       className="btn btn-primary text-white"
                       type="button"
+                      onClick={handleMinusClick}
                     >
                       <FontAwesomeIcon icon={faMinus} />
                     </button>
                     <input
                       type="text"
                       className="form-control"
-                      defaultValue="1"
+                      value={value}
+                      readOnly
                     />
                     <button
                       className="btn btn-primary text-white"
                       type="button"
+                      onClick={handlePlusClick}
                     >
                       <FontAwesomeIcon icon={faPlus} />
                     </button>
                   </div>
                 </div>
-                <button
-                  type="button"
-                  className="btn btn-sm btn-primary me-2"
-                  title="Add to cart"
-                >
-                  <FontAwesomeIcon icon={faCartPlus} /> Add to cart
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-sm btn-warning me-2"
-                  title="Buy now"
-                >
-                  <FontAwesomeIcon icon={faShoppingCart} /> Buy now
-                </button>
+                {product && product.isAvailable &&
+                  <button
+                    type="button"
+                    className="btn btn-sm btn-primary me-2"
+                    title="Add to cart"
+                    onClick={handleAddToCart}
+                  >
+                    <FontAwesomeIcon icon={faCartPlus} /> Add to cart
+                  </button>
+                }
                 <button
                   type="button"
                   className="btn btn-sm btn-outline-secondary"
                   title="Add to wishlist"
+                  onClick={handleAddToWishlist}
                 >
                   <FontAwesomeIcon icon={faHeart} />
                 </button>
@@ -178,7 +300,20 @@ const ProductDetailView = () => {
                   role="tabpanel"
                   aria-labelledby="nav-randr-tab"
                 >
-                  {product && product.ratings.map((rating) => {
+                  <h4>Rate the Product</h4>
+                  <div class="row mb-3 gx-1">
+                    <div class="col-1">
+                      <input type="number" value={rating} required className="form-control" min="0" max="5" onChange={handleRatingChange} />
+                    </div>
+                    <div class="col-8">
+                      <input type="text" value={content} required className="form-control" onChange={handleContentChange} />
+                    </div>
+                    <div class="col">
+
+                      <button className="btn btn-info" onClick={handleRatingSubmit}>Submit Rating</button>
+                    </div>
+                  </div>
+                  {ratings && ratings.map((rating) => {
                     return (
                       <RatingsReviews rating={rating} />
                     )

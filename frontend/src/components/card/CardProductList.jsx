@@ -29,6 +29,13 @@ const CardProductList = ({ product }) => {
     try {
       const token = localStorage.getItem("token");
       const customer = await getCustomerData(token);
+
+      if (customer.cart.some(item => item.productId._id == productId)) {
+        toast.success("Product is already in the cart!");
+
+        return 0;
+      }
+
       if (customer) {
         const updatedCart = [...customer.cart, { productId: productId, quantity: 1 }];
         await axios.patch(`http://localhost:8000/customers/${customer._id}`, { cart: updatedCart }, {
@@ -66,7 +73,6 @@ const CardProductList = ({ product }) => {
   return (
     <div className="card" style={{ height: "300px" }}>
       <ToastContainer autoClose={2000} />
-      {notification && <div className="alert alert-success">{notification}</div>}
       <div className="row g-0">
         <div className="col-md-3 text-center">
           <Link to={`/product/${product._id}`}>
@@ -92,14 +98,14 @@ const CardProductList = ({ product }) => {
               </Link>
             </h6>
 
-            <div>
+            {/* <div>
               {Array.from({ length: 5 }, (_, key) => (
                 <IconStarFill
                   className={product.ratings && key < product.ratings.length ? "text-warning me-1" : "text-secondary me-1"}
                   key={key}
                 />
               ))}
-            </div>
+            </div> */}
 
             {product.detail && (
               <p className="small mt-2">{product.detail}</p>
