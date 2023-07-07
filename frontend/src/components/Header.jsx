@@ -1,4 +1,5 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import Search from "./Search";
 import { ReactComponent as IconCart3 } from "bootstrap-icons/icons/cart3.svg";
@@ -13,6 +14,32 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const Header = ({ isAuthenticated, handleLogout }) => {
+  const [isAdmin, setIsAdmin] = useState(false);
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const fetchCustomer = async () => {
+      try {
+        const response = await axios.get('http://localhost:8000/customers/token', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        if (response.ok) {
+          const customerData = response.data;
+          if (customerData?.isAdmin) {
+            setIsAdmin(true);
+          }
+        } else {
+          console.error('Failed to fetch customer information');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    fetchCustomer();
+  }, []);
+
   return (
     <header className="p-3 border-bottom bg-light">
       <div className="container-fluid">
@@ -26,15 +53,12 @@ const Header = ({ isAuthenticated, handleLogout }) => {
             <Search />
           </div>
           <div className="col-md-4">
-            <div className="position-relative d-inline me-3">
+            {isAdmin && <div className="position-relative d-inline me-3">
               {isAuthenticated &&
                 <Link to="/cart" className="btn btn-primary">
                   <IconCart3 className="i-va" />
-                  {/* <div className="position-absolute top-0 start-100 translate-middle badge bg-danger rounded-circle">
-                  2
-                </div> */}
                 </Link>}
-            </div>
+            </div>}
             {isAuthenticated ? (
               <div className="btn-group">
                 <button
@@ -53,29 +77,29 @@ const Header = ({ isAuthenticated, handleLogout }) => {
                       <IconPersonBadgeFill /> My Profile
                     </Link>
                   </li>
-                  <li>
-                    <Link className="dropdown-item" to="/account/orders">
-                      <IconListCheck className="text-primary" /> My Orders
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="dropdown-item" to="/account/wishlist">
-                      <IconHeartFill className="text-danger" /> My Wishlist
-                    </Link>
-                  </li>
-                  <li>
+                {isAdmin && <li>
+                  <Link className="dropdown-item" to="/account/orders">
+                    <IconListCheck className="text-primary" /> My Orders
+                  </Link>
+                </li>}
+                {isAdmin && <li>
+                  <Link className="dropdown-item" to="/account/wishlist">
+                    <IconHeartFill className="text-danger" /> My Wishlist
+                  </Link>
+                </li>}
+                  {isAdmin && <li>
                     <hr className="dropdown-divider" />
-                  </li>
-                  <li>
+                  </li>}
+                  {isAdmin && <li>
                     <Link className="dropdown-item" to="/account/notification">
                       <IconBellFill className="text-primary" /> Notification
                     </Link>
-                  </li>
-                  <li>
+                  </li>}
+                  {isAdmin && <li>
                     <Link className="dropdown-item" to="/support">
                       <IconInfoCircleFill className="text-success" /> Support
                     </Link>
-                  </li>
+                  </li>}
                   <li>
                     <hr className="dropdown-divider" />
                   </li>
