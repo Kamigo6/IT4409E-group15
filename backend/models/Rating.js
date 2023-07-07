@@ -21,11 +21,11 @@ const ratingSchema = new mongoose.Schema({
   },
   likes: {
     type: Number,
-    required: true
+    default: 0
   },
   dislikes: {
     type: Number,
-    required: true
+    default: 0
   },
   createdAt: {
     type: Date,
