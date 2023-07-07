@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Search from "./Search";
@@ -25,11 +25,9 @@ const Header = ({ isAuthenticated, handleLogout }) => {
           }
         });
 
-        if (response.ok) {
+        if (response.status === 200) {
           const customerData = response.data;
-          if (customerData?.isAdmin) {
-            setIsAdmin(true);
-          }
+          setIsAdmin(customerData.isAdmin);
         } else {
           console.error('Failed to fetch customer information');
         }
@@ -53,7 +51,7 @@ const Header = ({ isAuthenticated, handleLogout }) => {
             <Search />
           </div>
           <div className="col-md-4">
-            {isAdmin && <div className="position-relative d-inline me-3">
+            {!isAdmin && <div className="position-relative d-inline me-3">
               {isAuthenticated &&
                 <Link to="/cart" className="btn btn-primary">
                   <IconCart3 className="i-va" />
@@ -77,25 +75,25 @@ const Header = ({ isAuthenticated, handleLogout }) => {
                       <IconPersonBadgeFill /> My Profile
                     </Link>
                   </li>
-                {isAdmin && <li>
-                  <Link className="dropdown-item" to="/account/orders">
-                    <IconListCheck className="text-primary" /> My Orders
-                  </Link>
-                </li>}
-                {isAdmin && <li>
-                  <Link className="dropdown-item" to="/account/wishlist">
-                    <IconHeartFill className="text-danger" /> My Wishlist
-                  </Link>
-                </li>}
-                  {isAdmin && <li>
+                  {!isAdmin && <li>
+                    <Link className="dropdown-item" to="/account/orders">
+                      <IconListCheck className="text-primary" /> My Orders
+                    </Link>
+                  </li>}
+                  {!isAdmin && <li>
+                    <Link className="dropdown-item" to="/account/wishlist">
+                      <IconHeartFill className="text-danger" /> My Wishlist
+                    </Link>
+                  </li>}
+                  {!isAdmin && <li>
                     <hr className="dropdown-divider" />
                   </li>}
-                  {isAdmin && <li>
+                  {!isAdmin && <li>
                     <Link className="dropdown-item" to="/account/notification">
                       <IconBellFill className="text-primary" /> Notification
                     </Link>
                   </li>}
-                  {isAdmin && <li>
+                  {!isAdmin && <li>
                     <Link className="dropdown-item" to="/support">
                       <IconInfoCircleFill className="text-success" /> Support
                     </Link>
