@@ -71,7 +71,8 @@ function CouponAdmin() {
     setShowPopup(true); // Show the popup form when editing
   };
 
-  const handleUpdateCoupon = async () => {
+  const handleUpdateCoupon = async (event) => {
+    event.preventDefault();
     const token = localStorage.getItem('token');
     try {
       const response = await axios.patch(
@@ -95,6 +96,7 @@ function CouponAdmin() {
         setEditingCoupon(null);
         fetchCoupons();
         toast.success('Coupon updated successfully!');
+        setShowPopup(false);
       } else {
         console.error('Failed to update coupon');
         toast.error('Failed to update coupon');
@@ -119,7 +121,7 @@ function CouponAdmin() {
       } else {
         console.error('Failed to delete coupon');
         toast.error('Failed to delete coupon');
-         }
+      }
     } catch (error) {
       console.error('Error deleting coupon:', error);
     }
@@ -133,19 +135,17 @@ function CouponAdmin() {
     <div className="coupon-admin-container">
       <div className="column right">
         <h2>Add Coupon</h2>
-        {!editingCoupon && (
-          <form onSubmit={handleAddCoupon}>
-            <label htmlFor="code"><b>Code</b></label>
-            <input type="text" id="code" value={code} onChange={(e) => setCode(e.target.value)} required />
-            <label htmlFor="value"><b>Value</b></label>
-            <input type="number" id="value" value={value} onChange={(e) => setValue(parseFloat(e.target.value))} required />
-            <label htmlFor="unit"><b>Unit</b></label>
-            <input type="text" id="unit" value={unit} onChange={(e) => setUnit(e.target.value)} required />
-            <div className="submit-button-container">
-              <button type="submit" className="submit-button">Add Coupon</button>
-            </div>
-          </form>
-        )}
+        <form onSubmit={handleAddCoupon}>
+          <label htmlFor="code"><b>Code</b></label>
+          <input type="text" id="code" value={code} onChange={(e) => setCode(e.target.value)} required />
+          <label htmlFor="value"><b>Value</b></label>
+          <input type="number" id="value" value={value} onChange={(e) => setValue(parseFloat(e.target.value))} required />
+          <label htmlFor="unit"><b>Unit</b></label>
+          <input type="text" id="unit" value={unit} onChange={(e) => setUnit(e.target.value)} required />
+          <div className="submit-button-container">
+            <button type="submit" className="submit-button">Add Coupon</button>
+          </div>
+        </form>
       </div>
 
       <div className="column">
