@@ -112,10 +112,10 @@ const ProductListView = ({ catName }) => {
     switch (event.target.value) {
       case "latest":
         setProductsByCat(productsByCat.sort((a, b) => {
-          if (a.createdAt < b.createdAt) {
+          if (a.createdAt > b.createdAt) {
             return -1;
           }
-          if (a.createdAt > b.createdAt) {
+          if (a.createdAt < b.createdAt) {
             return 1;
           }
           return 0;

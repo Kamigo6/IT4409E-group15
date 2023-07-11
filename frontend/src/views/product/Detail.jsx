@@ -12,6 +12,7 @@ const RatingsReviews = lazy(() => import("../../components/others/RatingsReviews
 const ShippingReturns = lazy(() => import("../../components/others/ShippingReturns"));
 const SizeChart = lazy(() => import("../../components/others/SizeChart"));
 const ProductDetailView = () => {
+  const token = localStorage.getItem("token");
   const [product, setProduct] = useState(null);
   const [value, setValue] = useState(1);
   const { id } = useParams();
@@ -44,9 +45,7 @@ const ProductDetailView = () => {
     getProduct(id);
     getRatings(id);
   }, [])
-  useEffect(() => {
 
-  }, [ratings])
   const getRatings = async (id) => {
     try {
       const response = await axios.get(`http://localhost:8000/ratings`);
@@ -71,8 +70,11 @@ const ProductDetailView = () => {
   };
 
   const handleAddToCart = async () => {
+    if (token === null) {
+      toast.error("Please log in to continue shopping");
+      return 0;
+    }
     try {
-      const token = localStorage.getItem("token");
       const customer = await getCustomerData(token);
 
       if (customer.cart.some(item => item.productId._id == id)) {
@@ -93,12 +95,16 @@ const ProductDetailView = () => {
     } catch (error) {
       console.error("Error adding product to Cart:", error);
       toast.error("Error adding product to Cart:", error);
+
     }
   };
 
   const handleAddToWishlist = async () => {
+    if (token === null) {
+      toast.error("Please log in to add to wishlist");
+      return 0;
+    }
     try {
-      const token = localStorage.getItem("token");
       const customer = await getCustomerData(token);
       if (customer) {
         const updatedWishlist = [...customer.wishList, { productId: id }];
@@ -126,8 +132,12 @@ const ProductDetailView = () => {
   };
 
   const handleRatingSubmit = async () => {
-    getRatings(id);
-    const token = localStorage.getItem("token");
+    if (token === null) {
+      toast.error("Please log in to add rating");
+      return 0;
+    }
+
+
     const customer = await getCustomerData(token);
     const newRating = {
       customerId: customer._id.toString(),
@@ -138,7 +148,6 @@ const ProductDetailView = () => {
       dislikes: 0
     };
 
-    console.log(newRating);
     try {
       await axios.post("http://localhost:8000/ratings", newRating, {
         headers: {
@@ -148,7 +157,7 @@ const ProductDetailView = () => {
     } catch (error) {
       console.error("Error adding order:", error);
     }
-
+    getRatings(id);
     setRating(0);
     setContent("");
   };
@@ -172,21 +181,23 @@ const ProductDetailView = () => {
                 {product && product.name}
               </h1>
               <dl className="row small mb-3">
-                <dt className="col-sm-3">Availability</dt>
-                {product && product.isAvailable && <dd className="col-sm-9 text-success strong">In Stock</dd>}
-                {product && !product.isAvailable && <dd className="col-sm-9 text-danger">Out of Stock</dd>}
-                <dt className="col-sm-3">Publisher</dt>
-                <dd className="col-sm-9">{product && product.publisher}</dd>
-                <dt className="col-sm-3">Author</dt>
-                <dd className="col-sm-9">{product && product.author}</dd>
+                <dt className="col-sm-3 h6">Availability</dt>
+                {product && product.isAvailable && <dd className="col-sm-9 h6 text-success strong">In Stock</dd>}
+                {product && !product.isAvailable && <dd className="col-sm-9 h6 text-danger">Out of Stock</dd>}
+                <dt className="col-sm-3 h6">Publisher</dt>
+                <dd className="col-sm-9 h6">{product && product.publisher}</dd>
+                <dt className="col-sm-3 h6">Author</dt>
+                <dd className="col-sm-9 h6">{product && product.author}</dd>
               </dl>
 
               <div className="mb-3">
-                <span className="fw-bold h5 me-2">{product && (product.price - product.discount.value).toFixed(2)}</span>
-                <del className="small text-muted me-2">{product && product.price}</del>
-                <span className="rounded p-1 bg-warning  me-2 small">
+                <span className="fw-bold h5 me-2">${product && (product.price - product.discount.value).toFixed(2)}</span>
+                {product && product.discount.value > 0 && <del className="small text-muted me-2">{product && product.price}</del>}
+                {product && product.discount.value > 0 && <span className="rounded p-1 bg-warning  me-2 small">
                   ${product && product.discount.value}
-                </span>
+                </span>}
+
+
               </div>
               <div className="mb-3">
                 <div className="d-inline float-start me-2">
@@ -301,16 +312,25 @@ const ProductDetailView = () => {
                   role="tabpanel"
                   aria-labelledby="nav-randr-tab"
                 >
+                  { }
                   <h4>Rate the Product</h4>
+                  <div className="row gx-1">
+                    <div className="col-sm-1 h6">
+                      Star:
+                    </div>
+                    <div className="col-sm-8 h6">
+                      Comment:
+                    </div>
+                  </div>
                   <div className="row mb-3 gx-1">
                     <div className="col-1">
-                      <input type="number" value={rating} required className="form-control" min="0" max="5" onChange={handleRatingChange} />
+                      <input type="number" value={rating} onkeydown="return false" required className="form-control" min="0" max="5" onChange={handleRatingChange} />
                     </div>
                     <div className="col-8">
+
                       <input type="text" value={content} required className="form-control" onChange={handleContentChange} />
                     </div>
                     <div className="col">
-
                       <button className="btn btn-info" onClick={handleRatingSubmit}>Submit Rating</button>
                     </div>
                   </div>
