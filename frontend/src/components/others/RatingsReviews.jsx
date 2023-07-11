@@ -11,8 +11,9 @@ const RatingsReviews = ({ rating }) => {
   const [dislikes, setDislikes] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
   const [isDisliked, setIsDisliked] = useState(false);
-
+  const token = localStorage.getItem('token');
   const handleLikeClick = () => {
+    if (token === null) return 0;
     if (isLiked) {
       setLikes(likes - 1);
       setIsLiked(false);
@@ -23,6 +24,7 @@ const RatingsReviews = ({ rating }) => {
   };
 
   const handleDislikeClick = () => {
+    if (token === null) return 0;
     if (isDisliked) {
       setDislikes(dislikes - 1);
       setIsDisliked(false);
@@ -54,6 +56,7 @@ const RatingsReviews = ({ rating }) => {
     setDislikes(rating.dislikes)
   }, [])
 
+
   return (
     <div className="border-bottom mb-3">
       <div className="mb-2">
@@ -82,6 +85,7 @@ const RatingsReviews = ({ rating }) => {
           <FontAwesomeIcon icon={faThumbsDown} /> {dislikes}
         </button>
       </div>
+
     </div>
 
   );
