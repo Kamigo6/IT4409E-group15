@@ -1,4 +1,32 @@
+const Stripe = require('stripe');
 const Order = require('../models/Order');
+
+const stripe = new Stripe("sk_test_51NQjlFJ5CbgyGc9KtOiOEEJhLJV3qaeSeIwuW9KVIZJWjZsDlH5txAOfXkHQjE5D2Hyy4z1fZXZcJvvuT0DR7QRY00alzJ6TpE")
+
+const payOrder = async (req, res) => {
+
+  let { amount, id, cus_id } = req.body;
+
+  try {
+    await stripe.paymentIntents.create({
+      amount,
+      currency: "USD",
+      description: `BookStore15 ${cus_id}`,
+      confirm: true,
+      payment_method: id
+    })
+    res.status(200).json({
+      message: "Payment successful",
+      success: true
+    })
+  } catch (error) {
+
+    res.status(400).json({
+      message: "Payment failed",
+      success: false
+    })
+  }
+}
 
 const getAllOrders = async (req, res) => {
   try {
@@ -78,6 +106,7 @@ const deleteOrderById = async (req, res) => {
 };
 
 module.exports = {
+  payOrder,
   getAllOrders,
   getOrderById,
   createOrder,
