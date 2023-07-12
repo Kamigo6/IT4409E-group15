@@ -6,6 +6,7 @@ import { ReactComponent as IconTruck } from "bootstrap-icons/icons/truck.svg";
 import { ReactComponent as IconCreditCard2Front } from "bootstrap-icons/icons/credit-card-2-front.svg";
 import { ReactComponent as IconCart3 } from "bootstrap-icons/icons/cart3.svg";
 import { useNavigate } from "react-router-dom";
+const StripeContainer = lazy(() => import("../../components/payment/StripeContainer"));
 
 
 const CheckoutView = () => {
@@ -213,106 +214,28 @@ const CheckoutView = () => {
                 </div>
               </div>
             </div>
+
             <div className="card mb-3 border-info">
               <div className="card-header bg-info">
                 <IconCreditCard2Front className="i-va" /> Payment Method
               </div>
               <div className="card-body">
-                <div className="row g-3 mb-3 border-bottom">
-                  <div className="col-md-6">
-                    <div className="form-check">
-                      <input
-                        id="credit"
-                        name="paymentMethod"
-                        type="radio"
-                        className="form-check-input"
-                        defaultChecked
-                        required
-                      />
-                      <label className="form-check-label" htmlFor="credit">
-                        Credit card
-                        <img
-                          src="../../images/payment/cards.webp"
-                          alt="..."
-                          className="ms-3"
-                          height={26}
-                        />
-                      </label>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-check">
-                      <input
-                        id="paypal"
-                        name="paymentMethod"
-                        type="radio"
-                        className="form-check-input"
-                        required
-                      />
-                      <label className="form-check-label" htmlFor="paypal">
-                        PayPal
-                        <img
-                          src="../../images/payment/paypal_64.webp"
-                          alt="..."
-                          className="ms-3"
-                          height={26}
-                        />
-                      </label>
-                    </div>
-                  </div>
+
+                <div className="mb-2">
+                  Credit card support:
+                  <img
+                    src="../../images/payment/cards.webp"
+                    alt="..."
+                    className="ms-3"
+                    height={26}
+                  />
                 </div>
-                <div className="row g-3">
-                  <div className="col-md-6">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Name on card"
-                      defaultValue="Master Card"
-                      required
-                    />
-                  </div>
-                  <div className="col-md-6">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Card number"
-                      defaultValue="1234 1234 1234 5678"
-                      required
-                    />
-                  </div>
-                  <div className="col-md-4">
-                    <input
-                      type="number"
-                      className="form-control"
-                      placeholder="Expiration month"
-                      defaultValue={12}
-                      required
-                    />
-                  </div>
-                  <div className="col-md-4">
-                    <input
-                      type="number"
-                      className="form-control"
-                      placeholder="Expiration year"
-                      defaultValue={2035}
-                      required
-                    />
-                  </div>
-                  <div className="col-md-4">
-                    <input
-                      type="number"
-                      className="form-control"
-                      placeholder="CVV"
-                      defaultValue={612}
-                      required
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="card-footer border-info d-grid">
-                <button type="button" className="btn btn-info" onClick={handlePayment}>
-                  Pay Now <strong>${(order.totalPrice).toFixed(2)}</strong>
-                </button>
+
+                <StripeContainer
+                  amount={order.totalPrice}
+                  handlePayment={handlePayment}
+                  cus_id={customer._id}
+                />
               </div>
             </div>
           </div>

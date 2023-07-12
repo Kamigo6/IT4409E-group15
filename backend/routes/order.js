@@ -14,4 +14,6 @@ router.patch("/:id", isAuth, OrderController.updateOrderById);
 
 router.delete("/:id", isAuth, OrderController.deleteOrderById);
 
+router.post("/payment", isAuth, OrderController.payOrder);
+
 module.exports = router;
