@@ -1,6 +1,5 @@
 import React, { useEffect, useState, lazy } from "react";
 import axios from 'axios';
-import { Link } from "react-router-dom";
 
 const CardProductWishList = lazy(() => import("../../components/card/CardProductWishList"));
 
@@ -20,7 +19,6 @@ const WishlistView = () => {
         });
         const customer = response.data;
         
-        // Filter out duplicate products based on their IDs
         const uniqueWishlistData = customer.wishList.reduce((uniqueProducts, product) => {
           const isDuplicate = uniqueProducts.some((uniqueProduct) => uniqueProduct.productId._id === product.productId._id);
           if (!isDuplicate) {
@@ -43,7 +41,7 @@ const WishlistView = () => {
       const newHeight = Math.ceil(wishListData.length / 2) * 250;
       setContainerHeight(newHeight);
     } else {
-      setContainerHeight(700); // Kích thước ban đầu khi chỉ còn 6 sản phẩm
+      setContainerHeight(700);
     }
   }, [wishListData]);
 

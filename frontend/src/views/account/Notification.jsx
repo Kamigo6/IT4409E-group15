@@ -1,13 +1,10 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import { Link } from "react-router-dom";
 import { ReactComponent as IconClock } from "bootstrap-icons/icons/clock.svg";
 import { ReactComponent as IconBellFill } from "bootstrap-icons/icons/bell-fill.svg";
-import { ReactComponent as IconCash } from "bootstrap-icons/icons/cash.svg";
 import { ReactComponent as IconCartCheckFill } from "bootstrap-icons/icons/cart-check-fill.svg";
 import { ReactComponent as IconCartxFill } from "bootstrap-icons/icons/cart-x-fill.svg";
 import { ReactComponent as IconCartDash } from "bootstrap-icons/icons/cart-dash-fill.svg";
-import { ReactComponent as IconTagFill } from "bootstrap-icons/icons/tag-fill.svg";
 
 const NotificationView = () => {
   const token = localStorage.getItem('token');
@@ -110,12 +107,10 @@ const NotificationView = () => {
                   </p>
                 </div>);
           }
-
         })}
       </div>
     </div>
   );
 }
-
 
 export default NotificationView;

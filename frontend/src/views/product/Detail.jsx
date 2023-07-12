@@ -1,8 +1,7 @@
-import React, { lazy, useEffect, useState, useSearchParams } from "react";
+import React, { lazy, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { ReactComponent as IconStarFill } from "bootstrap-icons/icons/star-fill.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartPlus, faHeart, faShoppingCart, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faCartPlus, faHeart, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -29,7 +28,6 @@ const ProductDetailView = () => {
     setContent(event.target.value);
   };
 
-
   useEffect(() => {
     const getProduct = async (id) => {
       try {
@@ -40,7 +38,6 @@ const ProductDetailView = () => {
         console.error("Error fetching product:", error);
       }
     };
-
 
     getProduct(id);
     getRatings(id);
@@ -95,7 +92,6 @@ const ProductDetailView = () => {
     } catch (error) {
       console.error("Error adding product to Cart:", error);
       toast.error("Error adding product to Cart:", error);
-
     }
   };
 
@@ -136,7 +132,6 @@ const ProductDetailView = () => {
       toast.error("Please log in to add rating");
       return 0;
     }
-
 
     const customer = await getCustomerData(token);
     const newRating = {
@@ -196,7 +191,6 @@ const ProductDetailView = () => {
                 {product && product.discount.value > 0 && <span className="rounded p-1 bg-warning  me-2 small">
                   ${product && product.discount.value}
                 </span>}
-
 
               </div>
               <div className="mb-3">
@@ -292,7 +286,6 @@ const ProductDetailView = () => {
                   >
                     Shipping & Returns
                   </a>
-
                 </div>
               </nav>
 
@@ -368,6 +361,5 @@ const ProductDetailView = () => {
     </div>
   );
 }
-
 
 export default ProductDetailView;

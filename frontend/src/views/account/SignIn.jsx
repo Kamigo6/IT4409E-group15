@@ -13,7 +13,7 @@ const SignInView = ({ isAuthenticated, handleLogin }) => {
       const token = response.data.token;
       localStorage.setItem("token", token);
       handleLogin();
-      navigate("/"); // Navigate to the home page
+      navigate("/");
     } catch (error) {
       if (error.response.status === 401) {
         setErrorMessage("Invalid username or password");

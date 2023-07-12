@@ -1,16 +1,11 @@
-import React, { Component, lazy } from "react";
-import { Link } from "react-router-dom";
-import { ReactComponent as IconJournalCheck } from "bootstrap-icons/icons/journal-check.svg";
-import { ReactComponent as IconChatRightText } from "bootstrap-icons/icons/chat-right-text.svg";
-import { ReactComponent as IconNewspaper } from "bootstrap-icons/icons/newspaper.svg";
+import React, { Component } from "react";
 import { ReactComponent as IconPersonSquare } from "bootstrap-icons/icons/person-square.svg";
 import { ReactComponent as IconReceiptCutoff } from "bootstrap-icons/icons/receipt-cutoff.svg";
 import { ReactComponent as IconCalculator } from "bootstrap-icons/icons/calculator.svg";
 import { ReactComponent as IconCart3 } from "bootstrap-icons/icons/cart3.svg";
 
-const Search = lazy(() => import("../../components/Search"));
 class SupportView extends Component {
-  constructor(props) {
+  constructor() {
     super();
     this.state = {};
   }
@@ -200,8 +195,6 @@ class SupportView extends Component {
         </div>
 
       </React.Fragment>
-
-
     );
   }
 }

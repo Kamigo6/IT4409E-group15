@@ -1,14 +1,6 @@
 import React, { lazy } from "react";
-import { Link } from "react-router-dom";
 import { data } from "../data";
 import { ReactComponent as IconBook } from "bootstrap-icons/icons/book.svg";
-import { ReactComponent as IconHeadset } from "bootstrap-icons/icons/headset.svg";
-import { ReactComponent as IconPhone } from "bootstrap-icons/icons/phone.svg";
-import { ReactComponent as IconTv } from "bootstrap-icons/icons/tv.svg";
-import { ReactComponent as IconDisplay } from "bootstrap-icons/icons/display.svg";
-import { ReactComponent as IconHdd } from "bootstrap-icons/icons/hdd.svg";
-import { ReactComponent as IconUpcScan } from "bootstrap-icons/icons/upc-scan.svg";
-import { ReactComponent as IconTools } from "bootstrap-icons/icons/tools.svg";
 
 const Support = lazy(() => import("../components/Support"));
 const Banner = lazy(() => import("../components/carousel/Banner"));
@@ -16,7 +8,6 @@ const Carousel = lazy(() => import("../components/carousel/Carousel"));
 const CardIcon = lazy(() => import("../components/card/CardIcon"));
 const CardLogin = lazy(() => import("../components/card/CardLogin"));
 const CardImage = lazy(() => import("../components/card/CardImage"));
-const CardDealsOfTheDay = lazy(() => import("../components/card/CardDealsOfTheDay"));
 
 const components = {
   IconBook: IconBook,
