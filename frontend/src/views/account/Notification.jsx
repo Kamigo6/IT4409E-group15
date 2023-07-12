@@ -47,7 +47,7 @@ const NotificationView = () => {
       <h4 className="my-3">Notification</h4>
 
       <div className="list-group">
-        {notifications.map((notification) => {
+        {notifications.reverse().map((notification) => {
           switch (notification.type) {
             case "orderPlaced":
               return (
@@ -57,7 +57,7 @@ const NotificationView = () => {
                       <IconCartCheckFill className="i-va" /> {notTitle[notification.type]}!
                     </h5>
                     <span className="small text-muted">
-                      <IconClock /> {notification.createdAt.substring(0, 10)}
+                      <IconClock /> {notification.notifiedAt.substring(0, 10)}
                     </span>
                   </div>
                   <p className="mb-1">
@@ -72,7 +72,7 @@ const NotificationView = () => {
                       <IconCartxFill className="i-va" /> {notTitle[notification.type]}!
                     </h5>
                     <span className="small text-muted">
-                      <IconClock /> {notification.createdAt.substring(0, 10)}
+                      <IconClock /> {notification.notifiedAt.substring(0, 10)}
                     </span>
                   </div>
                   <p className="mb-1">
@@ -87,7 +87,7 @@ const NotificationView = () => {
                       <IconCartDash className="i-va" /> {notTitle[notification.type]}!
                     </h5>
                     <span className="small text-muted">
-                      <IconClock /> {notification.createdAt.substring(0, 10)}
+                      <IconClock /> {notification.notifiedAt.substring(0, 10)}
                     </span>
                   </div>
                   <p className="mb-1">
@@ -102,7 +102,7 @@ const NotificationView = () => {
                       <IconBellFill className="i-va" /> {notTitle[notification.type]}!
                     </h5>
                     <span className="small text-muted">
-                      <IconClock /> {notification.createdAt.substring(0, 10)}
+                      <IconClock /> {notification.notifiedAt.substring(0, 10)}
                     </span>
                   </div>
                   <p className="mb-1">

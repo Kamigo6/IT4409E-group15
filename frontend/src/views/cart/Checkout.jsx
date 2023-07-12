@@ -79,7 +79,13 @@ const CheckoutView = () => {
     try {
       const token = localStorage.getItem("token");
       if (token) {
-        await axios.patch(`http://localhost:8000/customers/${customer._id}`, { cart: [] }, {
+        await axios.patch(`http://localhost:8000/customers/${customer._id}`, {
+          cart: [], notifications: [...customer.notifications, {
+            type: "orderPending",
+            content: "Your Order is pending and waiting to be confirm!",
+            notifiedAt: order.createdDate
+          }]
+        }, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -90,7 +96,9 @@ const CheckoutView = () => {
     } catch (error) {
       console.error('Error updating data:', error);
     }
+    const addNotification = async () => {
 
+    }
   }
   return (
     <React.Fragment>
