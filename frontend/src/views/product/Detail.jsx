@@ -324,7 +324,7 @@ const ProductDetailView = () => {
                   </div>
                   <div className="row mb-3 gx-1">
                     <div className="col-1">
-                      <input type="number" value={rating} onkeydown="return false" required className="form-control" min="0" max="5" onChange={handleRatingChange} />
+                      <input type="number" value={rating} onkeydown={false} required className="form-control" min="0" max="5" onChange={handleRatingChange} />
                     </div>
                     <div className="col-8">
 
