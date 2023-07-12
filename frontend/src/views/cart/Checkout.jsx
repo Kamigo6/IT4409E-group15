@@ -5,8 +5,6 @@ import { ReactComponent as IconEnvelope } from "bootstrap-icons/icons/envelope.s
 import { ReactComponent as IconTruck } from "bootstrap-icons/icons/truck.svg";
 import { ReactComponent as IconCreditCard2Front } from "bootstrap-icons/icons/credit-card-2-front.svg";
 import { ReactComponent as IconCart3 } from "bootstrap-icons/icons/cart3.svg";
-import { useNavigate } from "react-router-dom";
-const StripeContainer = lazy(() => import("../../components/payment/StripeContainer"));
 
 const CheckoutView = () => {
   let location = useLocation();
