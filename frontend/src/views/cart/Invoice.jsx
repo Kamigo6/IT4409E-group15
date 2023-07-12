@@ -1,16 +1,16 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { lazy, useEffect, useState, useSearchParams } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import withRouter from "../../components/withRouter";
 import axios from 'axios';
 import { ReactComponent as IconPrinter } from "bootstrap-icons/icons/printer.svg";
-import { ReactComponent as IconDownload } from "bootstrap-icons/icons/download.svg";
-import './Invoice.css'
+import './Invoice.css';
+
 const Invoice = () => {
   const token = localStorage.getItem('token');
   const [order, setOrder] = useState([]);
   const { id } = useParams();
   var coupon, shippingFee, totalPrice = 0;
+
   useEffect(() => {
     const getOrders = async (id) => {
       try {
@@ -20,7 +20,6 @@ const Invoice = () => {
               Authorization: `Bearer ${token}`
             }
           });
-        // console.log(response.data);
         let orderFetch = response.data;
         setOrder(orderFetch);
       } catch (error) {
@@ -28,7 +27,6 @@ const Invoice = () => {
       }
     };
     getOrders(id);
-    // console.log(order);
   }, [])
 
   const computePrice = () => {
@@ -47,7 +45,7 @@ const Invoice = () => {
         <div>
           <div className="row g-3 mb-3 pb-3 border-bottom">
             <div className="col-6">
-              <img src="../../../images/logo.png" width="200"></img>
+              <img src="../../../images/logo.png" alt='logo' width="200"></img>
             </div>
             <div className="col-6 d-flex justify-content-end">
               <span className="display-4">Invoice</span>
@@ -156,13 +154,12 @@ const Invoice = () => {
               does not require physical signature.
             </p>
             <div className="btn-group btn-group-sm d-print-none">
-              <a
-                // href="javascript:window.print()"
+              <button
                 onClick={handlePrint}
                 className="btn btn-light border text-black-50 shadow-none"
               >
                 <IconPrinter /> Print
-              </a>
+              </button>
               {/* <a
                 href="!#"
                 className="btn btn-light border text-black-50 shadow-none"
@@ -176,4 +173,5 @@ const Invoice = () => {
     </div>
   );
 };
+
 export default withRouter(Invoice);

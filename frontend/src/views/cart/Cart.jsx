@@ -1,7 +1,6 @@
 import React, { useState, useEffect, lazy } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { ReactComponent as IconHeartFill } from "bootstrap-icons/icons/heart-fill.svg";
 import { ReactComponent as IconTrash } from "bootstrap-icons/icons/trash.svg";
 import { ReactComponent as IconChevronRight } from "bootstrap-icons/icons/chevron-right.svg";
 import { ReactComponent as IconChevronLeft } from "bootstrap-icons/icons/chevron-left.svg";
@@ -10,10 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// import { events } from "../../../../backend/models/Coupon";
-const CouponApplyForm = lazy(() =>
-  import("../../components/others/CouponApplyForm")
-);
+const CouponApplyForm = lazy(() => import("../../components/others/CouponApplyForm"));
 
 const CartView = () => {
   const [coupon, setCoupon] = useState({ value: 0 });
@@ -22,7 +18,6 @@ const CartView = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalDiscount, setTotalDiscount] = useState(0);
   const data = {
-
     cart: cartData,
     customer: customer,
     totalPrice: totalPrice,
@@ -65,19 +60,7 @@ const CartView = () => {
     } else {
       setTotalPrice(0);
     }
-    // console.log(cartData);
   }, [cartData]);
-
-
-  const calculateTotalPrice = () => {
-    let total = 0;
-    let dis = 0;
-    for (const item of cartData) {
-      total += (item.productId.price - item.productId.discount.value) * item.quantity;
-      dis = dis + item.productId.discount.value * item.quantity;
-    }
-    return total.toFixed(2);
-  };
 
   const patchCartData = async (updatedCartData) => {
     try {
@@ -148,13 +131,11 @@ const CartView = () => {
   const handleMakePurchase = (e) => {
     if (cartData.length === 0) {
       e.preventDefault();
-      // Display a toast message indicating that there are no products in the cart
       toast.error("There are no products in the cart!");
     }
   };
 
   const handleWrongCoupon = () => {
-    // Display a toast message indicating that the coupon is invalid or cannot be applied
     toast.error("Invalid coupon code or cannot be applied!");
   };
 

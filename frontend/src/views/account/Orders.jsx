@@ -1,11 +1,10 @@
-import React, { lazy, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from 'axios';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCheckCircle,
   faExclamationTriangle,
-  faHistory,
   faTimesCircle,
   faFileInvoice,
 } from "@fortawesome/free-solid-svg-icons";
@@ -115,7 +114,7 @@ const OrdersView = () => {
               <div className="card-footer border-secondary d-flex justify-content-between">
                 <div>
                   <span className="me-2">Status:</span>
-                  {order.status == "completed" && (
+                  {order.status === "completed" && (
                     <span className="text-success">
                       <FontAwesomeIcon
                         icon={faCheckCircle}
@@ -124,13 +123,13 @@ const OrdersView = () => {
                       Completed
                     </span>
                   )}
-                  {order.status == "canceled" && (
+                  {order.status === "canceled" && (
                     <span className="text-danger">
                       <FontAwesomeIcon icon={faTimesCircle} className="me-1" />
                       Cancelled
                     </span>
                   )}
-                  {order.status == "pending" && (
+                  {order.status === "pending" && (
                     <span className="text-warning">
                       <FontAwesomeIcon icon={faExclamationTriangle} className="me-1" />
                       Pending
@@ -160,7 +159,6 @@ const OrdersView = () => {
       </div>
     </div>
   );
-
 }
 
 export default OrdersView;

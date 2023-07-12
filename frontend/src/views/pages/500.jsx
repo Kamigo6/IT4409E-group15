@@ -3,7 +3,7 @@ import { ReactComponent as IconBugFill } from "bootstrap-icons/icons/bug-fill.sv
 const Search = lazy(() => import("../../components/Search"));
 
 class InternalServerErrorView extends Component {
-  constructor(props) {
+  constructor() {
     super();
     this.state = {};
   }

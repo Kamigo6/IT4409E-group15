@@ -15,7 +15,7 @@ const ForgotPasswordView = lazy(() => import("./views/account/ForgotPassword"));
 const OrdersView = lazy(() => import("./views/account/Orders"));
 const WishlistView = lazy(() => import("./views/account/Wishlist"));
 const NotificationView = lazy(() => import("./views/account/Notification"));
-const MyProfileView = lazy(() => import("./views/account/CustomerProfileEditor.jsx"));
+const MyProfileView = lazy(() => import("./views/account/CustomerProfileEditor"));
 const ProductListView = lazy(() => import("./views/product/List"));
 const ProductDetailView = lazy(() => import("./views/product/Detail"));
 const CartView = lazy(() => import("./views/cart/Cart"));

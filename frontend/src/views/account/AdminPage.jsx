@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
-
 import OrderAdmin from './OrderAdmin';
 import ProductAdmin from './ProductAdmin';
 import CouponAdmin from './CouponAdmin';
-
-import './AdminPage.css'; // Import file CSS đã tạo
+import './AdminPage.css';
 
 function AdminPage() {
   const navigate = useNavigate();
   const [admin, setAdmin] = useState(null);
-  const [activeTab, setActiveTab] = useState('product'); // Mặc định hiển thị ProductAdmin
+  const [activeTab, setActiveTab] = useState('product');
 
   useEffect(() => {
     const token = localStorage.getItem('token');
